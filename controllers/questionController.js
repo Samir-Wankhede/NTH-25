@@ -47,7 +47,7 @@ export const addQuestion = (req, res)=>{
     const query = `INSERT INTO questions (img1, img2,img3,img4,hints,paid_hints,close_answers, tooltip, level, hint_cost) values (?,?,?,?,?,?,?,?,?,?)`
     db.run(query, [img1, img2, img3, img4, hints, paid_hints, JSON.stringify(close_answers), tooltip, level, hint_cost], function(err){
         if (err){
-            return res.status(500).json({error: "Errorn adding question"});
+            return res.status(500).json({error: "Error adding question"});
         }
         res.status(201).json({message: "Question added successfully"})
     })
