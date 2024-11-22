@@ -4,10 +4,11 @@ import db from '../models/db.js'
 
 export const register = (req, res)=>{
     const {username, password, email, phone} = req.body
-    const checkQuery = 'SELECT * FROM users WHERE username = ? OR email = ? OR phone = ?';
+    const checkQuery = 'SELECT * FROM users WHERE username = ? OR email = ? OR phone_number = ?';
     db.get(checkQuery, [username, email, phone], (err, row)=>{
         if (err){
-            return res.status(500).json({error: "Error checking user informatio "})
+            console.log(err.message)
+            return res.status(500).json({error: "Error checking user information "})
         }if (row){
             if (row.username == username){
                 return res.status(409).json({error: "Username already exists"});
@@ -25,11 +26,27 @@ export const register = (req, res)=>{
             }
 
             const insertQuery = 'INSERT INTO users (username, email, phone_number, password) VALUES (?,?,?,?)';
-            db.run(insertQuery, [username, email, phone, hashedPassword], (err)=>{
+            db.run(insertQuery, [username, email, phone, hashedPassword], function (err){
                 if (err){
                     return res.status(500).json({error: "Error registering user"});
                 }
-                res.status(201).json({message: "User created successfully"});
+                const userId = this.lastID; 
+                const token = jwt.sign(
+                    { id: userId, username, role: 'user' },
+                    process.env.JWT_SECRET,
+                    { expiresIn: '27h' } 
+                );
+
+                
+                res.cookie('token', token, {
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === 'production', // HTTPS only in production
+                    sameSite: 'Strict', 
+                    maxAge: 27 * 60 * 60 * 1000, 
+                });
+
+                res.status(201).json({ message: 'User registered and logged in successfully' });
+             
             })
         })
     })
@@ -61,14 +78,14 @@ export const login = (req, res) => {
             const token = jwt.sign(
                 { id: user.id, username: user.username, role: user.role },
                 process.env.JWT_SECRET,
-                { expiresIn: '1h' }
+                { expiresIn: '27h' }
             );
 
             
             res.cookie('token', token, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production', 
-                sameSite: 'Strict', // Prevent cross-site request forgery
+                sameSite: 'Strict', 
                 maxAge: 27 * 60 * 60 * 60 * 1000, 
             });
 
