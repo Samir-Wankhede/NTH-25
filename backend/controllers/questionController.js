@@ -1,5 +1,4 @@
-import db from "../../models/db.js";
-
+import db from "../models/db.js";
 export const getAllQuestions = (req, res)=>{
      const query = 'SELECT * from questions';
      db.all(query, [], (err, rows)=>{

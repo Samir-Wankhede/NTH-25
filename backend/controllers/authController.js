@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
-import db from '../../models/db.js'
+import db from '../models/db.js'
 
 export const register = (req, res)=>{
     const {username, password, email, phone} = req.body
@@ -36,16 +36,23 @@ export const register = (req, res)=>{
                     process.env.JWT_SECRET,
                     { expiresIn: '27h' } 
                 );
+                const userQuery = 'SELECT username, email, phone_number FROM users WHERE id = ?';
+                db.get(userQuery, [userId], (err, user) => {
+                    if (err) {
+                        return res.status(500).json({ error: "Error retrieving user data" });
+                    }
+                    res.cookie('token', token, {
+                        httpOnly: true,
+                        secure: process.env.NODE_ENV === 'production',
+                        sameSite: 'Strict',
+                        maxAge: 27 * 60 * 60 * 1000, 
+                    });
 
-                
-                res.cookie('token', token, {
-                    httpOnly: true,
-                    secure: process.env.NODE_ENV === 'production', // HTTPS only in production
-                    sameSite: 'Strict', 
-                    maxAge: 27 * 60 * 60 * 1000, 
+                    res.status(201).json({
+                        message: 'User registered and logged in successfully',
+                        user,
+                    });
                 });
-
-                res.status(201).json({ message: 'User registered and logged in successfully' });
              
             })
         })
@@ -89,7 +96,7 @@ export const login = (req, res) => {
                 maxAge: 27 * 60 * 60 * 60 * 1000, 
             });
 
-            res.status(200).json({ message: 'Login successful' });
+            res.status(200).json({ message: 'Login successful' , user});
         });
     });
 };
