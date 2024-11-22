@@ -10,19 +10,33 @@ export const getAllQuestions = (req, res)=>{
      })
 }
 
-export const getCurrentQuestion = (req, res)=>{
-    const {level} = req.user.curr_level;
-    const query = 'select img1, img2, img3, hint, hint_cost, tooltip from questions where level = ?'
-    db.get(query, [level], (err, row)=>{
-        if (err){
-            return res.status(500).json({error : "Error fetching question"});
+export const getCurrentQuestion = (req, res) => {
+    const { id } = req.user;
+
+    const userQuery = 'SELECT curr_level FROM users WHERE id = ?';
+
+    db.get(userQuery, [id], (err, user) => {
+        if (err) {
+            return res.status(500).json({ error: 'Error fetching user level' });
         }
-        if (!row){
-            return res.status(404).json({error : "Question not found"});
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
         }
-        res.json(row)
-    })
-}
+        const { curr_level } = user;
+        const questionQuery = 'SELECT img1, img2, img3, img4, hints, paid_hints, close_answers FROM questions WHERE level = ?';
+
+        db.get(questionQuery, [curr_level], (err, question) => {
+            if (err) {
+                return res.status(500).json({ error: 'Error fetching question' });
+            }
+            if (!question) {
+                return res.status(404).json({ error: 'Question not found for this level' });
+            }
+            res.json(question); 
+        });
+    });
+};
+
 
 export const addQuestion = (req, res)=>{
     const { img1, img2, img3, img4, hints, paid_hints, close_answers , tooltip, level, hint_cost} = req.body;
@@ -38,4 +52,35 @@ export const addQuestion = (req, res)=>{
         res.status(201).json({message: "Question added successfully"})
     })
 }
+
+export const updateQuestion = (req, res)=>{
+    const {level} = req.params;
+    const { img1, img2, img3, img4, hints, paid_hints, close_answers , tooltip, hint_cost} = req.body;
+
+    const query = `UPDATE questions SET img1 = ?, img2 = ?, img3 = ?, img4 = ?, hints = ?, paid_hints = ?, close_answers = ?, tooltip = ?, hint_cost = ? where level = ?`
+    db.run(query, [img1, img2, img3, img4, hints, paid_hints,JSON.stringify(close_answers), tooltip, hint_cost, level ], function(err){
+        if (err){
+            return res.status(500).json({error : "Error updating question"});
+        }
+        if (this.changes ===0){
+            return res.status(404).json({error: "Question not found"})
+        }
+    })
+
+}
+
+export const deleteQuestion = (req, res) => {
+    const { level } = req.params;
+
+    const query = 'DELETE FROM questions WHERE level = ?';
+    db.run(query, [level], function (err) {
+        if (err) {
+            return res.status(500).json({ error: 'Error deleting question' });
+        }
+        if (this.changes === 0) {
+            return res.status(404).json({ error: 'Question not found' });
+        }
+        res.json({ message: 'Question deleted successfully' });
+    });
+};
 
