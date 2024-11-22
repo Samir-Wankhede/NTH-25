@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import db from '../models/db.js'
 
-const register = (req, res)=>{
+export const register = (req, res)=>{
     const {username, password, email, phone} = req.body
     const checkQuery = 'SELECT * FROM users WHERE username = ? OR email = ? OR phone = ?';
     db.get(checkQuery, [username, email, phone], (err, row)=>{
@@ -35,7 +35,7 @@ const register = (req, res)=>{
     })
 }
 
-const login = (req, res) => {
+export const login = (req, res) => {
     const { username, password } = req.body;
 
     const query = 'SELECT * FROM users WHERE username = ?';
@@ -76,3 +76,5 @@ const login = (req, res) => {
         });
     });
 };
+
+
