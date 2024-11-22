@@ -1,6 +1,6 @@
-import jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken';
 
-const authenticate = (req, res, next) => {
+const authenticate = (requiredRoles = []) => (req, res, next) => {
     const token = req.cookies.token;
 
     if (!token) {
@@ -13,6 +13,11 @@ const authenticate = (req, res, next) => {
         }
 
         req.user = decoded;
+
+        if (requiredRoles.length > 0 && !requiredRoles.includes(decoded.role)) {
+            return res.status(403).json({ error: 'Forbidden: You do not have the required permissions' });
+        }
+
         next();
     });
 };

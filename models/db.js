@@ -19,6 +19,7 @@ const db = new sqlite3.Database(dbPath, (err)=>{
             password TEXT,
             role TEXT DEFAULT 'user',
             phone_number TEXT,
+            curr_level INT DEFAULT 1,
             hint_taken BOOLEAN DEFAULT 0,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )`);
