@@ -96,7 +96,7 @@ export const login = (req, res) => {
                 maxAge: 27 * 60 * 60 * 60 * 1000, 
             });
 
-            res.status(200).json({ message: 'Login successful' , user});
+            res.status(200).json({ message: 'Login successful' , user : {username : user.username, email : user.email, phone : user.phone_number}});
         });
     });
 };
