@@ -4,7 +4,7 @@ import dotenv from 'dotenv'
 import authRoutes from './routes/authRoutes.js'
 import questionRoutes from './routes/questionRoutes.js'
 import cookieParser from 'cookie-parser'; 
-
+import answerRoutes from './routes/answerRoutes.js'
 
 
 dotenv.config();
@@ -18,7 +18,7 @@ app.use(cookieParser());
 
 app.use('/api/auth',authRoutes)
 app.use('/api/question', questionRoutes )
-
+app.use('/api/answer', answerRoutes)
 app.listen(PORT, ()=>{
     console.log("server running...")
 })
