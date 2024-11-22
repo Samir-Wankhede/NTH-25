@@ -14,7 +14,7 @@ export const getCurrentQuestion = (req, res) => {
     const { id } = req.user;
     console.log(req.user)
 
-    const userQuery = 'SELECT curr_level FROM users WHERE id = ?';
+    const userQuery = 'SELECT curr_level, hint_taken FROM users WHERE id = ?';
 
     db.get(userQuery, [id], (err, user) => {
         if (err) {
@@ -24,6 +24,7 @@ export const getCurrentQuestion = (req, res) => {
             return res.status(404).json({ error: 'User not found' });
         }
         const { curr_level, hint_taken } = user;
+        console.log(hint_taken)
         console.log(curr_level)
         let questionQuery;
         if (hint_taken){
