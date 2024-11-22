@@ -5,7 +5,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const dbPath = path.join(__dirname, '../data/nth-db.sqlite');
+const dbPath = path.join(__dirname, '../../data/nth-db.sqlite');
 
 const db = new sqlite3.Database(dbPath, (err)=>{
     if (err){
@@ -18,9 +18,10 @@ const db = new sqlite3.Database(dbPath, (err)=>{
             email TEXT UNIQUE,
             password TEXT,
             role TEXT DEFAULT 'user',
-            phone_number TEXT,
+            phone_number TEXT UNIQUE,
             curr_level INT DEFAULT 1,
             hint_taken BOOLEAN DEFAULT 0,
+            curr_keys INT DEFAULT 3,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )`);
 
