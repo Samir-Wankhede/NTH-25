@@ -103,4 +103,18 @@ export const logout = (req, res) => {
     res.status(200).json({ message: 'Logout successful' });
 };
 
+//for test/ development only !!!!!!
+export const updateUser = (req, res)=>{
+    const {id} = req.user
+    const {level}  = req.body
+    const query  = `UPDATE users SET curr_level = ? where id = ?`
+
+    db.run(query, [level, id], function(err){
+        if (err){
+            console.log(err.message)
+            res.status(500).json({error: "Error updating user info"})
+        }
+        res.status(201).json({message : "User updated"})
+    })
+}
 

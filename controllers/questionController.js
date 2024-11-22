@@ -12,6 +12,7 @@ export const getAllQuestions = (req, res)=>{
 
 export const getCurrentQuestion = (req, res) => {
     const { id } = req.user;
+    console.log(req.user)
 
     const userQuery = 'SELECT curr_level FROM users WHERE id = ?';
 
@@ -22,11 +23,18 @@ export const getCurrentQuestion = (req, res) => {
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
-        const { curr_level } = user;
-        const questionQuery = 'SELECT img1, img2, img3, img4, hints, paid_hints, close_answers FROM questions WHERE level = ?';
+        const { curr_level, hint_taken } = user;
+        console.log(curr_level)
+        let questionQuery;
+        if (hint_taken){
+            questionQuery = 'SELECT img1, img2, img3, img4, hint, paid_hint, tooltip, hint_cost FROM questions WHERE level = ?';
 
+        }else{
+            questionQuery = 'SELECT img1, img2, img3, img4, hint, tooltip, hint_cost FROM questions WHERE level = ?';
+        }
         db.get(questionQuery, [curr_level], (err, question) => {
             if (err) {
+                console.log(err.message)
                 return res.status(500).json({ error: 'Error fetching question' });
             }
             if (!question) {
@@ -39,14 +47,15 @@ export const getCurrentQuestion = (req, res) => {
 
 
 export const addQuestion = (req, res)=>{
-    const { img1, img2, img3, img4, hints, paid_hints, close_answers , tooltip, level, hint_cost} = req.body;
+    const { img1, img2, img3, img4, hints, paid_hints, close_answers , tooltip, level, hint_cost, answer} = req.body;
     if (!img1){
         return res.status(400).json({error: "Atleast one image is required"})
     }
 
-    const query = `INSERT INTO questions (img1, img2,img3,img4,hints,paid_hints,close_answers, tooltip, level, hint_cost) values (?,?,?,?,?,?,?,?,?,?)`
-    db.run(query, [img1, img2, img3, img4, hints, paid_hints, JSON.stringify(close_answers), tooltip, level, hint_cost], function(err){
+    const query = `INSERT INTO questions (img1, img2,img3,img4,hint,paid_hint,close_answers, tooltip, level, hint_cost, answer) values (?,?,?,?,?,?,?,?,?,?, ?)`
+    db.run(query, [img1, img2, img3, img4, hints, paid_hints, JSON.stringify(close_answers), tooltip, level, hint_cost, answer], function(err){
         if (err){
+            console.log(err)
             return res.status(500).json({error: "Error adding question"});
         }
         res.status(201).json({message: "Question added successfully"})
@@ -54,17 +63,19 @@ export const addQuestion = (req, res)=>{
 }
 
 export const updateQuestion = (req, res)=>{
-    const {level} = req.params;
-    const { img1, img2, img3, img4, hints, paid_hints, close_answers , tooltip, hint_cost} = req.body;
+    
+    const { img1, img2, img3, img4, hints, paid_hints, close_answers , tooltip, hint_cost, level} = req.body;
 
-    const query = `UPDATE questions SET img1 = ?, img2 = ?, img3 = ?, img4 = ?, hints = ?, paid_hints = ?, close_answers = ?, tooltip = ?, hint_cost = ? where level = ?`
+    const query = `UPDATE questions SET img1 = ?, img2 = ?, img3 = ?, img4 = ?, hint = ?, paid_hint = ?, close_answers = ?, tooltip = ?, hint_cost = ? where level = ?`
     db.run(query, [img1, img2, img3, img4, hints, paid_hints,JSON.stringify(close_answers), tooltip, hint_cost, level ], function(err){
+   
         if (err){
             return res.status(500).json({error : "Error updating question"});
         }
         if (this.changes ===0){
             return res.status(404).json({error: "Question not found"})
         }
+        return res.status(201).json({message : "Successfully updated"})
     })
 
 }
