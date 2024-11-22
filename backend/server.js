@@ -12,9 +12,13 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT
 
-app.use(cors({credentials: true}));
+app.use(cors({origin:"http://localhost:3000" ,credentials: true}));
 app.use(express.json());
 app.use(cookieParser());
+app.use((req,res,next)=>{
+    console.log(req.url)
+    next()
+})
 
 app.use('/api/auth',authRoutes)
 app.use('/api/question', questionRoutes )
