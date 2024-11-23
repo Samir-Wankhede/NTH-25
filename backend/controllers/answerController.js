@@ -2,6 +2,7 @@ import db from "../models/db.js"
 export const submit=(req,res)=>{
     const {answer} = req.body
     const {id} = req.user
+    console.log(answer,id)
 
     const query = `SELECT curr_level, username FROM users where id = ?`
     db.get(query, [id], (err, user)=>{
@@ -51,7 +52,7 @@ export const submit=(req,res)=>{
             const correctAnswer = question.answer
 
             if (answer===correctAnswer){
-                const updateUser = `UPDATE users SET curr_level = curr_level + 1 , curr_keys = curr_keys + ? where id = ?`
+                const updateUser = `UPDATE users SET curr_level = curr_level + 1 , curr_keys = curr_keys + ?, hint_taken = 0 where id = ?`
                 db.run(updateUser, [curr_level, id], (err)=>{
                     if (err){
                         return res.status(500).json({error : "Error updating user status"});

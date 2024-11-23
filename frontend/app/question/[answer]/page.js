@@ -1,18 +1,36 @@
 "use client"
 
 import API from "@/utils/api";
+import React from "react";
+import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react"
 import { toast } from "react-toastify";
 import CustomModal from "@/components/CustomModal";
 import {FaQuestionCircle} from 'react-icons/fa'
 import { useAuth } from "@/context/AuthProvider";
-const QuestionPage = ()=>{
+const QuestionPage = ({params})=>{
     const [question, setQuestion] = useState(null)
     const [isModalOpen, setIsModalOpen] = useState(false); 
-    const [error,setError] = useState("");
-    const router = useRouter();
+    const {answer} = React.use(params)
     const {keys, keyUpdate} = useAuth();
+    const router = useRouter()
+    const searchParams = useSearchParams()
+    
+
+
+    useEffect(() => {
+        fetchQuestion(); 
+      
+    }, []);
+    useEffect(() => {
+      
+      if (answer && answer !== "put_your_answer_here") {
+          console.log(answer)
+          submitAnswer(answer)
+      }
+  }, [answer]);
+
 
     const openModal = () => {
       setIsModalOpen(true);
@@ -20,6 +38,26 @@ const QuestionPage = ()=>{
   
     const closeModal = () => {
       setIsModalOpen(false);
+    };
+
+    const submitAnswer = async (submittedAnswer) => {
+      try {
+        const response = await API.post("/answer", { answer: submittedAnswer });
+        if (response.status === 200) {
+          toast.success("Correct answer!");
+          router.push('/question/put_your_answer_here')
+        } else {
+          toast.error(response.data.message || "Wrong answer, please try again.");
+          router.push('/question/put_your_answer_here')
+        }
+      } catch (err) {
+        if (err.response.status==400) {
+          toast.error(err.response?.data?.message);
+          router.push('/question/put_your_answer_here')
+        } else {
+          toast.error("An unexpected error occurred");
+        }
+      }
     };
 
     const buyHint = async () => {
@@ -39,30 +77,28 @@ const QuestionPage = ()=>{
         }
       };
 
-    useEffect(()=>{
-        const fetchQuestion = async ()=>{
-            try{
-                const response = await API.get('/question/curr');
-                if (response.status==200){
-                    setQuestion(response.data.question)
-                    keyUpdate(response.data.keys)
-                }else{
-                    toast.error(response.data)
-                }
-            }catch(err){
-                if (err.response){
-                    toast.error(err.response?.data?.error || "Error fetching current question")
-                }else if (err.request){
-                    toast.error("Network error. Please try again")
-                }else{
-                    toast.error("An unexpected error occurred")
-                }
-
+    const fetchQuestion = async ()=>{
+        try{
+            const response = await API.get('/question/curr');
+            if (response.status==200){
+                setQuestion(response.data.question)
+                keyUpdate(response.data.keys)
+            }else{
+                toast.error(response.data)
             }
-        }
+        }catch(err){
+            if (err.response){
+                toast.error(err.response?.data?.error || "Error fetching current question")
+            }else if (err.request){
+                toast.error("Network error. Please try again")
+            }else{
+                toast.error("An unexpected error occurred")
+            }
 
-        fetchQuestion();
-    },[])
+        }
+    }
+
+    
 
     if (!question) {
         return <div>Loading question...</div>;

@@ -8,7 +8,7 @@ const checkEventStatus = (req, res, next) => {
         }
 
         const now = new Date();
-
+        
         if (!row) {
             return res.status(404).json({ error: "Event status not found" });
         }
