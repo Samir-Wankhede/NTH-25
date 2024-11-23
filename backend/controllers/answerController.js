@@ -23,8 +23,8 @@ export const submit=(req,res)=>{
             const correctAnswer = question.answer
 
             if (answer===correctAnswer){
-                const updateUser = `UPDATE users SET curr_level = curr_level + 1 where id = ?`
-                db.run(updateUser, [id], (err)=>{
+                const updateUser = `UPDATE users SET curr_level = curr_level + 1 , curr_keys = curr_keys + ? where id = ?`
+                db.run(updateUser, [curr_level, id], (err)=>{
                     if (err){
                         return res.status(500).json({error : "Error updating user status"});
                     }
