@@ -14,6 +14,9 @@ const Navbar = () => {
           <Link href="/home">
             <p className="hover:text-blue-400">Home</p>
           </Link>
+          <Link href="/leaderboard">
+            <p className="hover:text-blue-400">Leader Board</p>
+          </Link>
           <Link href="/question/put_your_answer_here">
             <p className="hover:text-blue-400">Hunt</p>
           </Link>

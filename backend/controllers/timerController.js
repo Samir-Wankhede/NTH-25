@@ -41,7 +41,11 @@ export const getTimer=(req,res)=>{
         if (err){
             console.log(err.message)
             return res.status(500).json({error: "Internal error occurred"})
-        }else{
+        
+        }else if(!timer){
+            return res.status(500).json({error : "No timer found"})
+        }
+        else{
             return res.status(200).json({start_time : timer.start_time})
         }
     })
