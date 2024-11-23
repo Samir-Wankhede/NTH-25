@@ -1,10 +1,11 @@
 "use client";
 
+import API from "@/utils/api";
 import { useState, useEffect } from "react";
 
 const HomePage = () => {
-  const eventStartTime = new Date("2024-11-23T18:00:00Z");
-  const [timeRemaining, setTimeRemaining] = useState(calculateTimeRemaining());
+  const [eventStartTime, setEventStartTime ]= useState(null);
+  const [timeRemaining, setTimeRemaining] = useState(null);
   const [hasEventStarted, setHasEventStarted] = useState(false);
 
   function calculateTimeRemaining() {
@@ -18,19 +19,41 @@ const HomePage = () => {
     return { days, hours, minutes, seconds };
   }
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      const remaining = calculateTimeRemaining();
-      console.log(remaining)
-      if (remaining.days==0 && remaining.hours==0 && remaining.minutes==0 && remaining.seconds==0) {
-        setHasEventStarted(true);
-        clearInterval(timer); 
+  const fetchEventStartTime = async () => {
+    try {
+      const response = await API.get("/timer/time");
+      if (response.status === 200) {
+        const { start_time } = response.data; 
+        setEventStartTime(new Date(start_time));
       } else {
-        setTimeRemaining(remaining);
+        console.error("Failed to fetch event start time.");
       }
-    }, 1000);
+    } catch (error) {
+      console.error("Error fetching event start time:", error);
+    }
+  };
 
-    return () => clearInterval(timer); 
+  useEffect(() => {
+    if (eventStartTime) {
+      setTimeRemaining(calculateTimeRemaining(eventStartTime));
+
+      const timer = setInterval(() => {
+        const remaining = calculateTimeRemaining(eventStartTime);
+
+        if (remaining.days === 0 && remaining.hours === 0 && remaining.minutes === 0 && remaining.seconds === 0) {
+          setHasEventStarted(true);
+          clearInterval(timer); 
+        } else {
+          setTimeRemaining(remaining);
+        }
+      }, 1000);
+
+      return () => clearInterval(timer); 
+    }
+  }, [eventStartTime]);
+
+  useEffect(() => {
+    fetchEventStartTime();
   }, []);
 
   return (
