@@ -59,6 +59,13 @@ const db = new sqlite3.Database(dbPath, (err)=>{
             FOREIGN KEY (level) REFERENCES questions(level),
             UNIQUE (username, level)
         )`);
+
+        db.run(`CREATE TABLE event_status (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            status TEXT NOT NULL DEFAULT 'inactive', -- 'active' or 'inactive'
+            start_time TIMESTAMP,
+            end_time TIMESTAMP
+        );`)
     }
 })
 
