@@ -5,6 +5,7 @@ import authRoutes from './routes/authRoutes.js'
 import questionRoutes from './routes/questionRoutes.js'
 import cookieParser from 'cookie-parser'; 
 import answerRoutes from './routes/answerRoutes.js'
+import leaderboardRoutes from './routes/leaderboardRoutes.js'
 
 
 dotenv.config();
@@ -23,6 +24,8 @@ app.use((req,res,next)=>{
 app.use('/api/auth',authRoutes)
 app.use('/api/question', questionRoutes )
 app.use('/api/answer', answerRoutes)
+app.use('/api/leadboard', leaderboardRoutes)
+
 app.listen(PORT, ()=>{
     console.log("server running...")
 })
