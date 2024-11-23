@@ -1,5 +1,5 @@
-"use client"
-import React, { useEffect, useState } from 'react'
+"use client";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -9,71 +9,118 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { Checkbox } from '@/components/ui/checkbox';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
+} from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Check, X } from "lucide-react";
+import { useRouter, usePathname } from "next/navigation";
 
 const AllUsers = () => {
   const [data, setData] = useState([]);
-  const [searchBox, setSearchBox] = useState('');
+  const [searchBox, setSearchBox] = useState("");
+  const [currentPage, setCurrentPage] = useState(0);
+  const [chunkedData, setChunkedData] = useState([]);
+  const [selectedUsers, setSelectedUsers] = useState([]);
+  const router = useRouter();
+  const endpoint = usePathname();
+  const itemsPerPage = 3;
 
-  useEffect(()=>{
+  useEffect(() => {
     async function getData() {
       // Fetch data from your API here.
-      try{
-        const response = await fetch('/api/user/getall',{
+      try {
+        const response = await fetch("/api/user/getall", {
           method: "GET",
         });
         const resp = await response.json();
-        setData(resp.data)
-      }
-      catch(err){
+        setData(resp.data);
+      } catch (err) {
         console.log(err);
       }
-      return null;
     }
-
     getData();
-  
-  },[])
-  
+  }, []);
+
+  useEffect(() => {
+    // Chunk data into pages of `itemsPerPage`
+    const chunks = [];
+    const filteredData = data.filter((user) =>
+      user.username.toLowerCase().includes(searchBox.toLowerCase())
+    );
+    for (let i = 0; i < filteredData.length; i += itemsPerPage) {
+      chunks.push(filteredData.slice(i, i + itemsPerPage));
+    }
+    setChunkedData(chunks);
+    setCurrentPage(0); // Reset to first page on search
+  }, [data, searchBox]);
+
+  const toggleAll = (isChecked) => {
+    if (isChecked) {
+      const currentPageUsers = chunkedData[currentPage].map((user) => user.id);
+      setSelectedUsers((prev) => Array.from(new Set([...prev, ...currentPageUsers])));
+    } else {
+      const currentPageUsers = chunkedData[currentPage].map((user) => user.id);
+      setSelectedUsers((prev) => prev.filter((id) => !currentPageUsers.includes(id)));
+    }
+    console.log(selectedUsers);
+  };
+
+  const toggleUser = (userId) => {
+    setSelectedUsers((prev) =>
+      prev.includes(userId) ? prev.filter((id) => id !== userId) : [...prev, userId]
+    );
+    console.log(selectedUsers);
+  };
+
   return (
     <div className="flex flex-col justify-start items-center pt-20 w-screen">
-      <div className='flex flex-wrap w-screen justify-center gap-4'>
-      <Input
-        type=""
-        placeholder="Search Username"
-        value={searchBox}
-        onChange={(e) => setSearchBox(e.target.value)}
-        className="w-[80%] lg:w-[30%]"
-      />
-      <form className="flex w-full max-w-sm items-center space-x-2">
-        <Select>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Action" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="light">Delete Selected users</SelectItem>
-            <SelectItem value="dark">Convert all to CSV</SelectItem>
-          </SelectContent>
-        </Select>
-
-        <Button type="submit" className="">Go</Button>
-      </form>
+      <div className="flex flex-wrap w-screen justify-center gap-4">
+        <Input
+          type="text"
+          placeholder="Search Username"
+          value={searchBox}
+          onChange={(e) => setSearchBox(e.target.value)}
+          className="w-[80%] lg:w-[30%]"
+        />
+        <form className="flex w-full max-w-sm items-center space-x-2">
+          <Select>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Action" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="delete">Delete Selected Users</SelectItem>
+              <SelectItem value="csv">Convert All to CSV</SelectItem>
+            </SelectContent>
+          </Select>
+          <Button type="submit" className="">
+            Go
+          </Button>
+        </form>
       </div>
       <Table className="w-screen m-4">
         <TableCaption></TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead><Checkbox className="mr-2"/> Select </TableHead>
+            <TableHead>
+              <Checkbox
+                className="mr-2"
+                onCheckedChange={toggleAll}
+                checked={
+                  chunkedData[currentPage]?.every((user) =>
+                    selectedUsers.includes(user.id)
+                  )
+                }
+              />
+              Select
+            </TableHead>
             <TableHead>Username</TableHead>
             <TableHead>Email</TableHead>
             <TableHead>Level</TableHead>
@@ -81,27 +128,51 @@ const AllUsers = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data.filter((user)=>{
-            return user.username.toLowerCase().includes(searchBox.toLowerCase())
-          }).map((user) => (
+          {chunkedData[currentPage]?.map((user) => (
             <TableRow key={user.id}>
-              <TableCell><Checkbox/></TableCell>
-              <TableCell className="font-medium">{user.username}</TableCell>
+              <TableCell>
+                <Checkbox
+                  checked={selectedUsers.includes(user.id)}
+                  onCheckedChange={() => toggleUser(user.id)}
+                />
+              </TableCell>
+              <TableCell className="font-medium cursor-pointer text-blue-300" onClick={()=>{
+                router.push(`${endpoint}/${user.id}`);
+              }}>{user.username}</TableCell>
               <TableCell>{user.email}</TableCell>
               <TableCell>{user.curr_level}</TableCell>
-              <TableCell>{true}</TableCell>
+              <TableCell>
+                {user.hidden === 0 ? <X /> : <Check />}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
-        <TableFooter>
-          {/* <TableRow>
-            <TableCell colSpan={3}>Total</TableCell>
-            <TableCell className="text-right">$2,500.00</TableCell>
-          </TableRow> */}
-        </TableFooter>
       </Table>
+      <div className="flex justify-center items-center gap-4 mt-4">
+        <Button
+          onClick={() => {
+            setCurrentPage((prev) => Math.max(prev - 1, 0));
+            setSelectedUsers([]);
+          }}
+          disabled={currentPage === 0}
+        >
+          Previous
+        </Button>
+        <span>
+          Page {currentPage + 1} of {chunkedData.length}
+        </span>
+        <Button
+          onClick={() =>{
+            setCurrentPage((prev) => Math.min(prev + 1, chunkedData.length - 1));
+            setSelectedUsers([]);
+          }}
+          disabled={currentPage === chunkedData.length - 1}
+        >
+          Next
+        </Button>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default AllUsers
+export default AllUsers;
