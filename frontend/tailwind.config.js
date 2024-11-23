@@ -11,6 +11,11 @@ module.exports = {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      fontFamily:{
+        avenixel: ['avenixel', 'sans-serif'],
+        minecraft: ['minecraft', 'sans-serif']
+      }
+      
     },
   },
   plugins: [],

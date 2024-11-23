@@ -26,7 +26,7 @@ app.use((req,res,next)=>{
 app.use('/api/auth',authRoutes)
 app.use('/api/question', questionRoutes )
 app.use('/api/answer', answerRoutes)
-app.use('/api/leadboard', leaderboardRoutes)
+app.use('/api/leaderboard', leaderboardRoutes)
 app.use('/api/timer', timerRoutes)
 
 app.listen(PORT, ()=>{

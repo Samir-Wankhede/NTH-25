@@ -74,7 +74,7 @@ const HomePage = () => {
       ) : (
         <div className="text-center">
           <h2 className="text-2xl font-semibold">Time Remaining:</h2>
-          <div className="flex justify-center space-x-6 mt-4 text-4xl font-mono">
+          <div className="flex justify-center space-x-6 mt-4 text-4xl ">
             <div>
               <span>{timeRemaining?.days}</span>
               <div className="text-sm uppercase">Days</div>
