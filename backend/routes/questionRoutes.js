@@ -1,7 +1,7 @@
 import express from 'express'
 import authenticate from '../middlewares/authMiddleware.js'
 
-import { getAllQuestions, getCurrentQuestion, updateQuestion, addQuestion, deleteQuestion } from '../controllers/questionController.js'
+import { getAllQuestions, getCurrentQuestion, updateQuestion, addQuestion, deleteQuestion, takeHint } from '../controllers/questionController.js'
 import checkEventStatus from '../middlewares/timerMiddleware.js';
 
 const router = express.Router();
@@ -10,6 +10,7 @@ const router = express.Router();
 router.get('/curr', authenticate(), getCurrentQuestion);
 
 //ONLY FOR DEVELOPMENT SHOULD BE IN ADMIN PANEL ONLY
+router.post('/hint', authenticate(),takeHint)
 router.get('/', authenticate(), getAllQuestions);
 router.post('/', authenticate(), addQuestion);
 router.put('/', authenticate() ,updateQuestion); 
