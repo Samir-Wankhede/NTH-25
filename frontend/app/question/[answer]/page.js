@@ -9,20 +9,51 @@ import { toast } from "react-toastify";
 import CustomModal from "@/components/CustomModal";
 import {FaQuestionCircle} from 'react-icons/fa'
 import { useAuth } from "@/context/AuthProvider";
+import axios from "axios";
 const QuestionPage = ({params})=>{
     const [question, setQuestion] = useState(null)
     const [isModalOpen, setIsModalOpen] = useState(false); 
     const {answer} = React.use(params)
     const {keys, keyUpdate} = useAuth();
+    const [eventStartTime, setEventStartTime]=useState(null)
     const router = useRouter()
-    const searchParams = useSearchParams()
     
 
+    const fetchEventStartTime = async () => {
+      try {
+        const res = await API.get("/timer/time");
+        if (res.status === 200) {
+          const { start_time } = res.data; 
+          console.log(start_time)
+          return start_time
+          setEventStartTime(new Date(start_time));
+        } else {
+          toast.error("Failed to fetch event start time.");
+        }
+      } catch (error) {
+        console.error("Error fetching event start time:", error);
+        toast.error("An error occurred while fetching event start time.");
+      }
+    };
 
     useEffect(() => {
-        fetchQuestion(); 
-      
+      const checkEventTime = async () => {
+        const start = new Date(await fetchEventStartTime());
+        
+        if (start) {
+          const currentTime = new Date();
+          if (currentTime < start) {
+            router.push("/home");
+            toast.info("Hunt hasn't started yet!");
+          } else {
+            fetchQuestion();
+          }
+        }
+      };
+  
+      checkEventTime();
     }, []);
+
     useEffect(() => {
       
       if (answer && answer !== "put_your_answer_here") {
@@ -105,7 +136,7 @@ const QuestionPage = ({params})=>{
       }
 
     return (
-    <div className="p-8 max-w-3xl mx-auto">
+    <div className="p-8 max-w-3xl mx-auto h-[100%]">
       {/* Question Level */}
       <h1 className="text-2xl font-bold mb-6 text-center">Level: {question.level}  {keys}</h1>
 

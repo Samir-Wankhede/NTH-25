@@ -8,9 +8,10 @@ const router = express.Router();
 
 //add checkevent status here
 router.get('/curr', authenticate(), getCurrentQuestion);
+router.post('/hint', authenticate(),takeHint)
 
 //ONLY FOR DEVELOPMENT SHOULD BE IN ADMIN PANEL ONLY
-router.post('/hint', authenticate(),takeHint)
+
 router.get('/', authenticate(), getAllQuestions);
 router.post('/', authenticate(), addQuestion);
 router.put('/', authenticate() ,updateQuestion); 

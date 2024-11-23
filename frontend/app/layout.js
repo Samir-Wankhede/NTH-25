@@ -3,6 +3,8 @@ import { AuthProvider } from "@/context/AuthProvider";
 import 'react-toastify/dist/ReactToastify.css';  
 
 import { ToastContainer } from "react-toastify";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 
 
@@ -15,12 +17,21 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>
-      <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} />
-        <AuthProvider>
+  <body className="h-screen flex flex-col">
+    <ToastContainer position="top-right" autoClose={2000} hideProgressBar={false} />
+    <AuthProvider>
+      <div className="h-[10vh]">
+        <Navbar />
+      </div>
+      <div className="h-[78vh] overflow-y-scroll">
         {children}
-        </AuthProvider>
-      </body>
-    </html>
+      </div>
+      <div className="h-[12vh]">
+        <Footer />
+      </div>
+    </AuthProvider>
+  </body>
+</html>
+
   );
 }
