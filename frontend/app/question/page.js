@@ -6,13 +6,13 @@ import { useEffect, useState } from "react"
 import { toast } from "react-toastify";
 import CustomModal from "@/components/CustomModal";
 import {FaQuestionCircle} from 'react-icons/fa'
+import { useAuth } from "@/context/AuthProvider";
 const QuestionPage = ()=>{
     const [question, setQuestion] = useState(null)
     const [isModalOpen, setIsModalOpen] = useState(false); 
     const [error,setError] = useState("");
     const router = useRouter();
-
-    
+    const {keys, keyUpdate} = useAuth();
 
     const openModal = () => {
       setIsModalOpen(true);
@@ -27,7 +27,8 @@ const QuestionPage = ()=>{
             try{
                 const response = await API.get('/question/curr');
                 if (response.status==200){
-                    setQuestion(response.data)
+                    setQuestion(response.data.question)
+                    keyUpdate(response.data.keys)
                 }else{
                     toast.error(response.data)
                 }
@@ -53,7 +54,7 @@ const QuestionPage = ()=>{
     return (
     <div className="p-8 max-w-3xl mx-auto">
       {/* Question Level */}
-      <h1 className="text-2xl font-bold mb-6 text-center">Level: {question.level}</h1>
+      <h1 className="text-2xl font-bold mb-6 text-center">Level: {question.level}  {keys}</h1>
 
       {/* Images Grid */}
       <div className="grid grid-cols-8 gap-10 ">

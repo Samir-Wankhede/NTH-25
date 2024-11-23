@@ -13,16 +13,17 @@ export const getCurrentQuestion = (req, res) => {
     const { id } = req.user;
     console.log(req.user)
 
-    const userQuery = 'SELECT curr_level, hint_taken FROM users WHERE id = ?';
+    const userQuery = 'SELECT curr_level, hint_taken, curr_keys FROM users WHERE id = ?';
 
     db.get(userQuery, [id], (err, user) => {
         if (err) {
             return res.status(500).json({ error: 'Error fetching user level' });
         }
         if (!user) {
+            console.log("here")
             return res.status(404).json({ error: 'User not found' });
         }
-        const { curr_level, hint_taken } = user;
+        const { curr_level, hint_taken, curr_keys } = user;
         console.log(hint_taken)
         console.log(curr_level)
         let questionQuery;
@@ -40,7 +41,7 @@ export const getCurrentQuestion = (req, res) => {
             if (!question) {
                 return res.status(404).json({ error: 'Question not found for this level' });
             }
-            res.json(question); 
+            return res.status(200).json({question, keys: curr_keys}); 
         });
     });
 };

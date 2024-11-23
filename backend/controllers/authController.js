@@ -61,7 +61,7 @@ export const register = (req, res)=>{
 
 export const login = (req, res) => {
     const { username, password } = req.body;
-
+    console.log(username,password)
     const query = 'SELECT * FROM users WHERE username = ?';
     db.get(query, [username], (err, user) => {
         if (err) {
@@ -71,7 +71,8 @@ export const login = (req, res) => {
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
-
+        console.log(user.password)
+     
         bcrypt.compare(password, user.password, (err, isMatch) => {
             if (err) {
                 return res.status(500).json({ error: 'Error verifying password' });
