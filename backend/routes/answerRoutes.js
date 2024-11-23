@@ -5,7 +5,7 @@ import checkEventStatus from '../middlewares/timerMiddleware.js'
 
 
 const router = express.Router()
-
-router.post('/',authenticate, checkEventStatus, submit)
+//add check event status
+router.post('/',authenticate(), submit)
 
 export default router;

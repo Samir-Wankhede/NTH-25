@@ -4,7 +4,7 @@ import API from "@/utils/api";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react"
 import { toast } from "react-toastify";
-import Modal from 'react-modal';
+import CustomModal from "@/components/CustomModal";
 import {FaQuestionCircle} from 'react-icons/fa'
 const QuestionPage = ()=>{
     const [question, setQuestion] = useState(null)
@@ -90,21 +90,17 @@ const QuestionPage = ()=>{
       </div>
 
       {/* Modal for Hint */}
-      <Modal 
-        isOpen={isModalOpen} 
-        onRequestClose={closeModal} 
-        className="p-6 max-w-lg mx-auto bg-white rounded-lg shadow-xl"
-      >
+      <CustomModal isOpen={isModalOpen} onClose={closeModal}>
         <h2 className="text-xl font-semibold mb-4">Hint</h2>
         <p className="mb-4">{question.hint}</p>
         <p className="font-bold">Paid Hint Cost: {question.hint_cost}</p>
-        <button 
-          onClick={closeModal} 
+        <button
+          onClick={closeModal}
           className="mt-6 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
         >
           Close
         </button>
-      </Modal>
+      </CustomModal>
     </div>
   );
 }
