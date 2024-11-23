@@ -6,6 +6,7 @@ const router = express.Router()
 router.post('/register', register)
 router.post('/login', login)
 router.post('/logout', logout)
+//ONLY DEVELOPMENT ONLY TO BE REMOVED IN PROD
 router.post('/update', authenticate(), updateUser)
 export default router;
 
