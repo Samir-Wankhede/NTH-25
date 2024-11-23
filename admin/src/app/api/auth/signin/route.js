@@ -15,11 +15,11 @@ export async function POST(req) {
   }
   const encoded = user.passwordHash;
   // Generate JWT
-  const token = jwt.sign({ encoded }, SECRET_KEY, { expiresIn: '1h' });
+  const token = jwt.sign({ encoded }, SECRET_KEY, { expiresIn: '24h' });
 
   // Set token as an HTTP-only cookie
   const response = NextResponse.json({ message: 'Login successful' });
-  response.cookies.set('auth-token', token, { httpOnly: true, secure: true, path: '/' });
+  response.cookies.set('auth-token', token, { httpOnly: true, secure: true, path: '/', sameSite:true });
 
   return response;
 }
