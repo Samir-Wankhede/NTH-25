@@ -10,7 +10,7 @@ const HomePage = () => {
   function calculateTimeRemaining() {
     const now = new Date();
     const diff = eventStartTime - now;
-    if (diff <= 0) return null;
+    if (diff <= 0) return {days: 0, hours: 0, minutes: 0, seconds: 0};
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
     const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
     const minutes = Math.floor((diff / (1000 * 60)) % 60);
@@ -22,7 +22,7 @@ const HomePage = () => {
     const timer = setInterval(() => {
       const remaining = calculateTimeRemaining();
       console.log(remaining)
-      if (remaining==null) {
+      if (remaining.days==0 && remaining.hours==0 && remaining.minutes==0 && remaining.seconds==0) {
         setHasEventStarted(true);
         clearInterval(timer); 
       } else {
@@ -44,7 +44,6 @@ const HomePage = () => {
         <h1 className="text-4xl font-bold mt-4">Network Treasure Hunt</h1>
       </div>
 
-      {/* Countdown Timer */}
       {hasEventStarted ? (
         <div className="text-center">
           <h2 className="text-3xl font-bold">The Hunt Has Begun!</h2>
