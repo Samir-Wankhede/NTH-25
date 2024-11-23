@@ -42,7 +42,12 @@ const AllUsers = () => {
           method: "GET",
         });
         const resp = await response.json();
-        setData(resp.data);
+        const userData = resp.data;
+        setData(userData.reduce((acc, user) => {
+          const localTime = new Date(user.created_at + 'Z').toLocaleString();
+          acc.push({ ...user, created_at: localTime });
+          return acc;
+        }, []));
       } catch (err) {
         console.log(err);
       }
@@ -144,7 +149,7 @@ const AllUsers = () => {
   }
 
   return (
-    <div className="flex flex-col justify-start items-center pt-20 w-screen">
+    <div className="flex flex-col justify-start items-center pt-20 w-screen pb-20">
       <div className="flex flex-wrap w-screen justify-center gap-4">
         <Input
           type="text"
@@ -172,7 +177,7 @@ const AllUsers = () => {
         </form>
       </div>
       <Table className="w-screen m-4">
-        <TableCaption></TableCaption>
+        <TableCaption>Total users: {data.length}</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead>
@@ -191,6 +196,7 @@ const AllUsers = () => {
             <TableHead>Email</TableHead>
             <TableHead>Level</TableHead>
             <TableHead>Hidden on Leaderboard</TableHead>
+            <TableHead>Created At</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -208,8 +214,9 @@ const AllUsers = () => {
               <TableCell>{user.email}</TableCell>
               <TableCell>{user.curr_level}</TableCell>
               <TableCell>
-                {user.hidden === 0 ? <X /> : <Check />}
+                {user.hidden === 0 ? <X color="#880808" /> : <Check color="#AFE1AF" />}
               </TableCell>
+              <TableCell>{user.created_at}</TableCell>
             </TableRow>
           ))}
         </TableBody>

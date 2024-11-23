@@ -3,6 +3,8 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { ArrowLeftCircleIcon } from 'lucide-react';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
@@ -17,7 +19,6 @@ const Page = () => {
     hint_taken: 0,
     curr_keys: 3,
     hidden: 0,
-    role: 'user',
   });
 
   // Fetch user data on component mount
@@ -30,6 +31,7 @@ const Page = () => {
         }
         const temp = await response.json();
         const data = temp.data[0]
+        console.log(data);
         setUserData(data);
         setEditableData({
           id: id,
@@ -37,7 +39,6 @@ const Page = () => {
           hint_taken: data.hint_taken,
           curr_keys: data.curr_keys,
           hidden: data.hidden,
-          role: data.role,
         });
       } catch (error) {
         console.error('Error fetching user data:', error);
@@ -77,8 +78,12 @@ const Page = () => {
   };
 
   return (
-    <div className="flex flex-col mx-auto justify-center items-center max-w-xl flex-wrap h-screen gap-5 pt-[9vh]">
-    <p className='text-4xl'>Player Data</p>
+    <div className="relative flex flex-col mx-auto justify-center items-center max-w-xl flex-wrap h-screen gap-5 pt-[9vh] pb-[9vh]">
+    <div className='flex w-full mx-auto justify-center gap-4'>
+      <Link href={'/dashboard/users'}><ArrowLeftCircleIcon className=' w-10 h-10'/></Link>
+      <p className='text-4xl'>Player Data</p>
+    </div>
+    
       {userData ? (
         <>
           <div className="w-full flex flex-col gap-2 px-4">
@@ -146,14 +151,14 @@ const Page = () => {
             />
           </div>
           <div className="w-full flex flex-col gap-2 px-4">
-            <Label htmlFor="role" className="">
-              Role
+            <Label htmlFor="createdAt" className="">
+              Created At: 
             </Label>
             <Input
-              id="role"
+              id="createdAt"
               type="text"
-              value={editableData.role}
-              onChange={(e) => handleChange('role', e.target.value)}
+              value={new Date(userData.created_at + 'Z').toLocaleString()}
+              disabled={true}
             />
           </div>
           <Button

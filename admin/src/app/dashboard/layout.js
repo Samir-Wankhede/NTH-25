@@ -1,7 +1,7 @@
 "use client"
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-import { BookOpenText, CircleX, Menu, Package2, PlusCircle, NotebookPen, User } from 'lucide-react';
+import { CircleHelp, Clock, Menu, NotebookPen, User } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 
@@ -66,41 +66,41 @@ export default function DashboardLayout({
                 </SheetClose>
                 <SheetClose>
                 <Link
-                    href={'/dashboard/create'}
+                    href={'/dashboard/questions'}
                     className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl ${
-                      endpoint === "/dashboard/create"
+                      endpoint === "/dashboard/questions"
                         ? "bg-muted text-foreground"
                         : "text-muted-foreground"
                     }px-3 p-2 hover:text-foreground`}
                   >
-                    <PlusCircle className="h-5 w-5" />
-                    Create
+                    <CircleHelp className="h-5 w-5" />
+                    Questions
                   </Link>
                 </SheetClose>
                 <SheetClose>
                 <Link
-                    href={'/dashboard/update'}
+                    href={'/dashboard/answer-history'}
                     className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl ${
-                      endpoint === "/dashboard/update"
+                      endpoint === "/dashboard/answer-history"
                         ? "bg-muted text-foreground"
                         : "text-muted-foreground"
                     }px-3 p-2 hover:text-foreground`}
                   >
                     <NotebookPen className="h-5 w-5" />
-                    Update
+                    Answer History
                   </Link>
                 </SheetClose>
                 <SheetClose>
                 <Link
-                    href={'/dashboard/delete'}
+                    href={'/dashboard/timer'}
                     className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl ${
-                      endpoint === "/dashboard/delete"
+                      endpoint === "/dashboard/timer"
                         ? "bg-muted text-foreground"
                         : "text-muted-foreground"
                     }px-3 p-2 hover:text-foreground`}
                   >
-                    <CircleX className="h-5 w-5" />
-                    Delete
+                    <Clock className="h-5 w-5" />
+                    timer
                   </Link>
                 </SheetClose>
               </nav>
