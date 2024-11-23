@@ -27,10 +27,10 @@ export const getCurrentQuestion = (req, res) => {
         console.log(curr_level)
         let questionQuery;
         if (hint_taken){
-            questionQuery = 'SELECT img1, img2, img3, img4, hint, paid_hint, tooltip, hint_cost FROM questions WHERE level = ?';
+            questionQuery = 'SELECT img1, img2, img3, img4, hint, paid_hint, tooltip, hint_cost, level FROM questions WHERE level = ?';
 
         }else{
-            questionQuery = 'SELECT img1, img2, img3, img4, hint, tooltip, hint_cost FROM questions WHERE level = ?';
+            questionQuery = 'SELECT img1, img2, img3, img4, hint, tooltip, hint_cost, level FROM questions WHERE level = ?';
         }
         db.get(questionQuery, [curr_level], (err, question) => {
             if (err) {
