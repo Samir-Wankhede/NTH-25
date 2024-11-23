@@ -20,7 +20,7 @@ export const getCurrentQuestion = (req, res) => {
             return res.status(500).json({ error: 'Error fetching user level' });
         }
         if (!user) {
-            console.log("here")
+            
             return res.status(404).json({ error: 'User not found' });
         }
         const { curr_level, hint_taken, curr_keys } = user;
