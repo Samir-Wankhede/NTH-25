@@ -46,6 +46,48 @@ export const getCurrentQuestion = (req, res) => {
     });
 };
 
+export const takeHint = (req, res) => {
+    const { id } = req.user; 
+    const { level } = req.body;
+    const needed_keys = parseInt(level) + 1; 
+
+    const query = `SELECT curr_keys FROM users WHERE id = ?`;
+    db.get(query, [id], (err, user) => {
+        if (err) {
+            return res.status(500).json({ error: "Error fetching user data" });
+        }
+
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+        if (user.curr_keys >= needed_keys) {
+            const updateKeysQuery = `UPDATE users SET curr_keys = curr_keys - ?,hint_taken = 1  WHERE id = ?`;
+            db.run(updateKeysQuery, [needed_keys, id], (err) => {
+                if (err) {
+                    return res.status(500).json({ error: "Error updating user keys" });
+                }
+
+                const hintQuery = `SELECT paid_hint FROM questions WHERE level = ?`;
+                db.get(hintQuery, [level], (err, question) => {
+                    if (err) {
+                        return res.status(500).json({ error: "Error fetching question hint" });
+                    }
+
+                    if (!question) {
+                        return res.status(404).json({ error: "Hint not found for this level" });
+                    }
+
+                    return res.status(200).json({
+                        paid_hint: question.paid_hint,
+                    });
+                });
+            });
+        } else {
+            return res.status(400).json({ error: "Insufficient Keys" });
+        }
+    });
+};
+
 
 export const addQuestion = (req, res)=>{
     const { img1, img2, img3, img4, hints, paid_hints, close_answers , tooltip, level, hint_cost, answer} = req.body;
