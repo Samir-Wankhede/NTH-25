@@ -50,7 +50,7 @@ export const takeHint = (req, res) => {
     const { id } = req.user; 
     const { level } = req.body;
     const needed_keys = parseInt(level) + 1; 
-
+    console.log(id, level)
     const query = `SELECT curr_keys FROM users WHERE id = ?`;
     db.get(query, [id], (err, user) => {
         if (err) {

@@ -10,7 +10,7 @@ const router = express.Router();
 router.get('/curr', authenticate(), getCurrentQuestion);
 
 //ONLY FOR DEVELOPMENT SHOULD BE IN ADMIN PANEL ONLY
-router.get('/hint', authenticate(),takeHint)
+router.post('/hint', authenticate(),takeHint)
 router.get('/', authenticate(), getAllQuestions);
 router.post('/', authenticate(), addQuestion);
 router.put('/', authenticate() ,updateQuestion); 

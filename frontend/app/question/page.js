@@ -22,6 +22,23 @@ const QuestionPage = ()=>{
       setIsModalOpen(false);
     };
 
+    const buyHint = async () => {
+        try {
+          const response = await API.post("question/hint", { level: question.level });
+          if (response.status === 200) {
+            setQuestion({...question, paid_hint : response.data.paid_hint})
+            toast.success("Hint purchased successfully!");
+          }
+        } catch (err) {
+          if (err.response) {
+            console.log(err)
+            toast.error(err.response?.data?.error || "Error purchasing hint");
+          } else {
+            toast.error("An unexpected error occurred");
+          }
+        }
+      };
+
     useEffect(()=>{
         const fetchQuestion = async ()=>{
             try{
@@ -92,9 +109,19 @@ const QuestionPage = ()=>{
 
       {/* Modal for Hint */}
       <CustomModal isOpen={isModalOpen} onClose={closeModal}>
-        <h2 className="text-xl font-semibold mb-4">Hint</h2>
+      <h2 className="text-xl font-semibold mb-4">Hint</h2>
         <p className="mb-4">{question.hint}</p>
+        {question.paid_hint ?<p className="font-bold">{question.paid_hint}</p> :
         <p className="font-bold">Paid Hint Cost: {question.hint_cost}</p>
+    }
+        <button
+          onClick={buyHint}
+          className="mt-4 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+          disabled={keys < question.hint_cost}
+        >
+          {keys >= question.hint_cost ? "Buy Hint" : "Not Enough Keys"}
+        </button>
+
         <button
           onClick={closeModal}
           className="mt-6 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
