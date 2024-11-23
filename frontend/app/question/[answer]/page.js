@@ -17,12 +17,18 @@ const QuestionPage = ({params})=>{
     const router = useRouter()
     const searchParams = useSearchParams()
     
-
+    const eventStartTime = new Date("2024-11-23T16:00:00Z")
 
     useEffect(() => {
-        fetchQuestion(); 
-      
+      const currentTime = new Date();
+      if (currentTime < eventStartTime) {
+        router.push("/home"); 
+        toast.info("Hunt hasn't started yet")
+      } else {
+        fetchQuestion();
+      }
     }, []);
+
     useEffect(() => {
       
       if (answer && answer !== "put_your_answer_here") {
@@ -105,7 +111,7 @@ const QuestionPage = ({params})=>{
       }
 
     return (
-    <div className="p-8 max-w-3xl mx-auto">
+    <div className="p-8 max-w-3xl mx-auto h-[100%]">
       {/* Question Level */}
       <h1 className="text-2xl font-bold mb-6 text-center">Level: {question.level}  {keys}</h1>
 

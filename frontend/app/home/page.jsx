@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 
 const HomePage = () => {
-  const eventStartTime = new Date("2024-11-22T18:00:00Z");
+  const eventStartTime = new Date("2024-11-23T18:00:00Z");
   const [timeRemaining, setTimeRemaining] = useState(calculateTimeRemaining());
   const [hasEventStarted, setHasEventStarted] = useState(false);
 
@@ -34,7 +34,7 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white">
+    <div className="flex flex-col items-center justify-center h-[100%] bg-gray-900 text-white">
       <div className="text-center mb-10">
         <img
           src="/logo.png" 

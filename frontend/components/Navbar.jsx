@@ -4,8 +4,8 @@ import Link from "next/link";
 
 const Navbar = () => {
   return (
-    <nav className="bg-gray-800 text-white">
-      <div className="container mx-auto flex items-center justify-between px-4 py-3">
+    <nav className="bg-gray-800 text-white h-[100%] py-4 ">
+      <div className="container mx-auto flex items-center justify-between px-4 ">
         <Link href="/home">
           <p className="text-2xl font-bold">NTH</p>
         </Link>
