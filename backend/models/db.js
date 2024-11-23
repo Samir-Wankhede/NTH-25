@@ -21,6 +21,7 @@ const db = new sqlite3.Database(dbPath, (err)=>{
             phone_number TEXT,
             curr_level INT DEFAULT 1,
             hint_taken BOOLEAN DEFAULT 0,
+            curr_keys INT DEFAULT 3,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )`);
 
