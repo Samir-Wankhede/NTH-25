@@ -2,27 +2,31 @@ import schedule from 'node-schedule'
 import db from '../models/db.js';
 
 export const addOrUpdateEventStatus = async (req, res) => {
-    const { id, start_time } = req.body;
+    const {start_time } = req.body;
   
-    if (!id || !start_time) {
-      return res.status(400).json({ message: "Both id and start_time are required" });
+    if (!start_time) {
+      return res.status(400).json({ message: "start_time are required" });
     }
   
     try {
       const status = "inactive"; 
-      const end_time = new Date(new Date(start_time).getTime() + 24 * 60 * 60 * 1000); 
+      const end_time = (new Date(new Date(start_time).getTime() + 24 * 60 * 60 * 1000)).toISOString(); 
   
       const query = `
-        INSERT INTO event_status (id, status, start_time, end_time)
-        VALUES ($1, $2, $3, $4)
-        ON CONFLICT (id)
+        INSERT INTO event_status (id,status, start_time, end_time)
+        VALUES ($1, $2, $3,$4)
+        ON CONFLICT
         DO UPDATE SET
           status = EXCLUDED.status,
           start_time = EXCLUDED.start_time,
           end_time = EXCLUDED.end_time
       `;
   
-      await db.query(query, [id, status, start_time, end_time]);
+      db.run(query, [1,status, start_time, end_time],(err)=>{
+        if(err){
+            console.log(err.message)
+        }
+      });
   
       res.status(200).json({ message: "Event status added/updated successfully" });
     } catch (error) {
@@ -30,6 +34,18 @@ export const addOrUpdateEventStatus = async (req, res) => {
       res.status(500).json({ message: "Internal server error" });
     }
   };
+
+export const getTimer=(req,res)=>{
+    const query = `select start_time from event_status where id=1`;
+    db.get(query,[],(err, timer)=>{
+        if (err){
+            console.log(err.message)
+            return res.status(500).json({error: "Internal error occurred"})
+        }else{
+            return res.status(200).json({start_time : timer.start_time})
+        }
+    })
+}
   
 
 const updateEventStatus = (status, start, end) => {
@@ -70,9 +86,12 @@ const rescheduleJob = async () => {
                 console.log("Rescheduling active event...");
                 schedule.scheduleJob(now, () => {
                     console.log("Timer resumed!");
-                    incrementUserKeys();
+                    const interval = setInterval(() => {
+                        incrementUserKeys();
+                    }, 2 * 60 * 60 * 1000);
 
                     setTimeout(() => {
+                        clearInterval(interval); 
                         endEvent(start_time, new Date(start_time.getTime() + 24 * 60 * 60 * 1000));
                         console.log("Event ended after 24 hours.");
                     }, remainingTime);
