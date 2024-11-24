@@ -74,7 +74,15 @@ const incrementUserKeys = () => {
         }
     });
 };
-const rescheduleJob = async () => {
+
+function rescheduleJob(start_time) {
+    const jobs = schedule.scheduledJobs;
+    for (const jobName in jobs) {
+        if (Object.hasOwnProperty.call(jobs, jobName)) {
+            jobs[jobName].cancel();
+        }
+    }
+
     db.get(`SELECT status, start_time FROM event_status WHERE status = 'active'`, [], (err, row) => {
         if (err) {
             console.error("Error checking event status:", err.message);
@@ -108,21 +116,33 @@ const rescheduleJob = async () => {
             console.log("No active event to reschedule.");
         }
     });
-};
-
+}
 
 export const startTimer = (req, res) => {
-    const {start_time} = req.body
-    db.get(`SELECT status FROM event_status`, [], (err, row) => {
+    const { start_time } = req.body;
+
+    db.get(`SELECT * FROM event_status`, [], (err, row) => {
         if (err) {
             console.error("Error fetching event status:", err.message);
-            return;
+            return res.status(500).json({ error: "Failed to fetch event status" });
         }
 
-        if (row && row.status === 'active') {
-            console.log("Event is already active. Timer will not be rescheduled.");
-            rescheduleJob();
-            return res.status(205).json({message: "Timer Already in place"});
+        const inputStartTime = new Date(start_time).toISOString();
+
+        if (row) {
+            const { status, start_time: dbStartTime } = row;
+
+            if (status === "active" && dbStartTime === inputStartTime) {
+                console.log("Timer is already active with the same start time. Rescheduling...");
+                rescheduleJob(inputStartTime);
+                return res.status(205).json({ message: "Timer already active and rescheduled." });
+            }
+
+            if (status === "active" && dbStartTime !== inputStartTime) {
+                console.log("Active timer exists with a different start time. Overwriting...");
+            } else {
+                console.log("Timer is inactive. Scheduling a new timer...");
+            }
         }
 
         const job = schedule.scheduleJob(start_time, () => {
@@ -131,24 +151,26 @@ export const startTimer = (req, res) => {
             const start = new Date(start_time);
             const end = new Date(start.getTime() + 24 * 60 * 60 * 1000);
 
-            updateEventStatus('active', start.toISOString(), end.toISOString());
+            updateEventStatus("active", start.toISOString(), end.toISOString());
 
             const interval = setInterval(() => {
-                console.log("incremented keys")
+                console.log("Keys incremented.");
                 incrementUserKeys();
             }, 2 * 60 * 60 * 1000);
 
             setTimeout(() => {
-                clearInterval(interval); 
-                endEvent(start, end); 
+                clearInterval(interval);
+                endEvent(start, end);
                 console.log("Timer ended after 24 hours.");
             }, 24 * 60 * 60 * 1000);
         });
 
         console.log(`Timer scheduled to start at ${start_time}`);
-        return res.status(200).json({message: `Timer scheduled to start at ${start_time}`})
+        updateEventStatus("inactive", start_time, null); // Update DB to reflect the new schedule
+        return res.status(200).json({ message: `Timer scheduled to start at ${start_time}` });
     });
 };
+
 
 export const endEvent=(start, end)=>{
     console.log("Event ended!")
