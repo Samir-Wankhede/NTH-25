@@ -10,6 +10,7 @@ import CustomModal from "@/components/CustomModal";
 import {FaQuestionCircle} from 'react-icons/fa'
 import { useAuth } from "@/context/AuthProvider";
 import axios from "axios";
+import withAuth from "@/app/middlewares/authMiddleware";
 const QuestionPage = ({params})=>{
     const [question, setQuestion] = useState(null)
     const [isModalOpen, setIsModalOpen] = useState(false); 
@@ -218,4 +219,4 @@ const QuestionPage = ({params})=>{
   );
 }
 
-export default QuestionPage;
+export default withAuth(QuestionPage);
