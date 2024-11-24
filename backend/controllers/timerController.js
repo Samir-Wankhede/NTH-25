@@ -122,7 +122,7 @@ export const startTimer = (req, res) => {
         if (row && row.status === 'active') {
             console.log("Event is already active. Timer will not be rescheduled.");
             rescheduleJob();
-            return;
+            return res.status(205).json({message: "Timer Already in place"});
         }
 
         const job = schedule.scheduleJob(start_time, () => {
@@ -134,6 +134,7 @@ export const startTimer = (req, res) => {
             updateEventStatus('active', start.toISOString(), end.toISOString());
 
             const interval = setInterval(() => {
+                console.log("incremented keys")
                 incrementUserKeys();
             }, 2 * 60 * 60 * 1000);
 
@@ -144,7 +145,8 @@ export const startTimer = (req, res) => {
             }, 24 * 60 * 60 * 1000);
         });
 
-        console.log(`Timer scheduled to start at ${startTime}`);
+        console.log(`Timer scheduled to start at ${start_time}`);
+        return res.status(200).json({message: `Timer scheduled to start at ${start_time}`})
     });
 };
 
