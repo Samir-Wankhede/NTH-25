@@ -10,14 +10,17 @@ export default function LoginPage() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    console.log(password)
 
     const response = await fetch('/api/auth/signin', {
       method: 'POST',
       body: JSON.stringify({ password }),
       headers: { 'Content-Type': 'application/json' },
     });
+    console.log(response)
 
     if (response.ok) {
+      console.log('here')
       router.push('/dashboard');
     } else {
       alert('Invalid credentials');
