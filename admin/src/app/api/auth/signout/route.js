@@ -6,10 +6,16 @@ export async function POST() {
   // Set the cookie to expire immediately
   response.cookies.set('auth-token', '', {
     httpOnly: true,
-    secure: true,
     expires: new Date(0), // Expired
     path: '/',
   });
+  //open this during deployment
+  // response.cookies.set('auth-token', '', {
+  //   httpOnly: true,
+  //   secure: true,
+  //   expires: new Date(0), // Expired
+  //   path: '/',
+  // });
 
   return response;
 }

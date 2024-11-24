@@ -19,7 +19,8 @@ export async function POST(req) {
 
   // Set token as an HTTP-only cookie
   const response = NextResponse.json({ message: 'Login successful' });
-  response.cookies.set('auth-token', token, { httpOnly: true, secure: true, path: '/', sameSite:true });
+  // response.cookies.set('auth-token', token, { httpOnly: true, secure: true, path: '/', sameSite:true }); open this during deployment
+  response.cookies.set('auth-token', token, { httpOnly: true, path: '/', sameSite:true });
 
   return response;
 }

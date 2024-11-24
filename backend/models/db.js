@@ -42,8 +42,9 @@ const db = new sqlite3.Database(dbPath, (err)=>{
             img4 TEXT,
             hint TEXT,
             paid_hint TEXT,
+            name TEXT,
             hint_cost INTEGER NOT NULL,
-            level INTEGER NOT NULL,
+            level INTEGER UNIQUE NOT NULL,
             tooltip TEXT NOT NULL,
             close_answers TEXT,
             answer TEXT NOT NULL

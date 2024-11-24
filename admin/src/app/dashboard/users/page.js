@@ -100,7 +100,8 @@ const AllUsers = () => {
       });
   
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const data = await response.json();
+        throw new Error(data);
       }
   
       const blob = await response.blob(); 
@@ -132,9 +133,9 @@ const AllUsers = () => {
           body: JSON.stringify(selectedUsers),
         });
         if(!response.ok){
-          throw new Error(response);
+          const data = response.json();
+          throw new Error(data);
         }
-        router.refresh();
         alert("Selected user have been permanently deleted.");
       }catch(err){
         console.log("error in delete: ",err);
