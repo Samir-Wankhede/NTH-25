@@ -13,9 +13,10 @@ import axios from "axios";
 const QuestionPage = ({params})=>{
     const [question, setQuestion] = useState(null)
     const [isModalOpen, setIsModalOpen] = useState(false); 
+    const [loading, setLoading] = useState(false);
+    const [refetch, setRefetch] = useState(false);
     const {answer} = React.use(params)
     const {keys, keyUpdate} = useAuth();
-    const [eventStartTime, setEventStartTime]=useState(null)
     const router = useRouter()
     
 
@@ -26,7 +27,6 @@ const QuestionPage = ({params})=>{
           const { start_time } = res.data; 
           console.log(start_time)
           return start_time
-          setEventStartTime(new Date(start_time));
         } else {
           toast.error("Failed to fetch event start time.");
         }
@@ -36,23 +36,33 @@ const QuestionPage = ({params})=>{
       }
     };
 
+    
+    
     useEffect(() => {
       const checkEventTime = async () => {
-        const start = new Date(await fetchEventStartTime());
-        
-        if (start) {
+        try {
+          if (loading) return;
+          setLoading(true);
+    
+          const start = new Date(await fetchEventStartTime());
           const currentTime = new Date();
+    
           if (currentTime < start) {
-            router.push("/home");
             toast.info("Hunt hasn't started yet!");
-          } else {
-            fetchQuestion();
+            router.push("/home");
+          } else if (!question && !loading) {
+            await fetchQuestion();
           }
+        } catch (error) {
+          console.error("Error checking event time:", error);
+        } finally {
+          setLoading(false);
         }
       };
-  
+    
       checkEventTime();
     }, []);
+    
 
     useEffect(() => {
       
@@ -76,15 +86,22 @@ const QuestionPage = ({params})=>{
         const response = await API.post("/answer", { answer: submittedAnswer });
         if (response.status === 200) {
           toast.success("Correct answer!");
+          setRefetch(true);
+          
           router.push('/question/put_your_answer_here')
         } else {
           toast.error(response.data.message || "Wrong answer, please try again.");
-          router.push('/question/put_your_answer_here')
+          window.history.replaceState(null, '', '/question/put_your_answer_here');
+          // router.replace('/question/put_your_answer_here')
+          // router.push('/question/put_your_answer_here')
         }
       } catch (err) {
         if (err.response.status==400) {
           toast.error(err.response?.data?.message);
-          router.push('/question/put_your_answer_here')
+          console.log('replacing')
+          window.history.replaceState(null, '', '/question/put_your_answer_here');
+          // router.replace('/question/put_your_answer_here')
+          // router.push('/question/put_your_answer_here')
         } else {
           toast.error("An unexpected error occurred");
         }
@@ -108,26 +125,27 @@ const QuestionPage = ({params})=>{
         }
       };
 
-    const fetchQuestion = async ()=>{
-        try{
-            const response = await API.get('/question/curr');
-            if (response.status==200){
-                setQuestion(response.data.question)
-                keyUpdate(response.data.keys)
-            }else{
-                toast.error(response.data)
-            }
-        }catch(err){
-            if (err.response){
-                toast.error(err.response?.data?.error || "Error fetching current question")
-            }else if (err.request){
-                toast.error("Network error. Please try again")
-            }else{
-                toast.error("An unexpected error occurred")
-            }
-
+      const fetchQuestion = async () => {
+        if (question) return; 
+        try {
+          console.log("Fetching question");
+          const response = await API.get('/question/curr');
+          if (response.status === 200) {
+            setQuestion(response.data.question);
+            keyUpdate(response.data.keys);
+          } else {
+            toast.error(response.data);
+          }
+        } catch (err) {
+          if (err.response) {
+            toast.error(err.response?.data?.error || "Error fetching current question");
+          } else if (err.request) {
+            toast.error("Network error. Please try again");
+          } else {
+            toast.error("An unexpected error occurred");
+          }
         }
-    }
+      };
 
     
 

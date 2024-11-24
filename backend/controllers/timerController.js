@@ -100,7 +100,9 @@ function rescheduleJob(start_time) {
                     console.log("Timer resumed!");
                     const interval = setInterval(() => {
                         incrementUserKeys();
-                    }, 2 * 60 * 60 * 1000);
+
+                        //2*60*60*1000
+                    }, 2*60*60*1000);
 
                     setTimeout(() => {
                         clearInterval(interval); 
@@ -144,6 +146,12 @@ export const startTimer = (req, res) => {
                 console.log("Timer is inactive. Scheduling a new timer...");
             }
         }
+        const jobs = schedule.scheduledJobs;
+        for (const jobName in jobs) {
+            if (Object.hasOwnProperty.call(jobs, jobName)) {
+                jobs[jobName].cancel();
+            }
+        }
 
         const job = schedule.scheduleJob(start_time, () => {
             console.log("Timer started!");
@@ -156,7 +164,7 @@ export const startTimer = (req, res) => {
             const interval = setInterval(() => {
                 console.log("Keys incremented.");
                 incrementUserKeys();
-            }, 2 * 60 * 60 * 1000);
+            }, 2*60*60*1000);
 
             setTimeout(() => {
                 clearInterval(interval);
