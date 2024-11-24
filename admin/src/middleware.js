@@ -3,7 +3,6 @@ import { jwtVerify } from 'jose';
 import bcrypt from 'bcryptjs';
 
 export async function middleware(request) {
-  console.log("in middleware")
   const token = request.cookies.get('auth-token')?.value;
 
   // Allow unauthenticated access to the login page

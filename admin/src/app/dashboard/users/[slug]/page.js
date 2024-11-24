@@ -5,13 +5,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { ArrowLeftCircleIcon } from 'lucide-react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
 const Page = () => {
-  const endpoint = usePathname();
-  const urlArray = endpoint.split('/');
-  const id = urlArray[urlArray.length-1];
+  const id = useParams().slug;
   const [userData, setUserData] = useState(null); // State to hold user data
   const [editableData, setEditableData] = useState({
     id: 1,
@@ -27,7 +25,8 @@ const Page = () => {
       try {
         const response = await fetch(`/api/user/get-user?id=${id}`);
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+          const data = await response.json();
+          throw new Error(data);
         }
         const temp = await response.json();
         const data = temp.data[0]
@@ -56,6 +55,7 @@ const Page = () => {
 
   // Submit edited data
   const handleSubmit = async () => {
+    console.log(editableData);
     try {
       const response = await fetch('/api/user/get-user', {
         method: 'POST',
@@ -66,7 +66,8 @@ const Page = () => {
       });
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const data = await response.json();
+        throw new Error(data);
       }
 
       const updatedData = await response.json();

@@ -22,7 +22,7 @@ export const submit=(req,res)=>{
             }
 
             let updatedAnswers;
-            const currentTimestamp = new Date().toLocaleTimeString();
+            const currentTimestamp = new Date().toLocaleString();
 
             if (history) {
                 updatedAnswers = `${history.answers} | ${currentTimestamp}: ${answer}`;

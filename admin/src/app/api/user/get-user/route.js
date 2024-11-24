@@ -39,12 +39,12 @@ export async function POST(request) {
       const body = await request.json();
   
       // Destructure the editable fields from the body
-      const { id, curr_level, hint_taken, curr_keys, hidden, role } = body;
+      const { id, curr_level, hint_taken, curr_keys, hidden } = body;
   
       // Validate required fields
-      if (!id || curr_level === undefined || hint_taken === undefined || curr_keys === undefined || hidden === undefined || !role) {
+      if (!id || curr_level === undefined || hint_taken === undefined || curr_keys === undefined || hidden === undefined) {
         return NextResponse.json(
-          { message: "All fields (id, curr_level, hint_taken, curr_keys, hidden, role) are required" },
+          { message: "All fields (id, curr_level, hint_taken, curr_keys, hidden) are required" },
           { status: 400 }
         );
       }
@@ -58,11 +58,10 @@ export async function POST(request) {
             curr_level = ?, 
             hint_taken = ?, 
             curr_keys = ?, 
-            hidden = ?, 
-            role = ?
+            hidden = ?
           WHERE id = ?
           `,
-          [curr_level, hint_taken, curr_keys, hidden, role, id],
+          [curr_level, hint_taken, curr_keys, hidden, id],
           (err) => {
             if (err) {
               reject(err);
