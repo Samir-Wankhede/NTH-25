@@ -18,7 +18,7 @@ export async function GET(request) {
       let data = null;
       if (params==="all") {
         // Fetch specific record by ID
-        data = await runQuery("SELECT * FROM answer_histories");
+        data = await runQuery("SELECT * FROM answer_histories ORDER BY timestamp DESC");
         
       } else if (params){
         // Fetch all records
