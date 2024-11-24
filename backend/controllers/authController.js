@@ -4,6 +4,25 @@ import db from '../models/db.js'
 
 export const register = (req, res)=>{
     const {username, password, email, phone} = req.body
+
+    if (!username || username.length > 10 || /[^a-zA-Z0-9]/.test(username)) {
+        return res.status(400).json({ error: "Username must be alphanumeric and at most 10 characters long." });
+    }
+
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!email || !emailRegex.test(email)) {
+        return res.status(400).json({ error: "Please enter a valid email address." });
+    }
+
+    const phoneRegex = /^[0-9]{10}$/;
+    if (!phone || !phoneRegex.test(phone)) {
+        return res.status(400).json({ error: "Phone number must be exactly 10 digits." });
+    }
+
+    if (!password || password.length < 6) {
+        return res.status(400).json({ error: "Password must be at least 6 characters long." });
+    }
+    
     const checkQuery = 'SELECT * FROM users WHERE username = ? OR email = ? OR phone_number = ?';
     db.get(checkQuery, [username, email, phone], (err, row)=>{
         if (err){
