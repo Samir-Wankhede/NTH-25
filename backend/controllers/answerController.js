@@ -42,7 +42,7 @@ export const submit=(req,res)=>{
                 }
             });
 
-        const questionQuery = `SELECT answer FROM questions WHERE level = ?`
+        const questionQuery = `SELECT answer, close_answers FROM questions WHERE level = ?`
         db.get(questionQuery, [curr_level], (err, question)=>{
             if (err){
                 return res.status(500).json({error : "Unable to get question"})
@@ -51,6 +51,7 @@ export const submit=(req,res)=>{
                 return res.status(404).json({error : "No such question exists"})
             }
             const correctAnswer = question.answer
+            console.log(question.close_answers)
 
             if (answer===correctAnswer){
                 const updateUser = `UPDATE users SET curr_level = curr_level + 1 , curr_keys = curr_keys + ?, hint_taken = 0 where id = ?`

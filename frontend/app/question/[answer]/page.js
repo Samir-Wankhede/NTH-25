@@ -2,15 +2,14 @@
 
 import API from "@/utils/api";
 import React from "react";
-import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react"
 import { toast } from "react-toastify";
 import CustomModal from "@/components/CustomModal";
 import {FaQuestionCircle} from 'react-icons/fa'
 import { useAuth } from "@/context/AuthProvider";
-import axios from "axios";
 import withAuth from "@/app/middlewares/authMiddleware";
+
 const QuestionPage = ({params})=>{
     const [question, setQuestion] = useState(null)
     const [isModalOpen, setIsModalOpen] = useState(false); 
