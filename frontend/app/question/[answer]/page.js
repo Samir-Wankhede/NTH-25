@@ -89,7 +89,10 @@ const QuestionPage = ({params})=>{
           setRefetch(true);
           
           router.push('/question/put_your_answer_here')
-        } else {
+        } else if (response.status==205){
+          toast.dark(response.data.message || "You are close.");
+          window.history.replaceState(null, '', '/question/put_your_answer_here');
+        }else {
           toast.error(response.data.message || "Wrong answer, please try again.");
           window.history.replaceState(null, '', '/question/put_your_answer_here');
           // router.replace('/question/put_your_answer_here')

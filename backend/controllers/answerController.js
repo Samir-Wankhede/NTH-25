@@ -1,4 +1,5 @@
 import db from "../models/db.js"
+import Fuse from "fuse.js"
 
 export const submit=(req,res)=>{
     const {answer} = req.body
@@ -51,7 +52,15 @@ export const submit=(req,res)=>{
                 return res.status(404).json({error : "No such question exists"})
             }
             const correctAnswer = question.answer
-            console.log(question.close_answers)
+            let closeAnswers = [];
+                try {
+                    closeAnswers = JSON.parse(question.close_answers);
+                } catch (err) {
+                    console.error("Error parsing close_answers:", err);
+                }
+
+            closeAnswers.push(correctAnswer);
+            console.log(closeAnswers)
 
             if (answer===correctAnswer){
                 const updateUser = `UPDATE users SET curr_level = curr_level + 1 , curr_keys = curr_keys + ?, hint_taken = 0 where id = ?`
@@ -62,7 +71,20 @@ export const submit=(req,res)=>{
                     return res.status(200).json({message : "Correct Answer"})
                 })
             }else{
-                return res.status(400).json({message: "Wrong Answer"})
+                const fuseOptions = {
+                    includeScore : true,
+                    threshold : 0.2,
+                    keys: ["answer"]
+                }
+
+                const fuse = new Fuse(closeAnswers, fuseOptions)
+                const result = fuse.search(answer)
+                console.log(result)
+                if (result.length>0 && result[0].score<=0.2){
+                    return res.status(205).json({message : "you are close"});
+                }else{
+                    return res.status(400).json({message: "Wrong Answer"})
+                }
             }
         })
     })
