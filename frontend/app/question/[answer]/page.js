@@ -8,7 +8,6 @@ import { toast } from "react-toastify";
 import CustomModal from "@/components/CustomModal";
 import {FaQuestionCircle} from 'react-icons/fa'
 import { useAuth } from "@/context/AuthProvider";
-import withAuth from "@/app/middlewares/authMiddleware";
 
 const QuestionPage = ({params})=>{
     const [question, setQuestion] = useState(null)
@@ -19,9 +18,6 @@ const QuestionPage = ({params})=>{
     const router = useRouter()
     const initialized = useRef(false);
     const submitting = useRef(false);
-
-
-    
 
     const fetchEventStartTime = async () => {
       try {
@@ -230,4 +226,4 @@ const QuestionPage = ({params})=>{
   );
 }
 
-export default withAuth(QuestionPage);
+export default QuestionPage;

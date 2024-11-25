@@ -2,7 +2,10 @@
 import { useAuth } from "@/context/AuthProvider";
 import API from "@/utils/api"
 import { useRouter } from "next/navigation";
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useSearchParams } from "next/navigation";
+
+import { toast } from "react-toastify";
 
 export default function LoginPage(){
     const [username, setUsername] = useState('');
@@ -12,6 +15,15 @@ export default function LoginPage(){
     const [error, setError] = useState('')
     const {login} = useAuth();
     const router = useRouter();
+
+    const searchParams = useSearchParams();
+    const unauthenticated = searchParams.get("unauthenticated");
+
+  useEffect(() => {
+    if (unauthenticated) {
+      toast.info("Please login first.");
+    }
+  }, [unauthenticated]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
