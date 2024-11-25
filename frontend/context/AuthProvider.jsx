@@ -34,10 +34,10 @@ export const AuthProvider = ({children})=>{
         setLoading(false); 
       }, []);
 
-    const keyUpdate = (n)=>setKeys(n);
+    
 
     return (
-        <AuthContext.Provider value={{user, keys,login, logout, keyUpdate, loading}}>
+        <AuthContext.Provider value={{user, keys,login, logout, setKeys, loading}}>
             {children}
         </AuthContext.Provider>
     )

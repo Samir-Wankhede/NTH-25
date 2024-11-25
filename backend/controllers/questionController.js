@@ -41,6 +41,7 @@ export const getCurrentQuestion = (req, res) => {
             if (!question) {
                 return res.status(404).json({ error: 'Question not found for this level' });
             }
+          
             return res.status(200).json({question, keys: curr_keys}); 
         });
     });

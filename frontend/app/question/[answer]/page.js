@@ -1,7 +1,7 @@
 "use client"
 
 import API from "@/utils/api";
-import React from "react";
+import React, { useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react"
 import { toast } from "react-toastify";
@@ -14,10 +14,13 @@ const QuestionPage = ({params})=>{
     const [question, setQuestion] = useState(null)
     const [isModalOpen, setIsModalOpen] = useState(false); 
     const [loading, setLoading] = useState(false);
-    const [refetch, setRefetch] = useState(false);
     const {answer} = React.use(params)
-    const {keys, keyUpdate} = useAuth();
+    const {keys, setKeys} = useAuth();
     const router = useRouter()
+    const initialized = useRef(false);
+    const submitting = useRef(false);
+
+
     
 
     const fetchEventStartTime = async () => {
@@ -41,7 +44,9 @@ const QuestionPage = ({params})=>{
     useEffect(() => {
       const checkEventTime = async () => {
         try {
-          if (loading) return;
+          if (initialized.current || loading || question) return;
+        
+          initialized.current = true;
           setLoading(true);
     
           const start = new Date(await fetchEventStartTime());
@@ -50,7 +55,7 @@ const QuestionPage = ({params})=>{
           if (currentTime < start) {
             toast.info("Hunt hasn't started yet!");
             router.push("/home");
-          } else if (!question && !loading) {
+          } else {
             await fetchQuestion();
           }
         } catch (error) {
@@ -65,12 +70,14 @@ const QuestionPage = ({params})=>{
     
 
     useEffect(() => {
+      const handleAnswer = async () => {
+        if (answer && answer !== "put_your_answer_here" && !submitting.current) {
+          await submitAnswer(answer);
+        }
+      };
       
-      if (answer && answer !== "put_your_answer_here") {
-          console.log(answer)
-          submitAnswer(answer)
-      }
-  }, [answer]);
+      handleAnswer();
+    }, [answer]);
 
 
     const openModal = () => {
@@ -82,30 +89,31 @@ const QuestionPage = ({params})=>{
     };
 
     const submitAnswer = async (submittedAnswer) => {
+      if (submitting.current) return;
+        submitting.current = true;
       try {
+        
         const response = await API.post("/answer", { answer: submittedAnswer });
         if (response.status === 200) {
           toast.success("Correct answer!");
-          setRefetch(true);
           
           router.push('/question/put_your_answer_here')
         } else if (response.status==205){
           toast.dark(response.data.message || "You are close.");
-          window.history.replaceState(null, '', '/question/put_your_answer_here');
+          window.history.pushState(null, '', '/question/put_your_answer_here');
         }else {
           toast.error(response.data.message || "Wrong answer, please try again.");
-          window.history.replaceState(null, '', '/question/put_your_answer_here');
-          // router.replace('/question/put_your_answer_here')
-          // router.push('/question/put_your_answer_here')
+          window.history.pushState(null, '', '/question/put_your_answer_here');
+
         }
       } catch (err) {
         if (err.response.status==400) {
           toast.error(err.response?.data?.message);
           console.log('replacing')
           window.history.replaceState(null, '', '/question/put_your_answer_here');
-          // router.replace('/question/put_your_answer_here')
-          // router.push('/question/put_your_answer_here')
+      
         } else {
+          console.log(err)
           toast.error("An unexpected error occurred");
         }
       }
@@ -135,7 +143,7 @@ const QuestionPage = ({params})=>{
           const response = await API.get('/question/curr');
           if (response.status === 200) {
             setQuestion(response.data.question);
-            keyUpdate(response.data.keys);
+            setKeys(response.data.keys);
           } else {
             toast.error(response.data);
           }
@@ -145,6 +153,7 @@ const QuestionPage = ({params})=>{
           } else if (err.request) {
             toast.error("Network error. Please try again");
           } else {
+            console.log(err)
             toast.error("An unexpected error occurred");
           }
         }
