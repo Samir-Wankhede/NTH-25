@@ -1,7 +1,7 @@
 import db from "@/lib/db";
 import schedule from "node-schedule";
 
-const global = [];
+const activeIntervals = [];
 
 export async function startTimer(start_time){
     try{
