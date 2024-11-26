@@ -1,5 +1,5 @@
 import db from "@/lib/db";
-import { startTimer } from "@/lib/timer";
+import { endEvent, startTimer } from "@/lib/timer";
 import { NextResponse } from "next/server";
 
 export async function GET(request) {
@@ -57,14 +57,13 @@ export async function POST(request) {
         start_time = excluded.start_time,
         end_time = excluded.end_time
     `;
-    await startTimer(start_time);
     await new Promise((resolve, reject) =>
       db.run(query, [1, status, start_time, end_time], (err) => {
         if (err) reject(err);
         else resolve();
       })
     );
-
+    await startTimer(start_time);
     return NextResponse.json(
       { message: "Event status added/updated successfully" },
       { status: 200 }
@@ -78,3 +77,28 @@ export async function POST(request) {
   }
 }
 
+export async function DELETE(request) {
+  try {
+    const timer = await new Promise((resolve, reject) => {
+      db.get(
+        `SELECT start_time, status, end_time FROM event_status WHERE id = 1`,
+        [],
+        (err, row) => {
+          if (err) reject(err);
+          else resolve(row);
+        }
+      );
+    });
+    await endEvent(timer.start_time,timer.end_time);
+    return NextResponse.json(
+      { message: "All records in event_status table deleted successfully" },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error deleting records from event_status:", error);
+    return NextResponse.json(
+      { message: "Internal server error" },
+      { status: 500 }
+    );
+  }
+}

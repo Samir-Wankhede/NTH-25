@@ -1,6 +1,8 @@
 import db from "@/lib/db";
 import schedule from "node-schedule";
 
+const global = [];
+
 export async function startTimer(start_time){
     try{
         const inputStartTime = new Date(start_time).toISOString();
@@ -31,12 +33,10 @@ export async function startTimer(start_time){
             }
         }
 
-        const now = new Date();
+        const now = new Date(new Date().getTime() + 1000);
         const StartTime = new Date(start_time);
-        const nowTime = now.toISOString();
-        console.log(now>=StartTime);
         
-        schedule.scheduleJob( (now >= StartTime ? nowTime : start_time) , async() => {
+        schedule.scheduleJob( (now >= StartTime ? now : start_time) , async() => {
           console.log("Timer started!");
           const end_time = new Date(
             new Date(start_time).getTime() + 24 * 60 * 60 * 1000
@@ -47,7 +47,7 @@ export async function startTimer(start_time){
           const interval = setInterval(() => {
             incrementUserKeys();
           }, 2 * 60 * 60 * 1000);
-
+          activeIntervals.push(interval);
           setTimeout(() => {
             clearInterval(interval);
             endEvent(new Date(start_time), new Date(end_time));
@@ -76,13 +76,13 @@ const rescheduleJob = async(start_time) => {
         });
     });
     if (existingEvent) {
-        const now = new Date();
+        const now = new Date(new Date().getTime() + 1000);
         const start_time = new Date(existingEvent.start_time);
         const remainingTime = 24 * 60 * 60 * 1000 - (now - start_time);
 
         if (remainingTime > 0) {
             console.log("Rescheduling active event...");
-            schedule.scheduleJob(now.toISOString(), async() => {
+            schedule.scheduleJob(now, async() => {
                 console.log("Timer resumed!");
                 await updateEventStatus("active", existingEvent.start_time, existingEvent.end_time);
                 const interval = setInterval(() => {
@@ -90,7 +90,8 @@ const rescheduleJob = async(start_time) => {
 
                     //2*60*60*1000
                 }, 2*1000);
-
+                activeIntervals.push(interval);
+                console.log(activeIntervals,"here active intervals")
                 setTimeout(() => {
                     clearInterval(interval); 
                     endEvent(start_time, new Date(start_time.getTime() + 24 * 60 * 60 * 1000));
@@ -137,7 +138,11 @@ const updateEventStatus = async(status, start, end) => {
     })
 };
 
-const endEvent = async(start, end) => {
+export const endEvent = async(start, end) => {
     console.log("Event ended!");
-    await updateEventStatus('inactive', start.toISOString(), end.toISOString());
+    console.log("Active intervals before clearing:", activeIntervals);
+    activeIntervals.forEach((intervalId) => {
+        clearInterval(intervalId); // Clear each interval
+    });
+    await updateEventStatus('inactive', new Date(start).toISOString(), new Date(end).toISOString());
 }
