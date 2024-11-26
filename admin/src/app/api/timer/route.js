@@ -1,11 +1,12 @@
 import db from "@/lib/db";
+import { endEvent, startTimer } from "@/lib/timer";
 import { NextResponse } from "next/server";
 
 export async function GET(request) {
   try {
     const timer = await new Promise((resolve, reject) => {
       db.get(
-        `SELECT start_time FROM event_status WHERE id = 1`,
+        `SELECT start_time, status FROM event_status WHERE id = 1`,
         [],
         (err, row) => {
           if (err) reject(err);
@@ -19,7 +20,7 @@ export async function GET(request) {
     }
 
     return NextResponse.json(
-      { start_time: timer.start_time },
+      { start_time: timer.start_time, status: timer.status },
       { status: 200 }
     );
   } catch (error) {
@@ -42,7 +43,7 @@ export async function POST(request) {
         { status: 400 }
       );
     }
-
+    console.log(start_time);
     const status = "inactive";
     const end_time = new Date(
       new Date(start_time).getTime() + 24 * 60 * 60 * 1000
@@ -56,14 +57,13 @@ export async function POST(request) {
         start_time = excluded.start_time,
         end_time = excluded.end_time
     `;
-
     await new Promise((resolve, reject) =>
       db.run(query, [1, status, start_time, end_time], (err) => {
         if (err) reject(err);
         else resolve();
       })
     );
-
+    await startTimer(start_time);
     return NextResponse.json(
       { message: "Event status added/updated successfully" },
       { status: 200 }
@@ -77,3 +77,28 @@ export async function POST(request) {
   }
 }
 
+export async function DELETE(request) {
+  try {
+    const timer = await new Promise((resolve, reject) => {
+      db.get(
+        `SELECT start_time, status, end_time FROM event_status WHERE id = 1`,
+        [],
+        (err, row) => {
+          if (err) reject(err);
+          else resolve(row);
+        }
+      );
+    });
+    await endEvent(timer.start_time,timer.end_time);
+    return NextResponse.json(
+      { message: "All records in event_status table deleted successfully" },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error deleting records from event_status:", error);
+    return NextResponse.json(
+      { message: "Internal server error" },
+      { status: 500 }
+    );
+  }
+}

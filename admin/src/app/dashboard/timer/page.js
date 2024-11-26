@@ -37,20 +37,35 @@ const page = () => {
     console.log(startTime);
     const date = new Date(startTime);
     console.log(date.toISOString());
-    try{
-      const response = await fetch("/api/timer",{
-        method: "POST",
-        headers:{
-          "Content-Type":"application/json",
-        },
-        body: JSON.stringify({start_time: date.toISOString()}),
-      });
-      const data = await response.json(); // Await the parsing of JSON
-      if (!response.ok) {
-        throw new Error(data.error);
+    if (status === 'active'){
+      try{
+        const response = await fetch("/api/timer",{
+          method: "DELETE",
+        });
+        const data = await response.json(); // Await the parsing of JSON
+        if (!response.ok) {
+          throw new Error(data.error);
+        }
+        alert(data.message);
+      }catch (error){
+        console.error("Error fetching data:", error);
       }
-    }catch (error){
-      console.error("Error fetching data:", error);
+    }else{
+      try{
+        const response = await fetch("/api/timer",{
+          method: "POST",
+          headers:{
+            "Content-Type":"application/json",
+          },
+          body: JSON.stringify({start_time: date.toISOString()}),
+        });
+        const data = await response.json(); // Await the parsing of JSON
+        if (!response.ok) {
+          throw new Error(data.error);
+        }
+      }catch (error){
+        console.error("Error fetching data:", error);
+      }
     }
   }
 
@@ -80,9 +95,7 @@ const page = () => {
           <Checkbox 
             id="Status" 
             checked={status==='active'?true:false} 
-            onCheckedChange={(e) => {
-              setStatus(e ? 'active' : 'inactive');
-            }} 
+            disabled = {true}
           />
         </div>
         <div className="w-full flex flex-col gap-2 px-4">
@@ -90,7 +103,7 @@ const page = () => {
             className="mx-auto w-fit"
             type="submit"
           >
-            Submit
+            {status==='active'?"End Event":"Start Timer"}
           </Button>
         </div>
       </form>
