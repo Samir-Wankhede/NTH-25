@@ -35,14 +35,13 @@ export async function startTimer(start_time){
 
         const now = new Date(new Date().getTime() + 1000);
         const StartTime = new Date(start_time);
-        
-        schedule.scheduleJob( (now >= StartTime ? now : start_time) , async() => {
-          console.log("Timer started!");
-          const end_time = new Date(
+        const end_time = new Date(
             new Date(start_time).getTime() + 24 * 60 * 60 * 1000
-          ).toISOString();
-
-          await updateEventStatus("active", start_time, end_time);
+        )
+        
+        schedule.scheduleJob( (now >= StartTime && now<end_time ? now : start_time) , async() => {
+          console.log("Timer started!");
+          await updateEventStatus("active", start_time, end_time.toISOString());
 
           const interval = setInterval(() => {
             incrementUserKeys();
@@ -89,14 +88,13 @@ const rescheduleJob = async(start_time) => {
                     incrementUserKeys();
 
                     //2*60*60*1000
-                }, 2*1000);
+                }, 2*60*60*1000);
                 activeIntervals.push(interval);
-                console.log(activeIntervals,"here active intervals")
                 setTimeout(() => {
                     clearInterval(interval); 
                     endEvent(start_time, new Date(start_time.getTime() + 24 * 60 * 60 * 1000));
                     console.log("Event ended after 24 hours.");
-                }, 60000);
+                }, remainingTime);
             });
         } else {
             console.log("Active event has already expired.");
@@ -140,6 +138,12 @@ const updateEventStatus = async(status, start, end) => {
 
 export const endEvent = async(start, end) => {
     console.log("Event ended!");
+    const jobs = schedule.scheduledJobs;
+    for (const jobName in jobs) {
+        if (Object.hasOwnProperty.call(jobs, jobName)) {
+            jobs[jobName].cancel();
+        }
+    }
     console.log("Active intervals before clearing:", activeIntervals);
     activeIntervals.forEach((intervalId) => {
         clearInterval(intervalId); // Clear each interval
