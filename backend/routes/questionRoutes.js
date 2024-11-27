@@ -5,6 +5,7 @@ import { getAllQuestions, getCurrentQuestion, updateQuestion, addQuestion, delet
 import checkEventStatus from '../middlewares/timerMiddleware.js';
 
 const router = express.Router();
+router.use(checkEventStatus)
 
 //add checkevent status here
 router.get('/curr', authenticate(), getCurrentQuestion);

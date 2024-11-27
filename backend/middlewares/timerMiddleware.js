@@ -1,5 +1,6 @@
-
+import db from "../models/db.js";
 const checkEventStatus = (req, res, next) => {
+    console.log("Checking timer")
     const query = `SELECT status, start_time, end_time FROM event_status LIMIT 1`;
 
     db.get(query, [], (err, row) => {

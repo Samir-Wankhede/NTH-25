@@ -144,11 +144,12 @@ const QuestionPage = ({params})=>{
             toast.error(response.data);
           }
         } catch (err) {
-          if (err.response) {
-            toast.error(err.response?.data?.error || "Error fetching current question");
+          if (err.response.status==403) {
+            toast.info(err.response?.data?.error || "Error fetching current question");
+            router.push('/home')
           } else if (err.request) {
             toast.error("Network error. Please try again");
-          } else {
+          } else{
             console.log(err)
             toast.error("An unexpected error occurred");
           }
