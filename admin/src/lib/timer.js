@@ -1,7 +1,45 @@
 import db from "@/lib/db";
 import schedule from "node-schedule";
 
-const activeIntervals = [];
+
+async function storeKeyIncrementTimes(times) {
+    const timesJson = JSON.stringify(times)
+    const query = `UPDATE event_status SET intervals = ? WHERE id=1`
+
+    return new Promise((resolve, reject)=>{
+        db.run(query, [timesJson], (err)=>{
+            if(err){
+                console.error("Error storing key intervals: ",err.message)
+                reject(err)
+            }else{
+                resolve()
+            }
+        })
+    })
+}
+
+async function scheduleKeyIncrements(times, end_time, start){
+    console.log("scheduling key intervals at : ", times)
+    for (const time of times){
+        const t = new Date(time)
+        const delay = t.getTime() - Date.now();
+
+        if (delay>0){
+            schedule.scheduleJob(t, async()=>{
+                try{
+                    await incrementUserKeys();
+                    console.log(`keys incremented at ${time}`)
+                }catch(err){
+                    console.log("error incrementing keys: ", err.message)
+                }
+            })
+        }
+    }
+
+    schedule.scheduleJob(end_time, async()=>{
+        await endEvent(start, end_time)
+    })
+}
 
 export async function startTimer(start_time){
     try{
@@ -12,11 +50,11 @@ export async function startTimer(start_time){
               else resolve(row);
             });
         });
-        const { status, start_time: dbStartTime } = existingEvent;
+        const { status, start_time: dbStartTime, intervals, end_time } = existingEvent;
         console.log(start_time, inputStartTime, dbStartTime);
         if (status === "active" && dbStartTime === inputStartTime) {
             console.log("Timer is already active with the same start time. Rescheduling...");
-            rescheduleJob(inputStartTime);
+            rescheduleJob(dbStartTime, JSON.parse(intervals), end_time);
             return;
         }
 
@@ -33,76 +71,46 @@ export async function startTimer(start_time){
             }
         }
 
-        const now = new Date(new Date().getTime() + 1000);
+       
         const StartTime = new Date(start_time);
-        const end_time = new Date(
-            new Date(start_time).getTime() + 24 * 60 * 60 * 1000
+        const endtime = new Date(
+            new Date(start_time).getTime() + 120 * 1000
         )
+
+        const total_intervals = 12
+
+        const keyIncrementTimes = Array.from({length: total_intervals}, (_,index)=>{
+            // return new Date(StartTime.getTime()+(index+1)*2*60*60*1000)
+            return new Date(StartTime.getTime()+(index+1)*10*1000)
+        })
+
+        console.log(keyIncrementTimes)
+
+        schedule.scheduleJob(StartTime, async()=>{
+            await updateEventStatus("active", start_time, endtime.toISOString());
+            await storeKeyIncrementTimes(keyIncrementTimes)
+
+            await scheduleKeyIncrements(keyIncrementTimes, endtime, start_time)
+            
+
+        })
+
         
-        schedule.scheduleJob( (now >= StartTime && now<end_time ? now : start_time) , async() => {
-          console.log("Timer started!");
-          await updateEventStatus("active", start_time, end_time.toISOString());
-
-          const interval = setInterval(() => {
-            incrementUserKeys();
-          }, 2 * 60 * 60 * 1000);
-          activeIntervals.push(interval);
-          setTimeout(() => {
-            clearInterval(interval);
-            endEvent(new Date(start_time), new Date(end_time));
-          }, 24 * 60 * 60 * 1000);
-        });
-        console.log(`Timer scheduled to start at ${start_time}`);
-        if(now < StartTime)
-        await updateEventStatus("inactive", start_time, null); // Update DB to reflect the new schedule
-
     }catch(error){
         console.error(error);
     }
 }
 
-const rescheduleJob = async(start_time) => {
+const rescheduleJob = async(start_time, intervals, endtime) => {
     const jobs = schedule.scheduledJobs;
     for (const jobName in jobs) {
         if (Object.hasOwnProperty.call(jobs, jobName)) {
             jobs[jobName].cancel();
         }
     }
-    const existingEvent = await new Promise((resolve, reject) => {
-        db.get(`SELECT * FROM event_status WHERE id = 1`, [], (err, row) => {
-          if (err) reject(err);
-          else resolve(row);
-        });
-    });
-    if (existingEvent) {
-        const now = new Date(new Date().getTime() + 1000);
-        const start_time = new Date(existingEvent.start_time);
-        const remainingTime = 24 * 60 * 60 * 1000 - (now - start_time);
 
-        if (remainingTime > 0) {
-            console.log("Rescheduling active event...");
-            schedule.scheduleJob(now, async() => {
-                console.log("Timer resumed!");
-                await updateEventStatus("active", existingEvent.start_time, existingEvent.end_time);
-                const interval = setInterval(() => {
-                    incrementUserKeys();
+    await scheduleKeyIncrements(intervals, endtime,start_time)
 
-                    //2*60*60*1000
-                }, 2*60*60*1000);
-                activeIntervals.push(interval);
-                setTimeout(() => {
-                    clearInterval(interval); 
-                    endEvent(start_time, new Date(start_time.getTime() + 24 * 60 * 60 * 1000));
-                    console.log("Event ended after 24 hours.");
-                }, remainingTime);
-            });
-        } else {
-            console.log("Active event has already expired.");
-            updateEventStatus('inactive', null, null);
-        }
-    } else {
-        console.log("No active event to reschedule.");
-    }
 }
 
 // Utility Functions
@@ -137,16 +145,16 @@ const updateEventStatus = async(status, start, end) => {
 };
 
 export const endEvent = async(start, end) => {
-    console.log("Event ended!");
+    
     const jobs = schedule.scheduledJobs;
+   
+    console.log(jobs)
     for (const jobName in jobs) {
         if (Object.hasOwnProperty.call(jobs, jobName)) {
             jobs[jobName].cancel();
         }
     }
-    console.log("Active intervals before clearing:", activeIntervals);
-    activeIntervals.forEach((intervalId) => {
-        clearInterval(intervalId); // Clear each interval
-    });
+   
+    
     await updateEventStatus('inactive', new Date(start).toISOString(), new Date(end).toISOString());
 }

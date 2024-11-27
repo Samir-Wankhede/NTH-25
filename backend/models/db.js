@@ -63,7 +63,8 @@ const db = new sqlite3.Database(dbPath, (err)=>{
 
         db.run(`CREATE TABLE IF NOT EXISTS event_status (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            status TEXT NOT NULL DEFAULT 'inactive', -- 'active' or 'inactive'
+            status TEXT NOT NULL DEFAULT 'inactive', -- 'active' or 'inactive',
+            intervals TEXT,
             start_time TIMESTAMP,
             end_time TIMESTAMP
         );`)
