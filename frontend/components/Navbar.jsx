@@ -8,12 +8,12 @@ const Navbar = () => {
     return (
       <nav className="bg-gray-800 text-white h-[100%] py-4 ">
         <div className="container mx-auto flex items-center justify-between px-4 ">
-          <Link href="/home">
+          <Link href="/">
             <p className="text-2xl font-bold">NTH</p>
           </Link>
   
           <div className="flex space-x-6">
-            <Link href="/home">
+            <Link href="/">
               <p className="hover:text-blue-400">Home</p>
             </Link>
             <Link href="/leaderboard">
