@@ -1,66 +1,51 @@
 "use client";
 
+import TrainerCard from '@/components/TrainerCard';
 import { FaInstagram, FaLinkedin, FaPhone } from 'react-icons/fa';  // Importing necessary icons
 
 const QuestionSetters = () => {
-  const teamMembers = [
+  const trainers = [
     {
-      name: "Alice Cooper",
-      role: "Head of Question Setting",
-      image: "https://placehold.co/600x400",
-      insta: "https://www.instagram.com/alicecooper",
-      linkedin: "https://www.linkedin.com/in/alicecooper",
-      phone: "+1122334455"
-    },
-    {
-      name: "Bob Martin",
-      role: "Senior Question Setter",
-      image: "https://placehold.co/600x400",
-      insta: "https://www.instagram.com/bobmartin",
-      linkedin: "https://www.linkedin.com/in/bobmartin",
-      phone: "+2233445566"
-    },
-  ];
+        name: "B Shrinidhi",
+        id: "28030",
+        pokedex: "224",
+        time: "299:05",
+        badges: [
+          "https://archives.bulbagarden.net/media/upload/thumb/d/dd/Boulder_Badge.png/480px-Boulder_Badge.png?download",
+          "https://archives.bulbagarden.net/media/upload/9/9c/Cascade_Badge.png?download",
+          "https://archives.bulbagarden.net/media/upload/a/a6/Thunder_Badge.png?download",
+          "https://archives.bulbagarden.net/media/upload/b/b5/Rainbow_Badge.png?download",
+        ],
+        avatar: "https://i.postimg.cc/mrynJPNw/IMG-20240621-WA0013-2.jpg",
+        linkedin: 'https://www.linkedin.com/in/b-shrinidhi/',
+        instagram: 'https://www.instagram.com/_nidhi1214/',
+        phone: 7506211747,
+      },
+      {
+        name: "B Shrinidhi",
+        id: "28031",
+        pokedex: "225",
+        time: "299:05",
+        badges: [
+          'https://archives.bulbagarden.net/media/upload/7/78/Earth_Badge.png?download',
+        'https://archives.bulbagarden.net/media/upload/4/4a/Zephyr_Badge.png?download',
+        'https://archives.bulbagarden.net/media/upload/0/08/Hive_Badge.png?download',
+        'https://archives.bulbagarden.net/media/upload/a/a7/Plain_Badge.png?download',
+          "https://archives.bulbagarden.net/media/upload/b/b5/Rainbow_Badge.png?download",
+        ],
+        avatar: "https://i.postimg.cc/mrynJPNw/IMG-20240621-WA0013-2.jpg",
+        linkedin: 'https://www.linkedin.com/in/b-shrinidhi/',
+        instagram: 'https://www.instagram.com/_nidhi1214/',
+        phone: 7506211747,
+      }
+]
 
   return (
     <div className="p-8">
       <h1 className="text-3xl font-bold text-center mb-8">Question Setters Team</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        {teamMembers.map((member, index) => (
-          <div key={index} className="bg-white p-6 rounded-lg shadow-lg">
-            <img
-              src={member.image}
-              alt={member.name}
-              className="w-32 h-32 rounded-full mx-auto mb-4 object-cover"
-            />
-            <h2 className="text-xl font-semibold text-center">{member.name}</h2>
-            <p className="text-center text-gray-500">{member.role}</p>
-
-            <div className="flex justify-center space-x-4 mt-4">
-              <a
-                href={member.insta}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-500 hover:text-blue-700"
-              >
-                <FaInstagram size={24} />
-              </a>
-              <a
-                href={member.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-700 hover:text-blue-900"
-              >
-                <FaLinkedin size={24} />
-              </a>
-              <a
-                href={`tel:${member.phone}`}
-                className="text-green-500 hover:text-green-700"
-              >
-                <FaPhone size={24} />
-              </a>
-            </div>
-          </div>
+        {trainers.map((trainer, index) => (
+          <TrainerCard trainer={trainer} key={index}/>
         ))}
       </div>
     </div>

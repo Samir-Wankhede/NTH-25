@@ -46,6 +46,7 @@ export const getTimer=(req,res)=>{
             return res.status(500).json({error : "No timer found"})
         }
         else{
+            console.log(timer.start_time)
             return res.status(200).json({start_time : timer.start_time})
         }
     })

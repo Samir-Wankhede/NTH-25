@@ -85,6 +85,7 @@ export async function startTimer(start_time){
         })
 
         console.log(keyIncrementTimes)
+        await updateEventStatus("inactive", start_time, endtime.toISOString());
 
         schedule.scheduleJob(StartTime, async()=>{
             await updateEventStatus("active", start_time, endtime.toISOString());
