@@ -36,7 +36,7 @@ export const addOrUpdateEventStatus = async (req, res) => {
   };
 
 export const getTimer=(req,res)=>{
-    const query = `select start_time from event_status where id=1`;
+    const query = `select start_time, end_time from event_status where id=1`;
     db.get(query,[],(err, timer)=>{
         if (err){
             console.log(err.message)
@@ -47,7 +47,7 @@ export const getTimer=(req,res)=>{
         }
         else{
             console.log(timer.start_time)
-            return res.status(200).json({start_time : timer.start_time})
+            return res.status(200).json({start_time : timer.start_time, end_time: timer.end_time})
         }
     })
 }
