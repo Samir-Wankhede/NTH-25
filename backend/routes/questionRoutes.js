@@ -5,11 +5,11 @@ import { getAllQuestions, getCurrentQuestion, updateQuestion, addQuestion, delet
 import checkEventStatus from '../middlewares/timerMiddleware.js';
 
 const router = express.Router();
-router.use(checkEventStatus)
+// router.use(checkEventStatus)
 
 //add checkevent status here
-router.get('/curr', authenticate(), getCurrentQuestion);
-router.post('/hint', authenticate(),takeHint)
+router.get('/curr', checkEventStatus,authenticate(), getCurrentQuestion);
+router.post('/hint', checkEventStatus, authenticate(),takeHint)
 
 //ONLY FOR DEVELOPMENT SHOULD BE IN ADMIN PANEL ONLY
 router.get('/', authenticate(), getAllQuestions);

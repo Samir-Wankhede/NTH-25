@@ -74,14 +74,14 @@ export async function startTimer(start_time){
        
         const StartTime = new Date(start_time);
         const endtime = new Date(
-            new Date(start_time).getTime() + 120 * 1000
+            new Date(start_time).getTime() + 24*60*60 * 1000
         )
 
         const total_intervals = 12
 
         const keyIncrementTimes = Array.from({length: total_intervals}, (_,index)=>{
             // return new Date(StartTime.getTime()+(index+1)*2*60*60*1000)
-            return new Date(StartTime.getTime()+(index+1)*10*1000)
+            return new Date(StartTime.getTime()+(index+1)*2*60*60*1000)
         })
 
         console.log(keyIncrementTimes)

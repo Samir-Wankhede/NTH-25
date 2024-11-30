@@ -1,7 +1,7 @@
 import db from "../models/db.js"
 
 export const getLeaderBoard=(req,res)=>{
-    const query = `SELECT id,username, curr_level from users WHERE hidden = 0 ORDER BY curr_level DESC LIMIT 50`
+    const query = `SELECT id,username, curr_level from users WHERE hidden = 0 ORDER BY curr_level DESC, ans_time ASC LIMIT 50`
 
     db.all(query, [], (err, rows)=>{
         if(err){
