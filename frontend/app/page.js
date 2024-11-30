@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="w-screen h-full overflow-hidden relative bg-black">
+    <div className="w-screen h-full overflow-hidden relative">
       <img
         src={`main-bg.jpg`}
         alt="Background"

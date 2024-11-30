@@ -26,7 +26,7 @@ export default function Pokedex() {
             toast.error("An error occurred while fetching leaderboard data.");
           } finally {
             await new Promise(resolve => {
-                setTimeout(() => { resolve('') }, 500);
+                setTimeout(() => { resolve('') }, 1000);
             })
             setLoading(false);
           }
@@ -63,8 +63,8 @@ export default function Pokedex() {
 
 
     return (
-      <div className="h-auto w-fit flex flex-col gap-8 items-center justify-center relative scale-75 md:scale-105 md:translate-y-[10%] left-1/2 -translate-x-1/2">
-        <div className="relative h-[700px] w-[450px] rounded-[40px] border-black border-2 bg-red-700 p-4 shadow-2xl">
+      <div className="h-auto w-fit flex flex-col gap-8 items-center justify-center relative scale-75 md:scale-105 [@media(max-height:960px)]:scale-90 [@media(max-height:800px)]:scale-75 [@media(max-height:620px)]:scale-50 md:[@media(min-height:960px)]:translate-y-[10%] left-1/2 -translate-x-1/2">
+        <div className="relative aspect-[450/700] rounded-[40px] border-black border-2 bg-red-700 p-4 shadow-2xl">
           {/* Black border effect */}
           <div className="absolute inset-0 -z-[1] rounded-[40px] bg-red-900 -translate-x-2 translate-y-2 border-2 border-black" />
   
@@ -117,7 +117,7 @@ export default function Pokedex() {
                 <tbody>
                     {currentUsers.length === 0 ? (
                     <tr>
-                        <td colSpan="3" className="text-center px-4 py-4">
+                        <td colSpan="3" className="text-center px-4 py-36">
                         No leaderboard data available.
                         </td>
                     </tr>

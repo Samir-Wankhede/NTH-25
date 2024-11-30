@@ -16,7 +16,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+<html lang="en">
   <body className="h-screen flex flex-col bg-black">
     <ToastContainer position="top-right" autoClose={2000} hideProgressBar={false} />
     <AuthProvider>

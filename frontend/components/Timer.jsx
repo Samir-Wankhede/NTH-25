@@ -3,6 +3,7 @@
 import API from "@/utils/api";
 import { useState, useEffect } from "react";
 import Loader from "./Loader";
+import Link from "next/link";
 
 const Timer = () => {
   const [eventStartTime, setEventStartTime ]= useState(null);
@@ -71,39 +72,23 @@ const Timer = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center h-fit text-white"
-    style={{
-    textShadow: `
-      3px 0 #000, 
-      -3px 0 #000, 
-      0 3px #000, 
-      0 -3px #000, 
-      2px 2px #000, 
-      -2px -2px #000, 
-      2px -2px #000, 
-      -2px 2px #000,
-      4px 0 #000,
-      -4px 0 #000,
-      0 4px #000,
-      0 -4px #000`
-    }}
-    >
+    <div className="flex flex-col items-center justify-center h-fit text-white">
       <div className="text-center mb-10">
         <img
           src="/nth-logo.png" 
           alt="NTH Logo"
           className="w-[35vh] h-[35vh] mx-auto"
         />
-        <h1 className="md:text-6xl text-5xl font-bold mt-4">Network Treasure Hunt</h1>
+        <h1 className="md:text-6xl text-5xl font-bold mt-4 text-shadow">Network Treasure Hunt</h1>
       </div>
 
       { loading ? (<Loader/>) :
         (hasEventStarted || hasEventEnded || !timeRemaining ? (
         <div className="text-center">
-            <h2 className="md:text-4xl text-2xl font-bold">{hasEventEnded ? "The Hunt Has Ended!" : "The Hunt Has Begun!"}</h2>
+            <h2 className="md:text-4xl text-2xl font-bold text-shadow">{!hasEventStarted ? "The Hunt Has Ended!" : "The Hunt Has Begun!"}</h2>
         </div>
         ) : (
-        <div className="text-center">
+        <div className="text-center text-shadow">
             <h2 className="text-4xl font-semibold">Time Remaining:</h2>
             <div className="flex justify-center space-x-6 mt-4 text-4xl ">
                 <div>
@@ -126,6 +111,11 @@ const Timer = () => {
         </div>
         ))
       }
+      <Link href={'/instructions'}>
+        <div className=" px-4 py-2 pixel-corners rounded-xl text-black text-2xl bg-white my-6 flex justify-center items-center">
+          Instructions
+        </div>
+      </Link>
     </div>
   );
 };

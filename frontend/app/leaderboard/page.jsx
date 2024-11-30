@@ -5,7 +5,7 @@ const page = () => {
       <img
           src={`night-pokemon-bg.jpg`}
           alt="Background"
-          className="absolute inset-0 w-full h-full -z-10 bottom-0 object-cover xl:object-fill opacity-75"
+          className="fixed md:absolute inset-0 w-full h-full -z-10 bottom-0 object-cover xl:object-fill opacity-75"
       />
       <Pokedex />
     </div>
