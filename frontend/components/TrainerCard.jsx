@@ -6,7 +6,7 @@ const TrainerCard = ({ trainer }) => {
     const { name, id, pokedex, time, badges, avatar, instagram, linkedin, phone } = trainer;
   
     return (
-      <div className="bg-[repeating-linear-gradient(to_bottom,_#fcf197,_#fcf197_3px,_#fcf197_3px,_transparent_9px)] border-4 border-gray-400  rounded-lg max-w-sm mx-auto relative py-4  shadow-md w-[80%] sm:w-full">
+      <div className="bg-[repeating-linear-gradient(to_bottom,_#fcf197,_#fcf197_3px,_#fcf197_3px,_white_9px)] border-4 border-gray-400  rounded-lg max-w-sm mx-auto relative py-4  shadow-md w-[80%] sm:w-full">
         {/* Header */}
         <div className=" flex justify-between items-center px-5 bg-[#e3c427] opacity-65 h-12 w-full z">
         
