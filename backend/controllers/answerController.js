@@ -63,6 +63,7 @@ export const submit=(req,res)=>{
             console.log(closeAnswers)
 
             if (answer===correctAnswer){
+                
                 const updateUser = `UPDATE users SET curr_level = curr_level + 1 , curr_keys = curr_keys + ?, hint_taken = 0 where id = ?`
                 db.run(updateUser, [curr_level, id], (err)=>{
                     if (err){

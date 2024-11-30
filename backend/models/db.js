@@ -23,6 +23,7 @@ const db = new sqlite3.Database(dbPath, (err)=>{
             hint_taken BOOLEAN DEFAULT 0,
             curr_keys INT DEFAULT 3,
             hidden BOOLEAN default 0,
+            ans_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )`);
 
