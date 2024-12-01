@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const Instruction = () => {
@@ -49,22 +50,22 @@ const Instruction = () => {
     setTimeout(() => {
       setMeowth1(true);
       typeWriter("Wait for real? NTH is Here!!!!!",setMeowth1_Text);
-    }, 4000);
+    }, 3000);
     setTimeout(() => {
       setPika2(true);
       typeWriter("Pikaaa Pikaaa Pikaaa!!!",setPika2_Text);
-    }, 7000);
+    }, 6000);
     setTimeout(() => {
       setMeowth2(true);
       typeWriter("I know it's hard!! But that's the fun part! Just follow these instructions.",setMeowth2_Text);
-    }, 10000);
+    }, 9000);
     setTimeout(() => {
       setInst(true);
       setPika1(false);
       setPika2(false);
       setMeowth1(false);
       setMeowth2(false);
-    }, 15000);
+    }, 14000);
 
     window.addEventListener("keydown", skipInst);
     return () => {
@@ -115,12 +116,12 @@ const Instruction = () => {
         <img src="instruction.png" className=" absolute z-10 h-[90%] w-[80%]" />
         <div className="h-[80%] w-[70%] z-20 flex flex-col gap-4">
             <h1 className="text-3xl md:text-6xl text-blue-400 mx-auto">INSTRUCTIONS</h1>
-            <ol className="list-decimal pl-8 md:text-3xl text-black space-y-1 md:space-y-4 mx-auto overflow-y-scroll [&::-webkit-scrollbar]:w-2
+            <ol className="list-decimal pl-10 md:text-3xl text-black space-y-1 md:space-y-4 mx-auto overflow-y-scroll [&::-webkit-scrollbar]:w-2
                 [&::-webkit-scrollbar-track]:rounded-full
                 [&::-webkit-scrollbar-track]:bg-gray-100
                 [&::-webkit-scrollbar-thumb]:rounded-full
-                [&::-webkit-scrollbar-thumb]:bg-gray-700">
-                <li className="list-decimal">
+                [&::-webkit-scrollbar-thumb]:bg-gray-400">
+                <li>
                     After logging in, there will be a question displayed which
                     includes pictures and hints.
                 </li>
@@ -153,6 +154,11 @@ const Instruction = () => {
                     with one account only.
                 </li>
             </ol>
+            <Link href={'/question'}>
+                <div className=" mx-auto w-fit px-4 py-2 pixel-corners rounded-xl text-black text-2xl bg-white flex justify-center items-center">
+                    Start Hunting
+                </div>
+            </Link>
         </div>
     </div>
   );
