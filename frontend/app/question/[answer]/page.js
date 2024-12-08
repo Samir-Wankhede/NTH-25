@@ -139,6 +139,7 @@ const QuestionPage = ({params})=>{
           const response = await API.get('/question/curr');
           if (response.status === 200) {
             setQuestion(response.data.question);
+            console.log(response.data.question)
             setKeys(response.data.keys);
           } else {
             toast.error(response.data);
@@ -163,59 +164,111 @@ const QuestionPage = ({params})=>{
       }
 
     return (
-    <div className="p-8 max-w-3xl mx-auto h-[100%]">
-      {/* Question Level */}
-      <h1 className="text-2xl font-bold mb-6 text-center">Level: {question.level}  {keys}</h1>
+      <>
+      <img
+      src={`/q-bg.webp`}
+      alt="Background"
+      className="absolute w-[100%] h-[100%]  bottom-0 object-cover xl:object-fill opacity-75 z-[-2]"
+    />
+      <div className="p-8 max-w-3xl mx-auto h-[100%]">
+       
+        <div className="flex justify-center gap-10 items-center">
+        <div className="flex flex-col items-center mb-6 group relative">
+          <img
+            src="/pika.gif"
+            alt="Pika Gif"
+            className="cursor-pointer h-12"
+          />
+          <div className="absolute hidden group-hover:block bg-gray-100 text-black text-sm font-bold rounded-lg px-4 py-2 mr-40 mt-2 border-2 border-black shadow-lg">
+            {question.tooltip}
+          </div>
+        </div>
+        <h1 className="text-2xl font-bold flex items-center">
+            
+            <img
+              src="/key.png"
+              alt="Key"
+              className="ml-2 mr-2 h-12 r"
+              
+            />
+            {keys}
+            
+          </h1>
+        
+        </div>
 
+        <div className="flex justify-center mb-4">
+          <h1 className="text-3xl font-bold">
+            Level: {question.level}
+          </h1>
+        </div>
       {/* Images Grid */}
       <div className="grid grid-cols-8 gap-10 ">
-      <div className="grid grid-cols-2 gap-4 mb-6 col-span-7 ">
-        {question.img1 && (
-          <div className="relative pb-[100%]">
-            <img src={question.img1} alt="Image 1" className="absolute inset-0 w-full h-full object-cover rounded-lg shadow-lg" />
-          </div>
-        )}
-        {question.img2 && (
-          <div className="relative pb-[100%]">
-            <img src={question.img2} alt="Image 2" className="absolute inset-0 w-full h-full object-cover rounded-lg shadow-lg" />
-          </div>
-        )}
-        {question.img3 && (
-          <div className="relative pb-[100%]">
-            <img src={question.img3} alt="Image 3" className="absolute inset-0 w-full h-full object-cover rounded-lg shadow-lg" />
-          </div>
-        )}
-        {question.img4 && (
-          <div className="relative pb-[100%]">
-            <img src={question.img4} alt="Image 4" className="absolute inset-0 w-full h-full object-cover rounded-lg shadow-lg" />
-          </div>
-        )}
+        <div className="grid grid-cols-2 gap-4 mb-6 col-span-7 ">
+          {question.img1 && (
+            <div className="relative pb-[100%]">
+              <img
+                src={question.img1}
+                alt="Image 1"
+                className="absolute inset-0 w-full h-full object-cover rounded-lg shadow-lg"
+              />
+            </div>
+          )}
+          {question.img2 && (
+            <div className="relative pb-[100%]">
+              <img
+                src={question.img2}
+                alt="Image 2"
+                className="absolute inset-0 w-full h-full object-cover rounded-lg shadow-lg"
+              />
+            </div>
+          )}
+          {question.img3 && (
+            <div className="relative pb-[100%]">
+              <img
+                src={question.img3}
+                alt="Image 3"
+                className="absolute inset-0 w-full h-full object-cover rounded-lg shadow-lg"
+              />
+            </div>
+          )}
+          {question.img4 && (
+            <div className="relative pb-[100%]">
+              <img
+                src={question.img4}
+                alt="Image 4"
+                className="absolute inset-0 w-full h-full object-cover rounded-lg shadow-lg"
+              />
+            </div>
+          )}
+        </div>
+    
+        {/* Hint Icon */}
+        <div className="text-right col-span-1">
+          <FaQuestionCircle
+            className="text-2xl text-blue-500 cursor-pointer hover:text-blue-700"
+            onClick={openModal}
+          />
+        </div>
       </div>
-
-      {/* Hint Icon */}
-      <div className="text-right col-span-1">
-        <FaQuestionCircle 
-          className="text-2xl text-blue-500 cursor-pointer hover:text-blue-700"
-          onClick={openModal} 
-        />
-      </div>
-      </div>
-
+    
       {/* Modal for Hint */}
       <CustomModal isOpen={isModalOpen} onClose={closeModal}>
-      <h2 className="text-xl font-semibold mb-4">Hint</h2>
+        <h2 className="text-xl font-semibold mb-4">Hint</h2>
         <p className="mb-4">{question.hint}</p>
-        {question.paid_hint ?<p className="font-bold">{question.paid_hint}</p> :
-        <p className="font-bold">Paid Hint Cost: {question.hint_cost}</p>
-    }
+        {question.paid_hint ? (
+          <p className="font-bold">{question.paid_hint}</p>
+        ) : (
+          <p className="font-bold">Paid Hint Cost: {question.hint_cost}</p>
+        )}
         <button
           onClick={buyHint}
           className="mt-4 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
           disabled={keys < question.hint_cost}
         >
-          {keys >= question.hint_cost ? "Buy Hint" : "Not Enough Keys"}
+          {keys >= question.hint_cost ? 'Buy Hint' : 'Not Enough Keys'}
         </button>
-
+    
         <button
           onClick={closeModal}
           className="mt-6 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
@@ -224,6 +277,7 @@ const QuestionPage = ({params})=>{
         </button>
       </CustomModal>
     </div>
+    </>
   );
 }
 
