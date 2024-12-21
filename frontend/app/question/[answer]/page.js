@@ -169,7 +169,7 @@ const QuestionPage = ({params})=>{
             toast.error(response.data);
           }
         } catch (err) {
-          if (err.response.status==403) {
+          if (err.response?.status==403) {
             toast.info(err.response?.data?.error || "Error fetching current question");
             router.push('/home')
           } else if (err.request) {
@@ -245,7 +245,7 @@ const QuestionPage = ({params})=>{
               <img
                 src={question.img1}
                 alt="Image 1"
-                className="w-full h-full object-cover rounded-lg shadow-lg"
+                className="w-full h-full object-fit rounded-lg shadow-lg"
               />
             </div>
           )}
@@ -254,7 +254,7 @@ const QuestionPage = ({params})=>{
               <img
                 src={question.img2}
                 alt="Image 2"
-                className="w-full h-full object-cover rounded-lg shadow-lg"
+                className="w-full h-full object-fit rounded-lg shadow-lg"
               />
             </div>
           )}
@@ -263,7 +263,7 @@ const QuestionPage = ({params})=>{
               <img
                 src={question.img3}
                 alt="Image 3"
-                className="w-full h-full object-cover rounded-lg shadow-lg"
+                className="w-full h-full object-fit rounded-lg shadow-lg"
               />
             </div>
           )}
@@ -272,7 +272,7 @@ const QuestionPage = ({params})=>{
               <img
                 src={question.img4}
                 alt="Image 4"
-                className="w-full h-full object-cover rounded-lg shadow-lg"
+                className="w-full h-full object-fit rounded-lg shadow-lg"
               />
             </div>
           )}
