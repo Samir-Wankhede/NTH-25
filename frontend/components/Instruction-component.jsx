@@ -126,9 +126,8 @@ const Instruction = () => {
                     includes pictures and hints.
                 </li>
                 <li>
-                    As you have logged in, your URL will be nth.credenz.co.in /
-                    question To submit your answer, you have to put a '/' in
-                    the URL followed by the answer.
+                    Your URL will be nth.credenz.co.in /
+                    question / put_your_answer_here. To submit your answer, you have to replace put_your_answer_here with your answer.
                 </li>
                 <li>
                     If your answer is correct, you will go to the next level,
@@ -136,14 +135,9 @@ const Instruction = () => {
                     same level.
                 </li>
                 <li>
-                    The one who solves as many questions and reaches the top
-                    level is displayed on the leaderboard.
+                    The leaderboard displays players with highest levels.
                 </li>
-                <li>
-                    If your answer is correct, you will go to the next level,
-                    otherwise, you will stay on the same level with the same
-                    question.
-                </li>
+               
                 <li>
                     After the 24-hour hunt, the one on the top of the
                     leaderboard wins!
