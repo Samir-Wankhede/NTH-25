@@ -26,7 +26,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="text-center mt-4 md:mt-0">
-        <div className="flex justify-center space-x-4 mt-4">
+        <div className="flex justify-center space-x-4">
               <a
                 href={null}
                 target="_blank"

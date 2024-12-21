@@ -42,7 +42,7 @@ const AddQuestionPage = () => {
         }
 
         const data = resp.data;
-
+        console.log(data)
         setFormData({
           ...data,
           close_answers: JSON.parse(data.close_answers).join(", "),

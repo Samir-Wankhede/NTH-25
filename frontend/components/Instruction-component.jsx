@@ -154,7 +154,7 @@ const Instruction = () => {
                     with one account only.
                 </li>
             </ol>
-            <Link href={'/question'}>
+            <Link href={'/question/put_your_answer_here'}>
                 <div className=" mx-auto w-fit px-4 py-2 pixel-corners rounded-xl text-black text-2xl bg-white flex justify-center items-center">
                     Start Hunting
                 </div>

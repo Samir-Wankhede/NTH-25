@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react"
 import { toast } from "react-toastify";
 import CustomModal from "@/components/CustomModal";
-import {FaQuestionCircle} from 'react-icons/fa'
+import {FaQuestionCircle, FaPhoneAlt} from 'react-icons/fa'
 import { useAuth } from "@/context/AuthProvider";
 
 const QuestionPage = ({params})=>{
@@ -50,7 +50,7 @@ const QuestionPage = ({params})=>{
     
           if (currentTime < start) {
             toast.info("Hunt hasn't started yet!");
-            router.push("/home");
+            router.push("/");
           } else {
             await fetchQuestion();
           }
@@ -164,22 +164,25 @@ const QuestionPage = ({params})=>{
       }
 
     return (
-      <>
-      <img
-      src={`/q-bg.webp`}
-      alt="Background"
-      className="absolute w-[100%] h-[100%]  bottom-0 object-cover xl:object-fill opacity-75 z-[-2]"
-    />
+      <div className="h-[100%]">
+      <div className="">
+          <img
+            src={`/pokemons/p${question.level % 10}.gif`}
+            alt="Background"
+            className="absolute right-[8%] bottom-[15%] object-cover xl:object-fill z-[-2] sm:block sm:w-auto sm:h-auto  sm:scale-[2] scale-[1] hidden"
+          />
+      </div>
+  
       <div className="p-8 max-w-3xl mx-auto h-[100%]">
        
         <div className="flex justify-center gap-10 items-center">
-        <div className="flex flex-col items-center mb-6 group relative">
+        <div className="flex flex-col items-center mb-2 group relative">
           <img
             src="/pika.gif"
             alt="Pika Gif"
-            className="cursor-pointer h-12"
+            className="cursor-pointer h-10"
           />
-          <div className="absolute hidden group-hover:block bg-gray-100 text-black text-sm font-bold rounded-lg px-4 py-2 mr-40 mt-2 border-2 border-black shadow-lg">
+          <div className="absolute hidden group-hover:block bg-gray-100 text-black sm:text-sm font-bold rounded-lg px-4 py-2 right-[105%] border-[0.20rem] border-yellow-500 shadow-lg sm:w-max text-xs w-20">
             {question.tooltip}
           </div>
         </div>
@@ -188,7 +191,7 @@ const QuestionPage = ({params})=>{
             <img
               src="/key.png"
               alt="Key"
-              className="ml-2 mr-2 h-12 r"
+              className="ml-2 mr-2 h-10 r"
               
             />
             {keys}
@@ -202,55 +205,74 @@ const QuestionPage = ({params})=>{
             Level: {question.level}
           </h1>
         </div>
-      {/* Images Grid */}
-      <div className="grid grid-cols-8 gap-10 ">
-        <div className="grid grid-cols-2 gap-4 mb-6 col-span-7 ">
+  
+        {question.img1 && !question.img2? (
+          <div className="relative aspect-w-1 aspect-h-1 col-span-1">
+            <img
+              src={question.img1}
+              alt="Image 1"
+              className="absolute inset-0 w-full  object-contain rounded-lg shadow-lg"
+            />
+          </div>
+        ) : (
+          <div className="grid sm:grid-cols-2 grid-cols-1 gap-4 col-span-3 lg:col-span-4">
           {question.img1 && (
-            <div className="relative pb-[100%]">
+            <div className="bg-black z-0 flex justify-center items-center h-60">
               <img
                 src={question.img1}
                 alt="Image 1"
-                className="absolute inset-0 w-full h-full object-cover rounded-lg shadow-lg"
+                className="w-full h-full object-cover rounded-lg shadow-lg"
               />
             </div>
           )}
           {question.img2 && (
-            <div className="relative pb-[100%]">
+            <div className="bg-black z-0 flex justify-center items-center h-60">
               <img
                 src={question.img2}
                 alt="Image 2"
-                className="absolute inset-0 w-full h-full object-cover rounded-lg shadow-lg"
+                className="w-full h-full object-cover rounded-lg shadow-lg"
               />
             </div>
           )}
           {question.img3 && (
-            <div className="relative pb-[100%]">
+            <div className="bg-black z-0 flex justify-center items-center h-60">
               <img
                 src={question.img3}
                 alt="Image 3"
-                className="absolute inset-0 w-full h-full object-cover rounded-lg shadow-lg"
+                className="w-full h-full object-cover rounded-lg shadow-lg"
               />
             </div>
           )}
           {question.img4 && (
-            <div className="relative pb-[100%]">
+            <div className="bg-black z-0 flex justify-center items-center h-60">
               <img
                 src={question.img4}
                 alt="Image 4"
-                className="absolute inset-0 w-full h-full object-cover rounded-lg shadow-lg"
+                className="w-full h-full object-cover rounded-lg shadow-lg"
               />
             </div>
           )}
         </div>
-    
-        {/* Hint Icon */}
-        <div className="text-right col-span-1">
-          <FaQuestionCircle
-            className="text-2xl text-blue-500 cursor-pointer hover:text-blue-700"
-            onClick={openModal}
-          />
-        </div>
-      </div>
+            )}
+
+          {/* Hint and Contact Icon */}
+          <div className="absolute top-10 left-0 z-50 flex gap-4">
+            {/* Hint Icon */}
+            <div className="flex items-center">
+              <FaQuestionCircle
+                className="text-2xl text-blue-500 cursor-pointer hover:text-blue-700"
+                onClick={openModal}
+              />
+            </div>
+
+            {/* Contact Icon */}
+            <div className="flex items-center">
+              <FaPhoneAlt
+                className="text-2xl text-gray-600 cursor-pointer hover:text-gray-800"
+                onClick={null} // Ensure you have the `openContactModal` method for this
+              />
+            </div>
+          </div>
     
       {/* Modal for Hint */}
       <CustomModal isOpen={isModalOpen} onClose={closeModal}>
@@ -277,7 +299,7 @@ const QuestionPage = ({params})=>{
         </button>
       </CustomModal>
     </div>
-    </>
+    </div>
   );
 }
 
