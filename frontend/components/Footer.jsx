@@ -6,7 +6,7 @@ import { FaInstagram, FaLinkedin, FaPhone } from 'react-icons/fa';  // Importing
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-white h-[100%] py-5">
+    <footer className="bg-gray-900 text-white h-fit py-5">
       <div className="container mx-auto flex flex-col md:flex-row items-center justify-between px-4">
         <div className="text-center  md:mb-0">
           <h3 className="text-lg font-semibold">PICT IEEE Student Branch</h3>

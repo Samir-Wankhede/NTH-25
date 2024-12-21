@@ -324,14 +324,15 @@ const QuestionPage = ({params})=>{
           </div>
         )}
         <div className="flex justify-between items-center gap-5 mt-6">
+          {!question.paid_hint &&
         <button
           onClick={buyHint}
           className=" flex-1 px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600"
-          disabled={keys < question.hint_cost || question.paid_hint}
+          disabled={keys < question.hint_cost}
           
         >
-          {question.paid_hint? "No more hints" : keys >= question.hint_cost ? 'Buy Hint' : 'Not Enough Keys'}
-        </button>
+          {keys >= question.hint_cost ? 'Buy Hint' : 'Not Enough Keys'}
+        </button>}
     
         <button
           onClick={closeHintModal}

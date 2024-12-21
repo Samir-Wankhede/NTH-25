@@ -16,7 +16,7 @@ const CustomModal = ({ isOpen, onClose, children }) => {
       onClick={handleOutsideClick} 
     >
       <div
-        className="bg-white p-6 rounded-lg shadow-xl mx-auto relative modal-content flex-col flex w-[25vw] text-black pixel-corners">  
+        className="bg-white p-6 rounded-lg shadow-xl mx-auto relative modal-content flex-col flex sm:w-[25vw] w-[55vw] text-black pixel-corners">  
           {children}
       </div>
     </div>
