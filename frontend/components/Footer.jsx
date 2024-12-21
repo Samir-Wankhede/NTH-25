@@ -28,7 +28,7 @@ const Footer = () => {
         <div className="text-center mt-4 md:mt-0">
         <div className="flex justify-center space-x-4">
               <a
-                href={null}
+                href={"https://www.instagram.com/pictieee/"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-blue-500 hover:text-blue-700"
@@ -36,7 +36,7 @@ const Footer = () => {
                 <FaInstagram size={24} />
               </a>
               <a
-                href={null}
+                href={"https://www.linkedin.com/company/pisbieee/"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-blue-700 hover:text-blue-900"
@@ -47,9 +47,9 @@ const Footer = () => {
             
        
           <img
-            src="/images/pisb-logo.png" 
+            src="/pisb-logo.png" 
             alt="PISB Logo"
-            className="h-auto w-auto mx-auto"
+            className="h-6 object-contain"
           />
           </div>
         </div>

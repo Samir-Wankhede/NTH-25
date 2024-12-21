@@ -20,12 +20,12 @@ const TrainerCard = ({ trainer }) => {
         {/* Trainer Info */}
         <div className="flex m-4 flex-col sm:flex-row justify-between items-center">
           <div className="ml-4 w-full">
-            <p className="font-bold text-lg md:text-2xl text-gray-700"> <span class="w-2 h-4 bg-yellow-400 border-yellow-500 border-2 mr-2 inline-block"></span>NAME: {name}</p>
+            <p className="font-bold text-lg md:text-2xl text-gray-700"> <span className="w-2 h-4 bg-yellow-400 border-yellow-500 border-2 mr-2 inline-block"></span>NAME: {name}</p>
             <hr className="border-t-2 w-[80%] border-gray-600 mb-2"></hr>
-            <p className="text-gray-700 text-sm md:text-xl"><span class="w-2 h-4 bg-yellow-400 border-yellow-500 border-2 mr-2 inline-block"></span>ROLE: Developer</p>
-            <p className="text-gray-700 text-sm md:text-xl"><span class="w-2 h-4 bg-yellow-400 border-yellow-500 border-2 mr-2 inline-block"></span>Pokédex: {pokedex}</p>
+            <p className="text-gray-700 text-sm md:text-xl"><span className="w-2 h-4 bg-yellow-400 border-yellow-500 border-2 mr-2 inline-block"></span>ROLE: Developer</p>
+            <p className="text-gray-700 text-sm md:text-xl"><span className="w-2 h-4 bg-yellow-400 border-yellow-500 border-2 mr-2 inline-block"></span>Pokédex: {pokedex}</p>
             <div className="flex flex-wrap gap-2 items-center">
-            <p className="text-gray-700 md:text-xl text-sm"><span class="w-2 h-4 bg-yellow-400 border-yellow-500 border-2 mr-2 inline-block"></span>CONTACT: </p>
+            <p className="text-gray-700 md:text-xl text-sm"><span className="w-2 h-4 bg-yellow-400 border-yellow-500 border-2 mr-2 inline-block"></span>CONTACT: </p>
               <a
                 href={instagram}
                 target="_blank"
