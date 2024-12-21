@@ -63,9 +63,23 @@ export default function RegisterPage(){
     };
 
     return (
-        <div className="h-[100%] flex items-center justify-center bg-gray-100 p-4">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full sm:w-96">
-        <h1 className="text-3xl font-bold text-center text-gray-700 mb-6">Register</h1>
+        <div className="h-[100%] flex items-center justify-center bg-black p-4">
+          
+          <div className="">
+              <img
+                src={`/bulba_reg.gif`}
+                alt="Background"
+                className="absolute right-[8%] bottom-[15%] object-cover xl:object-fill z-5 sm:block sm:w-auto sm:h-auto  sm:scale-[2] scale-[1] hidden"
+              />
+              <img
+                src={`/char_reg.gif`}
+                alt="Background"
+                className="absolute left-[8%] bottom-[15%] object-cover xl:object-fill z-5 sm:block sm:w-auto sm:h-auto  sm:scale-[2] scale-[1] hidden"
+              />
+          </div>
+
+         <div className="bg-gray-500 p-10 pixel-corners w-[28vw]">
+        <h1 className="text-4xl font-bold text-center text-gray-200 mb-6">Register</h1>
         
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
@@ -74,7 +88,7 @@ export default function RegisterPage(){
               placeholder="Username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-3 border border-gray-300 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-gray-700 text-lg"
             />
           </div>
           <div className="mb-4">
@@ -83,7 +97,7 @@ export default function RegisterPage(){
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-700 text-black text-lg"
             />
           </div>
           <div className="mb-4">
@@ -93,7 +107,7 @@ export default function RegisterPage(){
               placeholder="Phone Number"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-700 text-black text-lg"
             />
           </div>
           <div className="mb-6">
@@ -102,30 +116,31 @@ export default function RegisterPage(){
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-700 text-black text-lg"
             />
           </div>
           <button
             type="submit"
             disabled={loading}
-            className={`w-full py-3 text-white rounded-md focus:outline-none ${loading ? 'bg-gray-400' : 'bg-blue-500 hover:bg-blue-600'}`}
+            className={`w-full py-3 text-white rounded-md text-lg focus:outline-none ${loading ? 'bg-gray-600' : 'bg-gray-700 hover:bg-gray-800'}`}
           >
             {loading ? 'Registering...' : 'Register'}
           </button>
         </form>
         
-        {error && <p className="mt-4 text-red-500 text-center">{error}</p>}
+        {error && <p className="mt-4 text-red-900 text-center">{error}</p>}
 
         <p className="mt-4 text-center">
           Already registered?{' '}
           <button
             onClick={() => router.push('/login')}
-            className="text-blue-500 hover:text-blue-700"
+            className="text-gray-200 underline hover:text-gray-400"
           >
             Login here
           </button>
         </p>
       </div>
-    </div>
+      </div> 
+    
     )
 }
