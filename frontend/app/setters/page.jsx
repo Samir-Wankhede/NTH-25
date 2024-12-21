@@ -11,10 +11,10 @@ const QuestionSetters = () => {
         pokedex: "224",
         time: "299:05",
         badges: [
-          "https://archives.bulbagarden.net/media/upload/thumb/d/dd/Boulder_Badge.png/480px-Boulder_Badge.png?download",
-          "https://archives.bulbagarden.net/media/upload/9/9c/Cascade_Badge.png?download",
-          "https://archives.bulbagarden.net/media/upload/a/a6/Thunder_Badge.png?download",
-          "https://archives.bulbagarden.net/media/upload/b/b5/Rainbow_Badge.png?download",
+          "/badges/9.png",
+          "/badges/8.png",
+          "/badges/7.png",
+          "/badges/6.png"
         ],
         avatar: "https://i.postimg.cc/mrynJPNw/IMG-20240621-WA0013-2.jpg",
         linkedin: 'https://www.linkedin.com/in/b-shrinidhi/',
@@ -27,11 +27,10 @@ const QuestionSetters = () => {
         pokedex: "225",
         time: "299:05",
         badges: [
-          'https://archives.bulbagarden.net/media/upload/7/78/Earth_Badge.png?download',
-        'https://archives.bulbagarden.net/media/upload/4/4a/Zephyr_Badge.png?download',
-        'https://archives.bulbagarden.net/media/upload/0/08/Hive_Badge.png?download',
-        'https://archives.bulbagarden.net/media/upload/a/a7/Plain_Badge.png?download',
-          "https://archives.bulbagarden.net/media/upload/b/b5/Rainbow_Badge.png?download",
+          "/badges/3.png",
+          "/badges/12.png",
+          "/badges/11.png",
+          "/badges/6.png"
         ],
         avatar: "https://i.postimg.cc/mrynJPNw/IMG-20240621-WA0013-2.jpg",
         linkedin: 'https://www.linkedin.com/in/b-shrinidhi/',
