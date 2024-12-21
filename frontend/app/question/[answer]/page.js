@@ -7,11 +7,17 @@ import { useEffect, useState } from "react"
 import { toast } from "react-toastify";
 import CustomModal from "@/components/CustomModal";
 import {FaQuestionCircle, FaPhoneAlt} from 'react-icons/fa'
+import { IoMdKey } from "react-icons/io";
+
+import { FaLightbulb } from "react-icons/fa";
+
 import { useAuth } from "@/context/AuthProvider";
 
 const QuestionPage = ({params})=>{
     const [question, setQuestion] = useState(null)
-    const [isModalOpen, setIsModalOpen] = useState(false); 
+    const [isInfoModalOpen, setIsInfoModalOpen] = useState(false); 
+    const [isHintModalOpen, setIsHintModalOpen] = useState(false); 
+    const [isContactModalOpen, setIsContactModalOpen] = useState(false); 
     const [loading, setLoading] = useState(false);
     const {answer} = React.use(params)
     const {keys, setKeys} = useAuth();
@@ -76,12 +82,26 @@ const QuestionPage = ({params})=>{
     }, [answer]);
 
 
-    const openModal = () => {
-      setIsModalOpen(true);
+    const openHintModal = () => {
+      setIsHintModalOpen(true);
     };
   
-    const closeModal = () => {
-      setIsModalOpen(false);
+    const closeHintModal = () => {
+      setIsHintModalOpen(false);
+    };
+    const openContactModal = () => {
+      setIsContactModalOpen(true);
+    };
+  
+    const closeContactModal = () => {
+      setIsContactModalOpen(false);
+    };
+    const openInfoModal = () => {
+      setIsInfoModalOpen(true);
+    };
+  
+    const closeInfoModal = () => {
+      setIsInfoModalOpen(false);
     };
 
     const submitAnswer = async (submittedAnswer) => {
@@ -119,7 +139,7 @@ const QuestionPage = ({params})=>{
         try {
           const response = await API.post("question/hint", { level: question.level });
           if (response.status === 200) {
-            setQuestion({...question, paid_hint : response.data.paid_hint})
+            setQuestion({...question, paid_hint : JSON.parse(response.data.paid_hint).join(',')})
             toast.success("Hint purchased successfully!");
           }
         } catch (err) {
@@ -138,7 +158,11 @@ const QuestionPage = ({params})=>{
           console.log("Fetching question");
           const response = await API.get('/question/curr');
           if (response.status === 200) {
-            setQuestion(response.data.question);
+            if(response.data.question.paid_hint){
+              setQuestion({...response.data.question, hint:JSON.parse(response.data.question.hint).join(","), paid_hint:JSON.parse(response.data.question.paid_hint).join(",")});
+            }
+            else{
+              setQuestion({...response.data.question, hint:JSON.parse(response.data.question.hint).join(",")});}
             console.log(response.data.question)
             setKeys(response.data.keys);
           } else {
@@ -256,48 +280,104 @@ const QuestionPage = ({params})=>{
             )}
 
           {/* Hint and Contact Icon */}
-          <div className="absolute top-10 left-0 z-50 flex gap-4">
-            {/* Hint Icon */}
+          <div className="absolute top-[40%] left-0 z-50 flex flex-col gap-4">
             <div className="flex items-center">
               <FaQuestionCircle
-                className="text-2xl text-blue-500 cursor-pointer hover:text-blue-700"
-                onClick={openModal}
+                className="text-2xl text-gray-200 cursor-pointer hover:text-blue-500"
+                onClick={openInfoModal}
+              />
+            </div>
+            <div className="flex items-center">
+              <FaLightbulb
+                className="text-2xl text-gray-200 cursor-pointer hover:text-blue-500"
+                onClick={openHintModal}
               />
             </div>
 
             {/* Contact Icon */}
             <div className="flex items-center">
               <FaPhoneAlt
-                className="text-2xl text-gray-600 cursor-pointer hover:text-gray-800"
-                onClick={null} // Ensure you have the `openContactModal` method for this
+                className="text-2xl text-gray-200 cursor-pointer hover:text-blue-500"
+                onClick={openContactModal} 
               />
             </div>
           </div>
     
       {/* Modal for Hint */}
-      <CustomModal isOpen={isModalOpen} onClose={closeModal}>
-        <h2 className="text-xl font-semibold mb-4">Hint</h2>
-        <p className="mb-4">{question.hint}</p>
+      <CustomModal isOpen={isHintModalOpen} onClose={closeHintModal}>
+        <h2 className="text-2xl font-semibold mb-4 text-black self-center">HINTS</h2>
+        {question.hint.split(',').map((h,i)=>(
+          <p key={i} className=" text-lg mb-4">{i+1}. {h}</p>
+        ))}
+        
         {question.paid_hint ? (
-          <p className="font-bold">{question.paid_hint}</p>
+          <div>
+            <p className="text-xl">Paid Hint: </p>
+            {question.paid_hint.split(',').map((h,i)=>(
+              <p key={i} className=" text-lg mb-4">{i+1}. {h}</p>
+            ))}
+          </div>
         ) : (
-          <p className="font-bold">Paid Hint Cost: {question.hint_cost}</p>
+          <div className="flex mt-2 gap-1 items-center text-xl">
+            <p className="font-bold ">Paid Hint Cost:     {question.hint_cost} </p>
+            <IoMdKey className=" rotate-90" size={15}/>
+          </div>
         )}
+        <div className="flex justify-between items-center gap-5 mt-6">
         <button
           onClick={buyHint}
-          className="mt-4 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
-          disabled={keys < question.hint_cost}
+          className=" flex-1 px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600"
+          disabled={keys < question.hint_cost || question.paid_hint}
+          
         >
-          {keys >= question.hint_cost ? 'Buy Hint' : 'Not Enough Keys'}
+          {question.paid_hint? "No more hints" : keys >= question.hint_cost ? 'Buy Hint' : 'Not Enough Keys'}
         </button>
     
         <button
-          onClick={closeModal}
-          className="mt-6 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+          onClick={closeHintModal}
+          className=" flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
         >
           Close
         </button>
+        </div>
       </CustomModal>
+
+      {/* Modal for Contact */}
+      <CustomModal isOpen={isContactModalOpen} onClose={closeContactModal}>
+        <h2 className="text-2xl font-semibold mb-4 text-black self-center">Contacts</h2>
+       
+        <p className="text-lg">B Shrinidhi : 7506211747</p>
+        <p className="text-lg"> Samir Wankhede : 7770011526</p>
+        <div className="flex justify-between items-center gap-5 mt-6">
+         
+        <button
+          onClick={closeContactModal}
+          className=" flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+        >
+          Close
+        </button>
+        </div>
+      </CustomModal>
+
+      {/* Modal for Info */}
+      <CustomModal isOpen={isInfoModalOpen} onClose={closeInfoModal}>
+        <h2 className="text-2xl font-semibold mb-4 text-black self-center">How to Hunt</h2>
+       
+        <p className="text-lg">1. Images provide the clues to victory.</p>
+        <p className="text-lg">2. Enter your answer in the URL and you shall proceed!</p>
+        <p className="text-lg">3. Happy Hunting!</p>
+        <div className="flex justify-between items-center gap-5 mt-6">
+         
+        <button
+          onClick={closeInfoModal}
+          className=" flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+        >
+          Close
+        </button>
+        </div>
+      </CustomModal>
+
+      
     </div>
     </div>
   );
