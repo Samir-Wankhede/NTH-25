@@ -245,7 +245,8 @@ const QuestionPage = ({params})=>{
               <img
                 src={question.img1}
                 alt="Image 1"
-                className="w-full h-full object-fit rounded-lg shadow-lg"
+                className="w-full h-full  rounded-lg shadow-lg aspect-video"
+                
               />
             </div>
           )}
@@ -254,7 +255,7 @@ const QuestionPage = ({params})=>{
               <img
                 src={question.img2}
                 alt="Image 2"
-                className="w-full h-full object-fit rounded-lg shadow-lg"
+                className="w-full h-full  rounded-lg shadow-lg aspect-video"
               />
             </div>
           )}
@@ -263,7 +264,7 @@ const QuestionPage = ({params})=>{
               <img
                 src={question.img3}
                 alt="Image 3"
-                className="w-full h-full object-fit rounded-lg shadow-lg"
+                className="w-full h-full object-fit rounded-lg shadow-lg aspect-video"
               />
             </div>
           )}
@@ -272,7 +273,7 @@ const QuestionPage = ({params})=>{
               <img
                 src={question.img4}
                 alt="Image 4"
-                className="w-full h-full object-fit rounded-lg shadow-lg"
+                className="w-full h-full object-fit rounded-lg shadow-lg aspect-video"
               />
             </div>
           )}
