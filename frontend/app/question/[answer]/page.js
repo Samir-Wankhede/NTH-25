@@ -128,9 +128,13 @@ const QuestionPage = ({params})=>{
           console.log('replacing')
           window.history.replaceState(null, '', '/question/put_your_answer_here');
       
-        } else {
+        } else if(err.response.status==429) {
           console.log(err)
-          toast.error("An unexpected error occurred");
+          toast.error(err.response.data);
+        }
+        else{
+          console.log(err)
+          toast.error("Unexpected error occurred");
         }
       }
     };

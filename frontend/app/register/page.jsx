@@ -3,6 +3,7 @@ import { useAuth } from "@/context/AuthProvider";
 import API from "@/utils/api"
 import { useRouter } from "next/navigation";
 import { useState } from "react"
+import { toast } from "react-toastify";
 
 export default function RegisterPage(){
     const [username, setUsername] = useState('');
@@ -57,8 +58,16 @@ export default function RegisterPage(){
             const res = await API.post('/auth/register', { username, password, phone, email });
             login(res.data.user);
         } catch (err) {
-            setError(err.response?.data?.error || 'Register failed');
+
+            if (err.response.status==429){
+              toast.error(err.response.data)
+              setLoading(false)
+            }
+            else{
+              setError(err.response?.data?.error || 'Register failed');
             setLoading(false)
+            }
+            
         }
     };
 
