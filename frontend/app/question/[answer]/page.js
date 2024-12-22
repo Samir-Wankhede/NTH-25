@@ -8,10 +8,10 @@ import { toast } from "react-toastify";
 import CustomModal from "@/components/CustomModal";
 import {FaQuestionCircle, FaPhoneAlt} from 'react-icons/fa'
 import { IoMdKey } from "react-icons/io";
-
+import { Button } from 'pixel-retroui';
 import { FaLightbulb } from "react-icons/fa";
-
 import { useAuth } from "@/context/AuthProvider";
+import { Card } from 'pixel-retroui';
 
 const QuestionPage = ({params})=>{
     const [question, setQuestion] = useState(null)
@@ -330,21 +330,17 @@ const QuestionPage = ({params})=>{
         )}
         <div className="flex justify-between items-center gap-5 mt-6">
           {!question.paid_hint &&
-        <button
+        <Button
+          
           onClick={buyHint}
-          className=" flex-1 px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600"
+          className="text-sm flex-1 px-4 py-2 bg-gray-500 text-white rounded-lg disabled:hover:bg-gray-500 hover:bg-gray-600"
           disabled={keys < question.hint_cost}
           
         >
-          {keys >= question.hint_cost ? 'Buy Hint' : 'Not Enough Keys'}
-        </button>}
+          {keys >= question.hint_cost ? 'Buy Hint' : 'Not enough keys'}
+        </Button>}
     
-        <button
-          onClick={closeHintModal}
-          className=" flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
-        >
-          Close
-        </button>
+      
         </div>
       </CustomModal>
 
@@ -356,12 +352,6 @@ const QuestionPage = ({params})=>{
         <p className="text-lg"> Samir Wankhede : 7770011526</p>
         <div className="flex justify-between items-center gap-5 mt-6">
          
-        <button
-          onClick={closeContactModal}
-          className=" flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
-        >
-          Close
-        </button>
         </div>
       </CustomModal>
 
@@ -373,13 +363,6 @@ const QuestionPage = ({params})=>{
         <p className="text-lg">2. Enter your answer in the URL and you shall proceed!</p>
         <p className="text-lg">3. Happy Hunting!</p>
         <div className="flex justify-between items-center gap-5 mt-6">
-         
-        <button
-          onClick={closeInfoModal}
-          className=" flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
-        >
-          Close
-        </button>
         </div>
       </CustomModal>
 

@@ -2,6 +2,7 @@
 import { useAuth } from "@/context/AuthProvider";
 import API from "@/utils/api"
 import { useRouter } from "next/navigation";
+import { Button } from "pixel-retroui";
 import { useState } from "react"
 import { toast } from "react-toastify";
 
@@ -128,13 +129,13 @@ export default function RegisterPage(){
               className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-700 text-black text-lg"
             />
           </div>
-          <button
+          <Button
             type="submit"
             disabled={loading}
-            className={`w-full py-3 text-white rounded-md text-lg focus:outline-none ${loading ? 'bg-gray-600' : 'bg-gray-700 hover:bg-gray-800'}`}
+            className={`w-[95%] py-3 text-white rounded-md text-lg focus:outline-none ${loading ? 'bg-gray-600' : 'bg-gray-700 hover:bg-gray-800'}`}
           >
             {loading ? 'Registering...' : 'Register'}
-          </button>
+          </Button>
         </form>
         
         {error && <p className="mt-4 text-red-900 text-center">{error}</p>}
