@@ -1,5 +1,6 @@
 'use client';
 
+import { Button } from "pixel-retroui";
 import { useEffect, useState } from "react";
 
 const About = () => {
@@ -67,20 +68,24 @@ const About = () => {
                     <img src='next.png' className="md:w-auto md:h-auto h-4" />
                 </div>
                 <div className="flex gap-3 z-10">
-                    <button
-                        className="text-black text-xl py-2 px-4 border-black border-2 rounded-lg bg-white font-bold"
+                    <Button
+                        bg="white"
+                        borderColor="black"
+                        className="py-2 px-4 font-bold"
                         onClick={handlePrev}
                         disabled={step === 0}
                     >
                         B
-                    </button>
-                    <button
-                        className="text-black text-xl py-2 px-4 border-black border-2 rounded-lg bg-white font-bold"
+                    </Button>
+                    <Button
+                        bg="white"
+                        borderColor="black"
+                        className="py-2 px-4 font-bold"
                         onClick={handleNext}
                         disabled={step === dialogues.length - 1}
                     >
                         A
-                    </button>
+                    </Button>
                 </div>
             </div>
             <div className="mx-12 px-8 py-2">

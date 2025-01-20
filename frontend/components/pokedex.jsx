@@ -63,7 +63,7 @@ export default function Pokedex() {
 
 
     return (
-      <div className="h-[100vh] top-[-10%] w-[40%] flex flex-col gap-8 items-center justify-center relative scale-75 md:scale-105 [@media(max-height:790px)]:scale-90 [@media(max-height:800px)]:scale-75 [@media(max-height:620px)]:scale-50 md:[@media(min-height:960px)]:translate-y-[10%] left-1/2 -translate-x-1/2">
+      <div className="h-fit w-[40%] flex flex-col items-center justify-center relative scale-75 md:scale-105 [@media(max-height:790px)]:scale-90 [@media(max-height:801px)]:scale-75 [@media(max-height:620px)]:scale-50">
         <div className="relative aspect-[450/700] rounded-[40px] border-black border-2 bg-red-700 p-4 shadow-2xl">
           {/* Black border effect */}
           <div className="absolute inset-0 -z-[1] rounded-[40px] bg-red-900 -translate-x-2 translate-y-2 border-2 border-black" />

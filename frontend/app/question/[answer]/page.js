@@ -175,7 +175,7 @@ const QuestionPage = ({params})=>{
         } catch (err) {
           if (err.response?.status==403) {
             toast.info(err.response?.data?.error || "Error fetching current question");
-            router.push('/home')
+            router.push('/')
           } else if (err.request) {
             toast.error("Network error. Please try again");
           } else{

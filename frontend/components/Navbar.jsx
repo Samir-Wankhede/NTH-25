@@ -42,7 +42,7 @@ const Navbar = () => {
   );
 
   return (
-    <nav className="bg-gray-800 text-white py-4">
+    <nav className="bg-gray-800 text-white h-full flex flex-col justify-center">
       <div className="container mx-auto flex items-center justify-between px-4">
         {/* Logo */}
         <Link href="/">

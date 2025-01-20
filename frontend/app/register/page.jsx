@@ -73,18 +73,22 @@ export default function RegisterPage(){
     };
 
     return (
-        <div className="h-[100%] flex items-center justify-center bg-black p-4">
-          
+        <div className="h-[100%] flex items-center justify-center p-4 relative">
+          <img
+            src={`night-pokemon-bg.jpg`}
+            alt="Background"
+            className="absolute w-full h-full -z-10 bottom-0 object-cover xl:object-fill opacity-75"
+          />
           <div className="">
               <img
                 src={`/bulba_reg.gif`}
                 alt="Background"
-                className="absolute right-[8%] bottom-[15%] object-cover xl:object-fill z-5 sm:block sm:w-auto sm:h-auto  sm:scale-[2] scale-[1] hidden"
+                className="absolute right-[8%] bottom-0 -translate-y-[60%] object-cover xl:object-fill z-5 sm:block sm:w-auto sm:h-auto  sm:scale-[2] scale-[1] hidden"
               />
               <img
                 src={`/char_reg.gif`}
                 alt="Background"
-                className="absolute left-[8%] bottom-[15%] object-cover xl:object-fill z-5 sm:block sm:w-auto sm:h-auto  sm:scale-[2] scale-[1] hidden"
+                className="absolute left-[8%] bottom-0 -translate-y-[60%] object-cover xl:object-fill z-5 sm:block sm:w-auto sm:h-auto  sm:scale-[2] scale-[1] hidden"
               />
           </div>
 
