@@ -2,7 +2,7 @@
 import { useAuth } from "@/context/AuthProvider";
 import API from "@/utils/api"
 import { useRouter } from "next/navigation";
-import { Button } from "pixel-retroui";
+import { Button, Card } from "pixel-retroui";
 import { useState } from "react"
 import { toast } from "react-toastify";
 
@@ -83,16 +83,21 @@ export default function RegisterPage(){
               <img
                 src={`/pokemons/p12.gif`}
                 alt="Background"
-                className="absolute right-[8%] bottom-0 -translate-y-[60%] object-cover xl:object-fill z-5 sm:block sm:w-auto sm:h-auto  sm:scale-[2] scale-[1] hidden"
+                className="absolute right-[8%] bottom-0 sm:-translate-y-[60%] -translate-y-[25%] object-cover xl:object-fill z-[5] sm:w-auto sm:h-auto  sm:scale-[2] scale-[1.5]"
               />
               <img
                 src={`/pokemons/p13.gif`}
                 alt="Background"
-                className="absolute left-[8%] bottom-0 -translate-y-[60%] object-cover xl:object-fill z-5 sm:block sm:w-auto sm:h-auto  sm:scale-[2] scale-[1] hidden"
+                className="absolute left-[8%] bottom-0 sm:-translate-y-[60%] -translate-y-[25%] object-cover xl:object-fill z-[5] sm:w-auto sm:h-auto  sm:scale-[2] scale-[1.5]"
               />
           </div>
 
-         <div className="bg-gray-500 p-10 pixel-corners w-[28vw]">
+        <Card 
+          bg="#111827"
+          borderColor="#4b5563"
+          shadowColor="#4b5563"
+          className="py-4 px-8 min-w-[350px] w-[50vw] xl:w-[30vw]"
+        >
         <h1 className="text-4xl font-bold text-center text-gray-200 mb-6">Register</h1>
         
         <form onSubmit={handleSubmit}>
@@ -144,7 +149,7 @@ export default function RegisterPage(){
         
         {error && <p className="mt-4 text-red-900 text-center">{error}</p>}
 
-        <p className="mt-4 text-center">
+        <p className="mt-4 text-center text-gray-400">
           Already registered?{' '}
           <button
             onClick={() => router.push('/login')}
@@ -153,7 +158,7 @@ export default function RegisterPage(){
             Login here
           </button>
         </p>
-      </div>
+      </Card>
       </div> 
     
     )

@@ -4,15 +4,13 @@ import API from "@/utils/api"
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react"
 import { useSearchParams } from "next/navigation";
-import { Button } from "pixel-retroui";
+import { Button, Card } from "pixel-retroui";
 import { toast } from "react-toastify";
 
 export default function LoginPage(){
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
-
-    const [error, setError] = useState('')
     const {login} = useAuth();
     const router = useRouter();
 
@@ -28,38 +26,47 @@ export default function LoginPage(){
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true)
+        if(!username || !password){
+          setLoading(false);
+          toast.error("Please fill all the fields");
+          return;
+        }
         try {
             const res = await API.post('/auth/login', { username, password });
             login(res.data.user);
             router.push('/')
         } catch (err) {
-            console.log(err)
-            setError(err.response?.data?.error || 'Login failed');
+            toast.error(err.response?.data?.error || 'Login failed');
         }finally{
             setLoading(false)
         }
     };
 
     return (
-        <div className="h-[100%] flex items-center justify-center p-4 relative">
-          <img
-            src={`night-pokemon-bg.webp`}
-            alt="Background"
-            className="absolute w-full h-full -z-10 bottom-0 object-cover xl:object-fill opacity-75"
-          />
-          <div className="">
-              <img
-                src={`/bulba_reg.gif`}
-                alt="Background"
-                className="absolute right-[8%] bottom-0 -translate-y-[60%] object-cover xl:object-fill z-5 sm:block sm:w-auto sm:h-auto  sm:scale-[2] scale-[1] hidden"
-              />
-              <img
-                src={`/char_reg.gif`}
-                alt="Background"
-                className="absolute left-[8%] bottom-0 -translate-y-[60%] object-cover xl:object-fill z-5 sm:block sm:w-auto sm:h-auto  sm:scale-[2] scale-[1] hidden"
-              />
-          </div>
-        <div className="bg-gray-500 pixel-corners p-8 rounded-lg shadow-lg w-full sm:w-96">
+      <div className="h-[100%] flex items-center justify-center p-4 relative">
+        <img
+          src={`night-pokemon-bg.webp`}
+          alt="Background"
+          className="absolute w-full h-full -z-10 bottom-0 object-cover xl:object-fill opacity-75"
+        />
+        <div className="">
+            <img
+              src={`/pokemons/p12.gif`}
+              alt="Background"
+              className="absolute right-[8%] bottom-0 sm:-translate-y-[60%] -translate-y-[25%] object-cover xl:object-fill z-[5] sm:w-auto sm:h-auto  sm:scale-[2] scale-[1.5]"
+            />
+            <img
+              src={`/pokemons/p13.gif`}
+              alt="Background"
+              className="absolute left-[8%] bottom-0 sm:-translate-y-[60%] -translate-y-[25%] object-cover xl:object-fill z-[5] sm:w-auto sm:h-auto  sm:scale-[2] scale-[1.5]"
+            />
+        </div>
+        <Card 
+          bg="#111827"
+          borderColor="#4b5563"
+          shadowColor="#4b5563"
+          className="py-4 px-8 min-w-[350px] w-[50vw] xl:w-[30vw]"
+        >
           <h1 className="text-4xl font-bold text-center text-gray-200 mb-6">Login</h1>
   
           <form onSubmit={handleSubmit}>
@@ -89,10 +96,7 @@ export default function LoginPage(){
               {loading ? 'Logging in...' : 'Login'}
             </Button>
           </form>
-  
-          {error && <p className="mt-4 text-red-900 text-center text-lg">{error}</p>}
-  
-          <p className="mt-4 text-center">
+          <p className="mt-4 text-center text-gray-400">
             Not a user yet?{' '}
             <button
               onClick={() => router.push('/register')}
@@ -101,7 +105,7 @@ export default function LoginPage(){
               Register here
             </button>
           </p>
-        </div>
+        </Card>
       </div>
     );
 }

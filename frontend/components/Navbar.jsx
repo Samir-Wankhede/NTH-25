@@ -61,7 +61,7 @@ const Navbar = () => {
         </div>
 
         {/* Desktop Menu */}
-        <div className="hidden text-nowrap md:flex text-2xl items-center gap-12">
+        <div className="hidden text-nowrap md:flex lg:text-2xl text-lg items-center lg:gap-12 gap-6">
           {navItems}
         </div>
 

@@ -11,7 +11,6 @@ import { IoMdKey } from "react-icons/io";
 import { Button } from 'pixel-retroui';
 import { FaLightbulb } from "react-icons/fa";
 import { useAuth } from "@/context/AuthProvider";
-import { Card } from 'pixel-retroui';
 
 const QuestionPage = ({params})=>{
     const [question, setQuestion] = useState(null)
