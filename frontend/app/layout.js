@@ -33,15 +33,11 @@ export default function RootLayout({ children }) {
   <body className="h-screen flex flex-col bg-black overflow-hidden">
     <ToastContainer position="top-right" autoClose={2000} hideProgressBar={false} />
     <AuthProvider>
-      <div className="h-[8vh]">
-        <Navbar />
-      </div>
-      <div className="h-[84vh] overflow-y-scroll">
+      <Navbar />
+      <div className="h-full my-16 relative overflow-y-scroll">
         {children}
       </div>
-      <div className="h-[8vh]">
-        <Footer />
-      </div>
+      <Footer />
     </AuthProvider>
   </body>
 </html>

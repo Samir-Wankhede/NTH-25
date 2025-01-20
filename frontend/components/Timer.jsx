@@ -79,7 +79,7 @@ const Timer = () => {
           alt="NTH Logo"
           className="w-[35vh] h-[35vh] mx-auto"
         />
-        <h1 className="md:text-6xl text-5xl font-bold mt-4 text-shadow">Network Treasure Hunt</h1>
+        <h1 className="md:text-6xl text-4xl font-bold mt-4 text-shadow">Network Treasure Hunt</h1>
       </div>
 
       { loading ? (<Loader/>) :
