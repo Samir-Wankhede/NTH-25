@@ -1,27 +1,27 @@
 "use client";
 
 import Link from "next/link";
-import { FaInstagram, FaLinkedin, FaPhone } from 'react-icons/fa';  // Importing necessary icons
+import { usePathname } from "next/navigation";
 
 
 const Footer = () => {
+  const pathname = usePathname();
   return (
     <footer className="bg-gray-900 text-white h-full flex flex-col justify-center">
-      <div className="container mx-auto flex flex-col md:flex-row items-center justify-between px-4">
+      <div className="container mx-auto flex flex-row items-end justify-between px-4 gap-1">
         <div className="text-center  md:mb-0">
-          <h3 className="text-lg font-semibold">PICT IEEE Student Branch</h3>
+          <h3 className="text-lg font-semibold md:block hidden">PICT IEEE Student Branch</h3>
         </div>
 
-        <div className="flex space-x-8 text-center">
+        <div className="flex md:space-x-8 md:gap-0 gap-2 text-center">
           <div>
-            
             <Link href="/webteam">
-              <p className="text-blue-400 hover:underline font-semibold text-xl">Web Team</p>
+              <p className={`nav-link nav-link-ltr font-semibold text-sm md:text-xl ${pathname === "/webteam" ? "border-b-2" : ""}`}>Web Team</p>
             </Link>
           </div>
           <div>
             <Link href="/setters">
-              <p className="text-blue-400 hover:underline font-semibold text-xl">Question Setters</p>
+              <p className={`nav-link nav-link-ltr font-semibold text-sm md:text-xl ${pathname === "/setters" ? "border-b-2" : ""}`}>Question Setters</p>
             </Link>
           </div>
         </div>
@@ -33,7 +33,7 @@ const Footer = () => {
                 rel="noopener noreferrer"
                 className="text-blue-500 hover:text-blue-700"
               >
-                <FaInstagram size={24} />
+                <img src="/icons/instagram.png" className="h-6 w-6" />
               </a>
               <a
                 href={"https://www.linkedin.com/company/pisbieee/"}
@@ -41,7 +41,7 @@ const Footer = () => {
                 rel="noopener noreferrer"
                 className="text-blue-700 hover:text-blue-900"
               >
-                <FaLinkedin size={24} />
+                <img src="/icons/linkedin.png" className="h-6 w-6" />
               </a>
              
             

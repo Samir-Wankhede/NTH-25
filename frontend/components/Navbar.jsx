@@ -1,10 +1,10 @@
 "use client";
-
+import "./NavLink.css";
 import { useAuth } from "@/context/AuthProvider";
 import Link from "next/link";
 import { usePathname} from "next/navigation";
 import { useState } from "react";
-import { GiHamburgerMenu } from "react-icons/gi";
+import { GiAxeSword, GiHamburgerMenu } from "react-icons/gi";
 usePathname
 
 
@@ -18,23 +18,23 @@ const Navbar = () => {
   const navItems = (
     <>
     <Link href="/">
-      <p className={`hover:text-blue-400 ${pathname === "/" ? "border-b-2" : ""}`}>Home</p>
+      <p className={`max-w-32 mx-auto nav-link nav-link-ltr ${pathname === "/" ? "border-b-2" : ""}`}>Home</p>
     </Link>
     <Link href="/leaderboard">
-      <p className={`hover:text-blue-400 ${pathname === "/leaderboard" ? "border-b-2" : ""}`}>Leader Board</p>
+      <p className={`max-w-32 mx-auto nav-link nav-link-ltr ${pathname === "/leaderboard" ? "border-b-2" : ""}`}>Leader Board</p>
     </Link>
     <Link href="/question/put_your_answer_here">
-      <p className={`hover:text-blue-400 ${pathname === "/question/put_your_answer_here" ? "border-b-2" : ""}`}>Hunt</p>
+      <p className={`max-w-32 mx-auto nav-link nav-link-ltr ${pathname === "/question/put_your_answer_here" ? "border-b-2" : ""}`}>Hunt</p>
     </Link>
     <Link href="/about">
-      <p className={`hover:text-blue-400 ${pathname === "/about" ? "border-b-2" : ""}`}>About Us</p>
+      <p className={`max-w-32 mx-auto nav-link nav-link-ltr ${pathname === "/about" ? "border-b-2" : ""}`}>About Us</p>
     </Link>
     {!user ? (
       <Link href="/register">
-        <p className={`hover:text-blue-400 ${pathname === "/register" ? "border-b-2" : ""}`}>Register</p>
+        <p className={`max-w-32 mx-auto nav-link nav-link-ltr ${pathname === "/register" ? "border-b-2" : ""}`}>Register</p>
       </Link>
     ) : (
-      <button onClick={logout} className="hover:text-blue-400">
+      <button onClick={logout} className="max-w-32 mx-auto nav-link nav-link-ltr">
         Logout
       </button>
     )}
@@ -43,27 +43,28 @@ const Navbar = () => {
 
   return (
     <nav className="bg-gray-800 text-white h-full flex flex-col justify-center">
-      <div className="container mx-auto flex items-center justify-between px-4">
+      <div className="w-full flex items-center justify-between px-8">
         {/* Logo */}
-        <Link href="/">
-          <p className="text-2xl font-bold">NTH</p>
+        <Link href="/" className="flex gap-1 items-end">
+          <img src="/nth-logo.png" className="md:h-16 h-10" />
+          <p className="md:text-5xl text-3xl font-bold">NTH</p>
         </Link>
 
         {/* Hamburger Icon */}
         <div className="md:hidden">
           <button onClick={toggleMenu} className="text-white">
-            <GiHamburgerMenu />
+            {isOpen ? <GiAxeSword/>:<GiHamburgerMenu />}
           </button>
         </div>
 
         {/* Desktop Menu */}
-        <div className="hidden md:flex items-center space-x-6">
+        <div className="hidden text-nowrap md:flex text-2xl items-center gap-12">
           {navItems}
         </div>
 
         {/* Mobile Menu */}
         {isOpen && (
-          <div className="md:hidden absolute top-14 right-0 w-48 bg-gray-800 p-6 rounded-lg z-20 text-lg">
+          <div onClick={toggleMenu} className="md:hidden absolute text-xl top-14 right-0 w-full text-center bg-gray-800 p-6 rounded-lg z-20">
             {navItems}
           </div>
         )}

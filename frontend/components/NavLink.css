@@ -1,0 +1,39 @@
+.nav-link {
+    text-transform: uppercase;
+    text-decoration: none;
+    position: relative;
+    opacity: 1;
+}
+
+.nav-link:hover {
+    opacity: 0.75;
+}
+  
+.nav-link::before {
+    transition: 300ms;
+    height: 2px;
+    content: "";
+    position: absolute;
+    background-color: white;
+}
+
+.nav-link-ltr::before {
+    width: 0%;
+    bottom: -2px;
+}
+
+.nav-link-ltr:hover::before {
+    width: 100%;
+}
+
+@media (max-width: 780px) {
+    .nav-link::before{
+        opacity: 0;
+    }
+    .nav-link-ltr::before{
+        opacity: 0;
+    }
+    .nav-link-ltr:hover::before{
+        opacity: 0;
+    }
+}

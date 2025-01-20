@@ -81,12 +81,12 @@ export default function RegisterPage(){
           />
           <div className="">
               <img
-                src={`/bulba_reg.gif`}
+                src={`/pokemons/p12.gif`}
                 alt="Background"
                 className="absolute right-[8%] bottom-0 -translate-y-[60%] object-cover xl:object-fill z-5 sm:block sm:w-auto sm:h-auto  sm:scale-[2] scale-[1] hidden"
               />
               <img
-                src={`/char_reg.gif`}
+                src={`/pokemons/p13.gif`}
                 alt="Background"
                 className="absolute left-[8%] bottom-0 -translate-y-[60%] object-cover xl:object-fill z-5 sm:block sm:w-auto sm:h-auto  sm:scale-[2] scale-[1] hidden"
               />
