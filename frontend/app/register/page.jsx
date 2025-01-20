@@ -11,7 +11,6 @@ export default function RegisterPage(){
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('')
-    const [error, setError] = useState('')
     const [loading, setLoading] = useState(false);
 
     const {login} = useAuth();
@@ -19,34 +18,32 @@ export default function RegisterPage(){
 
     const validateForm = () => {
         if (!username || !email || !phone || !password) {
-            setError('All fields are required.');
+            toast.error('All fields are required.');
             return false;
         }
 
         const usernameRegex = /^[a-zA-Z0-9]{1,10}$/;
         if (!usernameRegex.test(username)) {
-            setError('Username should be alphanumeric and up to 10 characters long.');
+          toast.error('Username should be alphanumeric and up to 10 characters long.');
             return false;
         }
 
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         if (!emailRegex.test(email)) {
-            setError('Please enter a valid email address.');
+          toast.error('Please enter a valid email address.');
             return false;
         }
 
         const phoneRegex = /^[0-9]{10}$/;
         if (!phoneRegex.test(phone)) {
-            setError('Phone number must be 10 digits.');
+          toast.error('Phone number must be 10 digits.');
             return false;
         }
 
         if (password.length < 6) {
-            setError('Password must be at least 6 characters.');
+          toast.error('Password must be at least 6 characters.');
             return false;
         }
-
-        setError('');
         return true;
     };
 
@@ -65,8 +62,8 @@ export default function RegisterPage(){
               setLoading(false)
             }
             else{
-              setError(err.response?.data?.error || 'Register failed');
-            setLoading(false)
+              toast.error(err.response?.data?.error || 'Register failed');
+              setLoading(false)
             }
             
         }
@@ -146,9 +143,6 @@ export default function RegisterPage(){
             {loading ? 'Registering...' : 'Register'}
           </Button>
         </form>
-        
-        {error && <p className="mt-4 text-red-900 text-center">{error}</p>}
-
         <p className="mt-4 text-center text-gray-400">
           Already registered?{' '}
           <button

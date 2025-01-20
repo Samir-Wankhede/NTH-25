@@ -67,7 +67,7 @@ const Navbar = () => {
 
         {/* Mobile Menu */}
         {isOpen && (
-          <div onClick={toggleMenu} className="md:hidden absolute text-xl top-14 right-0 w-full text-center bg-gray-800 p-6 rounded-lg z-20">
+          <div onClick={toggleMenu} className="md:hidden absolute text-xl top-14 right-0 w-full text-center bg-gray-800 p-6 rounded-lg z-50">
             {navItems}
           </div>
         )}
