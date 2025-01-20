@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <div className="w-screen h-full overflow-hidden relative">
       <img
-        src={`main-bg.jpg`}
+        src={`main-bg.webp`}
         alt="Background"
         className="absolute w-full h-full inset-0 object-cover xl:object-fill opacity-75 z-0"
       />

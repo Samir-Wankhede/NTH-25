@@ -116,7 +116,7 @@ const Instruction = () => {
         <img src="instruction.png" className=" absolute z-10 h-[90%] w-[80%]" />
         <div className="h-[80%] w-[70%] z-20 flex flex-col gap-4">
             <h1 className="text-3xl md:text-6xl text-blue-400 mx-auto">INSTRUCTIONS</h1>
-            <ol className="list-decimal pl-10 md:text-3xl text-black space-y-1 md:space-y-4 mx-auto overflow-y-scroll [&::-webkit-scrollbar]:w-2
+            <ol className="list-decimal pl-10 text-xl md:text-3xl text-black space-y-1 md:space-y-4 mx-auto overflow-y-scroll [&::-webkit-scrollbar]:w-2
                 [&::-webkit-scrollbar-track]:rounded-full
                 [&::-webkit-scrollbar-track]:bg-gray-100
                 [&::-webkit-scrollbar-thumb]:rounded-full
@@ -149,7 +149,7 @@ const Instruction = () => {
                 </li>
             </ol>
             <Link href={'/question/put_your_answer_here'}>
-                <div className=" mx-auto w-fit px-4 py-2 pixel-corners rounded-xl text-black text-2xl bg-white flex justify-center items-center">
+                <div className=" mx-auto md:my-4 w-fit px-4 py-2 pixel-corners rounded-xl text-black text-2xl bg-white flex justify-center items-center">
                     Start Hunting
                 </div>
             </Link>

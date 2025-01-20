@@ -29,6 +29,9 @@ const Navbar = () => {
     <Link href="/about">
       <p className={`max-w-32 mx-auto nav-link nav-link-ltr ${pathname === "/about" ? "border-b-2" : ""}`}>About Us</p>
     </Link>
+    <Link href="/webteam">
+      <p className={`max-w-32 mx-auto nav-link nav-link-ltr ${pathname === "/webteam" ? "border-b-2" : ""}`}>Contact Us</p>
+    </Link>
     {!user ? (
       <Link href="/register">
         <p className={`max-w-32 mx-auto nav-link nav-link-ltr ${pathname === "/register" ? "border-b-2" : ""}`}>Register</p>

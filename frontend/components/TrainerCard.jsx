@@ -3,10 +3,10 @@ import { FaInstagram, FaLinkedin, FaPhone } from 'react-icons/fa';
 
 
 const TrainerCard = ({ trainer }) => {
-    const { name, id, pokedex, time, badges, avatar, instagram, linkedin, phone } = trainer;
+    const { name, id, pokedex, time, badges, avatar, instagram, linkedin, phone, github } = trainer;
   
     return (
-      <div className="bg-[repeating-linear-gradient(to_bottom,_#fcf197,_#fcf197_3px,_#fcf197_3px,_white_9px)] border-4 border-gray-400  rounded-lg max-w-sm mx-auto relative py-4  shadow-md w-[80%] sm:w-full">
+      <div className="bg-[repeating-linear-gradient(to_bottom,_#fcf197,_#fcf197_3px,_#fcf197_3px,_white_9px)] border-4 border-gray-400  rounded-lg max-w-md mx-auto relative py-4  shadow-md w-full">
         {/* Header */}
         <div className=" flex justify-between items-center px-5 bg-[#e3c427] opacity-65 h-12 w-full z">
         
@@ -22,31 +22,35 @@ const TrainerCard = ({ trainer }) => {
           <div className="ml-4 w-full">
             <p className="font-bold text-lg md:text-2xl text-gray-700"> <span className="w-2 h-4 bg-yellow-400 border-yellow-500 border-2 mr-2 inline-block"></span>NAME: {name}</p>
             <hr className="border-t-2 w-[80%] border-gray-600 mb-2"></hr>
-            <p className="text-gray-700 text-sm md:text-xl"><span className="w-2 h-4 bg-yellow-400 border-yellow-500 border-2 mr-2 inline-block"></span>ROLE: Developer</p>
+            <p className="text-gray-700 text-sm md:text-xl"><span className="w-2 h-4 bg-yellow-400 border-yellow-500 border-2 mr-2 inline-block"></span>Role: Developer</p>
             <p className="text-gray-700 text-sm md:text-xl"><span className="w-2 h-4 bg-yellow-400 border-yellow-500 border-2 mr-2 inline-block"></span>Pokédex: {pokedex}</p>
-            <div className="flex flex-wrap gap-2 items-center">
-            <p className="text-gray-700 md:text-xl text-sm"><span className="w-2 h-4 bg-yellow-400 border-yellow-500 border-2 mr-2 inline-block"></span>CONTACT: </p>
+            { phone && 
+              <div className="flex flex-wrap gap-2 items-center">
+                <p className="text-gray-700 md:text-xl text-sm"><span className="w-2 h-4 bg-yellow-400 border-yellow-500 border-2 mr-2 inline-block"></span>Contact: </p>
+                <p className="text-gray-700 text-sm md:text-xl">{phone}</p>
+              </div>
+            }
+            <div className='flex flex-wrap gap-2 items-center'>
+            <p className="text-gray-700 md:text-xl text-sm"><span className="w-2 h-4 bg-yellow-400 border-yellow-500 border-2 mr-2 inline-block"></span>Social: </p>
               <a
                 href={instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-400 hover:text-blue-500"
               >
-                <FaInstagram size={20} />
+                <img src="/icons/instagram.png" className="h-6 w-6" />
               </a>
               <a
                 href={linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-400 hover:text-blue-500"
               >
-                <FaLinkedin size={20} />
+                <img src="/icons/linkedin.png" className="h-6 w-6" />
               </a>
               <a
-                href={`tel:${phone}`}
-                className="text-green-400 hover:text-green-500"
+                href={github}
+                target="_blank"
               >
-                <FaPhone size={20} />
+                <img src="/icons/github.png" className="h-6 w-6" />
               </a>
             </div>
           </div>

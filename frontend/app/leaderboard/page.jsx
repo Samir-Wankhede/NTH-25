@@ -3,7 +3,7 @@ const page = () => {
   return (
     <div className="w-screen h-full relative overflow-hidden">
       <img
-          src={`night-pokemon-bg.jpg`}
+          src={`night-pokemon-bg.webp`}
           alt="Background"
           className="absolute w-full h-full -z-10 bottom-0 object-cover xl:object-fill"
       />

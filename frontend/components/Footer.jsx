@@ -31,7 +31,6 @@ const Footer = () => {
                 href={"https://www.instagram.com/pictieee/"}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-500 hover:text-blue-700"
               >
                 <img src="/icons/instagram.png" className="h-6 w-6" />
               </a>
@@ -39,7 +38,6 @@ const Footer = () => {
                 href={"https://www.linkedin.com/company/pisbieee/"}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-700 hover:text-blue-900"
               >
                 <img src="/icons/linkedin.png" className="h-6 w-6" />
               </a>

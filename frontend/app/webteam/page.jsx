@@ -1,13 +1,10 @@
-"use client";
-
 import TrainerCard from '@/components/TrainerCard';
-import { FaInstagram, FaLinkedin, FaPhone } from 'react-icons/fa';  
 
 const Webteam = () => {
 
     const trainers = [
         {
-            name: "B Shrinidhi",
+            name: "Samir Wankhede",
             id: "28030",
             pokedex: "224",
             time: "299:05",
@@ -21,6 +18,7 @@ const Webteam = () => {
             avatar: "https://i.postimg.cc/mrynJPNw/IMG-20240621-WA0013-2.jpg",
             linkedin: 'https://www.linkedin.com/in/b-shrinidhi/',
             instagram: 'https://www.instagram.com/_nidhi1214/',
+            github: 'https://github.com/shrinidhib',
             phone: 7506211747,
           },
           {
@@ -37,14 +35,20 @@ const Webteam = () => {
             avatar: "https://i.postimg.cc/mrynJPNw/IMG-20240621-WA0013-2.jpg",
             linkedin: 'https://www.linkedin.com/in/b-shrinidhi/',
             instagram: 'https://www.instagram.com/_nidhi1214/',
+            github: 'https://github.com/shrinidhib',
             phone: 7506211747,
           }
     ]
    
   return (
-    <div className="p-8">
-      <h1 className="text-3xl font-bold text-center mb-8">Webteam</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div className="p-8 relative h-full w-screen overflow-hidden">
+      <img
+        src={`main-bg-night.webp`}
+        alt="Background"
+        className="absolute w-full h-full -z-10 bottom-0 left-0 object-cover xl:object-fill"
+      />
+      <h1 className="text-7xl font-bold text-center mb-8 text-shadow">Web Team</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 overflow-y-auto h-full md:h-fit pt-10 pb-20 md:pb-0 [&::-webkit-scrollbar]:w-0">
         {trainers.map((trainer, index) => (
           <TrainerCard key={index} trainer={trainer}/>
           

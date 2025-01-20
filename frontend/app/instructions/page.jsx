@@ -4,7 +4,7 @@ const page = () => {
   return (
     <div className="w-screen h-full flex flex-col justify-center items-center overflow-hidden relative">
       <img
-        src={`main-bg.jpg`}
+        src={`main-bg.webp`}
         alt="Background"
         className="absolute w-full h-full  bottom-0 object-cover xl:object-fill opacity-75 z-0"
       />

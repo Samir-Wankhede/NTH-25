@@ -43,7 +43,7 @@ export default function LoginPage(){
     return (
         <div className="h-[100%] flex items-center justify-center p-4 relative">
           <img
-            src={`night-pokemon-bg.jpg`}
+            src={`night-pokemon-bg.webp`}
             alt="Background"
             className="absolute w-full h-full -z-10 bottom-0 object-cover xl:object-fill opacity-75"
           />
