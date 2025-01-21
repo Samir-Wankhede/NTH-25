@@ -2,7 +2,7 @@
 import { useAuth } from "@/context/AuthProvider";
 import API from "@/utils/api"
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useSearchParams } from "next/navigation";
 import { Button, Card } from "pixel-retroui";
 import { toast } from "react-toastify";
@@ -13,15 +13,15 @@ export default function LoginPage(){
     const [loading, setLoading] = useState(false);
     const {login} = useAuth();
     const router = useRouter();
-
+    const toastShown = useRef(false);
     const searchParams = useSearchParams();
-    const unauthenticated = searchParams.get("unauthenticated");
-
-  useEffect(() => {
-    if (unauthenticated) {
-      toast.info("Please login first.");
-    }
-  }, [unauthenticated]);
+    const unauthenticated = JSON.parse(searchParams.get("unauthenticated"));
+    useEffect(() => {
+      if (unauthenticated && !toastShown.current) {
+        toast.info("Please login first.");
+        toastShown.current = true;
+      }
+    }, [unauthenticated]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();

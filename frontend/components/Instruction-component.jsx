@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { Button } from "pixel-retroui";
 import { useEffect, useState } from "react";
 
 const Instruction = () => {
@@ -149,9 +150,15 @@ const Instruction = () => {
                 </li>
             </ol>
             <Link href={'/question/put_your_answer_here'}>
-                <div className=" mx-auto md:my-4 w-fit px-4 py-2 pixel-corners rounded-xl text-black text-2xl bg-white flex justify-center items-center">
-                    Start Hunting
-                </div>
+              <div className="my-4 w-full flex justify-center">
+                <Button 
+                  bg="white"
+                  borderColor="black"
+                  className=" px-4 py-1"
+                >
+                  Start Hunting
+                </Button>
+              </div>
             </Link>
         </div>
     </div>

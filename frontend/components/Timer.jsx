@@ -4,6 +4,7 @@ import API from "@/utils/api";
 import { useState, useEffect } from "react";
 import Loader from "./Loader";
 import Link from "next/link";
+import { Button } from "pixel-retroui";
 
 const Timer = () => {
   const [eventStartTime, setEventStartTime ]= useState(null);
@@ -112,9 +113,13 @@ const Timer = () => {
         ))
       }
       <Link href={'/instructions'}>
-        <div className=" px-4 py-2 pixel-corners rounded-xl text-black text-2xl bg-white my-6 flex justify-center items-center">
+        <Button 
+          bg="white"
+          borderColor="black"
+          className=" px-4 py-1 my-4"
+        >
           Instructions
-        </div>
+        </Button>
       </Link>
     </div>
   );

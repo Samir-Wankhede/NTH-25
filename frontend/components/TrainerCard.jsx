@@ -1,7 +1,3 @@
-import './Pixelated-borders.css'
-import { FaInstagram, FaLinkedin, FaPhone } from 'react-icons/fa';  
-
-
 const TrainerCard = ({ trainer }) => {
     const { name, id, pokedex, time, badges, avatar, instagram, linkedin, phone, github } = trainer;
   

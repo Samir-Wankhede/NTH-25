@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import API from "@/utils/api"; 
 import { toast } from "react-toastify";
 import { GrCaretNext, GrCaretPrevious } from "react-icons/gr";
@@ -10,29 +10,33 @@ export default function Pokedex() {
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1); 
     const [usersPerPage] = useState(10); 
+    const isFirstRender = useRef(true);
 
     useEffect(() => {
-        const fetchLeaderboardData = async () => {
-          try {
-            const res = await API.get(`/leaderboard`); 
-            if (res.status === 200) {
-                
-              setLeaderboardData(res.data);
-            } else {
-              toast.error("Failed to fetch leaderboard data.");
-            }
-          } catch (error) {
-            console.error("Error fetching leaderboard:", error);
-            toast.error("An error occurred while fetching leaderboard data.");
-          } finally {
-            await new Promise(resolve => {
-                setTimeout(() => { resolve('') }, 1000);
-            })
-            setLoading(false);
+      const fetchLeaderboardData = async () => {
+        if (!isFirstRender.current) {
+          return;
+        }
+        isFirstRender.current = false;
+        try {
+          const res = await API.get(`/leaderboard`); 
+          if (res.status === 200) {
+            setLeaderboardData(res.data);
+          } else {
+            toast.error("Failed to fetch leaderboard data.");
           }
-        };
-    
-        fetchLeaderboardData();
+        } catch (error) {
+          console.error("Error fetching leaderboard:", error);
+          toast.error("An error occurred while fetching leaderboard data.");
+        } finally {
+          await new Promise(resolve => {
+              setTimeout(() => { resolve('') }, 1000);
+          })
+          setLoading(false);
+        }
+      };
+  
+      fetchLeaderboardData();
       }, []);
 
     const totalPages = Math.ceil(leaderboardData.length / usersPerPage);
@@ -51,10 +55,6 @@ export default function Pokedex() {
         if (currentPage < totalPages) {
         setCurrentPage(currentPage + 1);
         }
-    };
-
-    const handlePageClick = (page) => {
-        setCurrentPage(page);
     };
 
     if (loading) {
@@ -106,7 +106,7 @@ export default function Pokedex() {
   
             {/* Screen display */}
             <div className="rounded bg-gray-600 border-4 border-white/15">
-            <table className="w-full table-auto">
+            <table className="w-full min-h-[375px] table-auto">
                 <thead>
                     <tr className="border-b border-gray-500">
                     <th className="px-4 py-1 text-left text-xl">Rank</th>
@@ -117,7 +117,7 @@ export default function Pokedex() {
                 <tbody>
                     {currentUsers.length === 0 ? (
                     <tr>
-                        <td colSpan="3" className="text-center px-4 py-36">
+                        <td colSpan="3" className="text-center px-4">
                         No leaderboard data available.
                         </td>
                     </tr>

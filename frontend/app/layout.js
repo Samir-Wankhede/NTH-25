@@ -1,10 +1,9 @@
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthProvider";
 import 'react-toastify/dist/ReactToastify.css';  
-
-import { ToastContainer } from "react-toastify";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { ToastUtils } from "@/utils/ToastifyContainer";
 
 
 
@@ -31,7 +30,7 @@ export default function RootLayout({ children }) {
     <meta name="description" content="Network Treasure Hunt - Decrypt the Encrypted" />
   </head>
   <body className="h-screen flex flex-col flex-auto bg-black">
-    <ToastContainer position="top-right" autoClose={2000} hideProgressBar={false} />
+    <ToastUtils />
     <AuthProvider>
       <Navbar />
       <div className="h-full relative overflow-y-scroll">
