@@ -30,11 +30,11 @@ export default function RootLayout({ children }) {
     <meta name="twitter:card" content="/webpic.png" />
     <meta name="description" content="Network Treasure Hunt - Decrypt the Encrypted" />
   </head>
-  <body className="h-screen flex flex-col bg-black overflow-hidden">
+  <body className="h-screen flex flex-col flex-auto bg-black">
     <ToastContainer position="top-right" autoClose={2000} hideProgressBar={false} />
     <AuthProvider>
       <Navbar />
-      <div className="h-full my-16 relative overflow-y-scroll">
+      <div className="h-full relative overflow-y-scroll">
         {children}
       </div>
       <Footer />

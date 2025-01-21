@@ -8,7 +8,7 @@ import { FaHeart } from "react-icons/fa";
 const Footer = () => {
   const pathname = usePathname();
   return (
-    <footer className="bg-gray-800 text-white h-16 w-full flex flex-col justify-center py-2 absolute bottom-0 z-50">
+    <footer className="bg-gray-800 text-white h-16 w-full flex flex-col justify-center py-2 relative z-50">
       <div className="container mx-auto flex flex-row items-end justify-between px-4 gap-1">
         <div className="text-center  md:mb-0">
           <h3 className="text-lg font-semibold md:flex justify-center gap-2 items-center hidden">Made with <FaHeart color="#ff5655" className="h-4 w-4" /> by previous players</h3>
