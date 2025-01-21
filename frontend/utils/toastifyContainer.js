@@ -7,7 +7,7 @@ export const ToastUtils = () => {
             autoClose={2000}
             closeOnClick
             draggable 
-            toastClassName={'pixel-corners'}
+            toastClassName={'lvl2 '}
         />
     )
 }
