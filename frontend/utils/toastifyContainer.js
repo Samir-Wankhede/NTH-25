@@ -5,6 +5,7 @@ export const ToastUtils = () => {
         <ToastContainer
             position="top-right"
             autoClose={2000}
+            newestOnTop
             closeOnClick
             draggable 
             toastClassName={'lvl2 '}
