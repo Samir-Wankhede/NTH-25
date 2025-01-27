@@ -11,6 +11,7 @@ import { IoMdKey } from "react-icons/io";
 import { Button } from 'pixel-retroui';
 import { FaLightbulb } from "react-icons/fa";
 import { useAuth } from "@/context/AuthProvider";
+import Loader from "@/components/Loader";
 
 const QuestionPage = ({params})=>{
     const [question, setQuestion] = useState(null)
@@ -175,6 +176,10 @@ const QuestionPage = ({params})=>{
           if (err.response?.status==403) {
             toast.info(err.response?.data?.error || "Error fetching current question");
             router.push('/')
+          }
+          else if (err.response?.status==404) {
+            toast.info("Error fetching. Something went wrong.");
+            router.push('/')
           } else if (err.request) {
             toast.error("Network error. Please try again");
           } else{
@@ -187,7 +192,7 @@ const QuestionPage = ({params})=>{
     
 
     if (!question) {
-        return <div>Loading question...</div>;
+        return <Loader/>;
       }
 
     return (
