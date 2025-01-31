@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import Loader from "./Loader";
 import Link from "next/link";
 import { Button } from "pixel-retroui";
+import { toast } from "react-toastify";
 
 const Timer = () => {
   const [eventStartTime, setEventStartTime ]= useState(null);
@@ -34,10 +35,11 @@ const Timer = () => {
         setEventStartTime(new Date(start_time));
         setEventEndTime(new Date(end_time));
       } else {
-        console.error("Failed to fetch event start time.");
+        // console.error("Failed to fetch event start time.");
+        toast.error("Failed to fetch event start time.");
       }
     } catch (error) {
-      console.error("Error fetching event start time:", error);
+      // console.error("Error fetching event start time:", error);
     }finally{
         await new Promise(resolve => {
             setTimeout(() => { resolve('') }, 1000);
@@ -86,7 +88,7 @@ const Timer = () => {
       { loading ? (<Loader/>) :
         (hasEventStarted || hasEventEnded || !timeRemaining ? (
         <div className="text-center">
-            <h2 className="md:text-4xl text-2xl font-bold text-shadow">{!hasEventEnded ? "The Hunt Has Begun!" : "The Hunt Has Ended!"}</h2>
+            <h2 className="md:text-4xl text-2xl font-bold text-shadow">{hasEventStarted ? "The Hunt Has Begun!" : (hasEventEnded ? "The Hunt Has Ended!" : "")}</h2>
         </div>
         ) : (
         <div className="text-center text-shadow">
