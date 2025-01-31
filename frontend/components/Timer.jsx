@@ -86,7 +86,7 @@ const Timer = () => {
       { loading ? (<Loader/>) :
         (hasEventStarted || hasEventEnded || !timeRemaining ? (
         <div className="text-center">
-            <h2 className="md:text-4xl text-2xl font-bold text-shadow">{!hasEventStarted ? "The Hunt Has Ended!" : "The Hunt Has Begun!"}</h2>
+            <h2 className="md:text-4xl text-2xl font-bold text-shadow">{!hasEventEnded ? "The Hunt Has Begun!" : "The Hunt Has Ended!"}</h2>
         </div>
         ) : (
         <div className="text-center text-shadow">
