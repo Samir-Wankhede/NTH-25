@@ -4,13 +4,23 @@ import jwt from 'jsonwebtoken';
 const authenticate = () => (req, res, next) => {
     const token = req.cookies?.token; 
     if (!token) {
-        res.clearCookie('token');
+        res.clearCookie('token', {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'Strict',
+            maxAge: 1,
+        });
         return res.status(401).json({ error: 'Unauthorized: No token provided' });
     }
 
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
         if (err) {
-            res.clearCookie('token');
+            res.clearCookie('token', {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'Strict',
+                maxAge: 1,
+            });
             if (err.name === 'TokenExpiredError') {
                 return res.status(401).json({ error: 'Unauthorized: Token has expired' });
             }
