@@ -1,0 +1,32 @@
+services:
+  data-init:
+    build: ./data-init
+    volumes: 
+      - data_volume:/data
+  
+  backend:
+    build: ./backend
+    ports: 
+      - "5789:3000"
+    volumes:
+      - data_volume:/data
+    env_file:
+      - .env
+    depends_on:
+      data-init:
+        condition: service_completed_successfully
+  
+  admin:
+    build: ./admin
+    ports: 
+      - "4788:4000"
+    volumes:
+      - data_volume:/data
+    env_file:
+      - .env
+    depends_on:
+      data-init:
+        condition: service_completed_successfully
+
+volumes:
+  data_volume:
