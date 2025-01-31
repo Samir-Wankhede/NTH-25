@@ -19,6 +19,7 @@ app.use(cors({origin:"http://localhost:3000" ,credentials: true}));
 app.use(express.json());
 app.use(cookieParser());
 app.use((req,res,next)=>{
+    console.log('user Agent:',req.headers['user-agent'], 'user Origin:',req.headers['origin']);
     console.log(req.method,' ',req.url)
     next()
 })
