@@ -4,11 +4,11 @@ export const ToastUtils = () => {
     return (
         <ToastContainer
             position="top-right"
-            autoClose={2000}
+            autoClose={1500}
             newestOnTop
             closeOnClick
             draggable 
-            toastClassName={'lvl2 '}
+            toastClassName={'lvl2'}
         />
     )
 }

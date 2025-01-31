@@ -1,16 +1,8 @@
 .Toastify__toast {
     font-family: 'avenixel', sans-serif !important;
-    font-size: 1rem;
     color: white;
-    padding: 5px 10%;
     background-color: black;
-    width: fit-content;
-}
-
-@media (min-width: 740px){
-  .Toastify__toast {
-    font-size: 1.25rem;
-  }
+    font-size: larger;
 }
 
 .lvl2 {

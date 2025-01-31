@@ -16,10 +16,12 @@ export default function LoginPage(){
     const toastShown = useRef(false);
     const searchParams = useSearchParams();
     const unauthenticated = JSON.parse(searchParams.get("unauthenticated"));
+    const {logout} = useAuth();
     useEffect(() => {
       if (unauthenticated && !toastShown.current) {
         toast.info("Please login first.");
         toastShown.current = true;
+        logout();
       }
     }, [unauthenticated]);
 

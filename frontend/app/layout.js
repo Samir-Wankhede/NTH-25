@@ -3,7 +3,7 @@ import { AuthProvider } from "@/context/AuthProvider";
 import 'react-toastify/dist/ReactToastify.css';  
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { ToastUtils } from "@/utils/ToastifyContainer";
+import { ToastUtils } from "@/utils/toastifyContainer";
 
 
 
