@@ -8,7 +8,6 @@ const authenticate = () => (req, res, next) => {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             sameSite: 'Strict',
-            maxAge: 1,
         });
         return res.status(401).json({ error: 'Unauthorized: No token provided' });
     }
@@ -19,7 +18,6 @@ const authenticate = () => (req, res, next) => {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
                 sameSite: 'Strict',
-                maxAge: 1,
             });
             if (err.name === 'TokenExpiredError') {
                 return res.status(401).json({ error: 'Unauthorized: Token has expired' });

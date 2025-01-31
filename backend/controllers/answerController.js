@@ -80,9 +80,10 @@ export const submit=(req,res)=>{
 
                 const fuse = new Fuse(closeAnswers, fuseOptions)
                 const result = fuse.search(answer)
-                console.log(result)
+                const closeMessages = ["You are close!", "Try again!", "Almost there!", "Give it another shot!", "You can do it!", "Keep trying!", "Don't give up!", "You're almost there!", "You're getting warmer!", "You're so close!", "You're almost there!"];
+                const randomMessage = closeMessages[Math.floor(Math.random() * closeMessages.length)];
                 if (result.length>0 && result[0].score<=0.2){
-                    return res.status(205).json({message : "you are close"});
+                    return res.status(205).json({message : randomMessage});
                 }else{
                     return res.status(400).json({message: "Wrong Answer"})
                 }
