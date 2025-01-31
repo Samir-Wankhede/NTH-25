@@ -13,7 +13,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { Input } from "@/components/ui/input";
 
-const page = () => {
+const Page = () => {
     const [searchBox, setSearchBox] = useState("");
     const [logs, setLogs] = useState([]);
     const endpoint = usePathname();
@@ -74,4 +74,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

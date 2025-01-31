@@ -13,7 +13,7 @@ import { Button } from '@/components/ui/button';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
-const page = () => {
+const Page = () => {
   const [questions,setQuestions] = useState([]);
   const router = useRouter();
   const endpoint = usePathname();
@@ -88,4 +88,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

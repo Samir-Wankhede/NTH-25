@@ -4,7 +4,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Label } from '@/components/ui/label'
 import React, { useEffect, useState } from 'react'
 
-const page = () => {
+const Page = () => {
   const [startTime, setStartTime] = useState("")
   const [status, setStatus] = useState('inactive');
   const [warning, setWarning] = useState(false);
@@ -63,6 +63,7 @@ const page = () => {
         if (!response.ok) {
           throw new Error(data.error);
         }
+        alert(data.message);
       }catch (error){
         console.error("Error fetching data:", error);
       }
@@ -111,4 +112,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page
