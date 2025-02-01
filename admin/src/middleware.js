@@ -21,12 +21,12 @@ export async function middleware(request) {
     const password = process.env.SECURE_PASSWORD
     if (!bcrypt.compareSync(password, decode.payload.encoded)) throw new Error("wrong password in access token"); 
     if (request.nextUrl.pathname === '/' && token) {
-      return NextResponse.redirect(new URL('/dashboard', request.url));
+      return NextResponse.redirect(new URL('/superusers-admin/dashboard', request.url));
     }
   } catch (err) {
     // Invalid token - redirect to login
     console.log(err)
-    const response = NextResponse.redirect(new URL('/dashboard', request.url));
+    const response = NextResponse.redirect(new URL('/superusers-admin/dashboard', request.url));
     response.cookies.set('auth-token', '', {
       httpOnly: true,
       secure: true,
