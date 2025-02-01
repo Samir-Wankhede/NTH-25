@@ -17,7 +17,7 @@ const nextConfig = {
             },
             {
                 source: '/nth-logo.png',
-                destination: '/superusers-admin//nth-logo.png',
+                destination: '/superusers-admin/nth-logo.png',
                 permanent: true,
                 basePath: false,
             },
