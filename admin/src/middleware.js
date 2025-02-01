@@ -6,13 +6,13 @@ export async function middleware(request) {
   const token = request.cookies.get('auth-token')?.value;
 
   // Allow unauthenticated access to the login page
-  if (request.nextUrl.pathname === '/superusers-admin' && !token) {
+  if (request.nextUrl.pathname === '/' && !token) {
     return NextResponse.next();
   }
 
   // Redirect unauthenticated users trying to access other routes
   if (!token) {
-    return NextResponse.redirect(new URL('/superusers-admin', request.url));
+    return NextResponse.redirect(new URL('/', request.url));
   }
 
   try {
@@ -21,12 +21,12 @@ export async function middleware(request) {
     const password = process.env.SECURE_PASSWORD
     if (!bcrypt.compareSync(password, decode.payload.encoded)) throw new Error("wrong password in access token"); 
     if (request.nextUrl.pathname === '/' && token) {
-      return NextResponse.redirect(new URL('/superusers-admin/dashboard', request.url));
+      return NextResponse.redirect(new URL('/dashboard', request.url));
     }
   } catch (err) {
     // Invalid token - redirect to login
     console.log(err)
-    const response = NextResponse.redirect(new URL('/superusers-admin/dashboard', request.url));
+    const response = NextResponse.redirect(new URL('/dashboard', request.url));
     response.cookies.set('auth-token', '', {
       httpOnly: true,
       secure: true,
