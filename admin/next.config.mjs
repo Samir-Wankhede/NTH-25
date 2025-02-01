@@ -21,6 +21,12 @@ const nextConfig = {
                 permanent: true,
                 basePath: false,
             },
+            {
+                source: '/api',
+                destination: '/superusers-admin/api',
+                permanent: true,
+                basePath: false,
+            },
         ];
     }
 };
