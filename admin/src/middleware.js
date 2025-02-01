@@ -4,7 +4,6 @@ import bcrypt from 'bcryptjs';
 
 export async function middleware(request) {
   const token = request.cookies.get('auth-token')?.value;
-
   // Allow unauthenticated access to the login page
   if (request.nextUrl.pathname === '/' && !token) {
     return NextResponse.next();
@@ -12,6 +11,9 @@ export async function middleware(request) {
 
   // Redirect unauthenticated users trying to access other routes
   if (!token) {
+    if(request.nextUrl.pathname.includes("api")){
+      return NextResponse.json({ message: 'Invalid credentials' }, { status: 401 });
+    }
     return NextResponse.redirect(new URL('/', request.url));
   }
 
@@ -26,6 +28,9 @@ export async function middleware(request) {
   } catch (err) {
     // Invalid token - redirect to login
     console.log(err)
+    if(request.nextUrl.pathname.includes("api")){
+      return NextResponse.json({ message: 'Invalid credentials' }, { status: 401 });
+    }
     const response = NextResponse.redirect(new URL('/superusers-admin/dashboard', request.url));
     response.cookies.set('auth-token', '', {
       httpOnly: true,
@@ -41,5 +46,5 @@ export async function middleware(request) {
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/'], // Apply to these routes
+  matcher: ['/dashboard/:path*', '/api/:path*', '/'], // Apply to these routes
 };
