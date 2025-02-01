@@ -9,6 +9,10 @@ export async function middleware(request) {
     return NextResponse.next();
   }
 
+  if(request.nextUrl.pathname.includes("api/auth")){
+    return NextResponse.next();
+  }
+
   // Redirect unauthenticated users trying to access other routes
   if (!token) {
     if(request.nextUrl.pathname.includes("api")){
