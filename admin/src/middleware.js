@@ -12,7 +12,7 @@ export async function middleware(request) {
 
   // Redirect unauthenticated users trying to access other routes
   if (!token) {
-    return NextResponse.redirect(new URL('/superusers-admin', request.url));
+    return NextResponse.redirect(new URL('/', request.url));
   }
 
   try {
