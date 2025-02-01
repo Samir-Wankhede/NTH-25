@@ -23,7 +23,7 @@ const Page = () => {
       async function getData() {
         // Fetch data from your API here.
         try {
-          const response = await fetch("/api/answer-history?id=all", {
+          const response = await fetch("/superusers-admin/api/answer-history?id=all", {
             method: "GET",
           });
           const resp = await response.json();

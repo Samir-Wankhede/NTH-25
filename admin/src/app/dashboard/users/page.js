@@ -38,7 +38,7 @@ const AllUsers = () => {
     async function getData() {
       // Fetch data from your API here.
       try {
-        const response = await fetch("/api/user/getall", {
+        const response = await fetch("/superusers-admin/api/user/getall", {
           method: "GET",
         });
         const resp = await response.json();
@@ -91,7 +91,7 @@ const AllUsers = () => {
 
   const handleConvertToCsv = async () => {
     try {
-      const response = await fetch("/api/user/getall", {
+      const response = await fetch("/superusers-admin/api/user/getall", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -125,7 +125,7 @@ const AllUsers = () => {
     // console.log(selectedUsers);
     if(selectedAction==="delete"){
       try{
-        const response = await fetch("/api/user/getall", {
+        const response = await fetch("/superusers-admin/api/user/getall", {
           method: "DELETE",
           headers:{
             "Content-Type":"application/json",

@@ -22,7 +22,7 @@ const Page = () => {
   useEffect(() => {
     async function getData() {
       try {
-        const response = await fetch(`/api/answer-history?id=${id}`, {
+        const response = await fetch(`/superusers-admin/api/answer-history?id=${id}`, {
           method: "GET",
         });
         const resp = await response.json();

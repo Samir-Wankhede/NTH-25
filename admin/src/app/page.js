@@ -12,7 +12,7 @@ export default function LoginPage() {
     e.preventDefault();
     console.log(password)
 
-    const response = await fetch('/api/auth/signin', {
+    const response = await fetch('/superusers-admin/api/auth/signin', {
       method: 'POST',
       body: JSON.stringify({ password }),
       headers: { 'Content-Type': 'application/json' },

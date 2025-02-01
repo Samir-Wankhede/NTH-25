@@ -12,7 +12,7 @@ const Page = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await fetch("/api/timer");
+        const response = await fetch("/superusers-admin/api/timer");
         const data = await response.json(); // Await the parsing of JSON
         if (!response.ok) {
           if (response.status === 404) {
@@ -39,7 +39,7 @@ const Page = () => {
     console.log(date.toISOString());
     if (status === 'active'){
       try{
-        const response = await fetch("/api/timer",{
+        const response = await fetch("/superusers-admin/api/timer",{
           method: "DELETE",
         });
         const data = await response.json(); // Await the parsing of JSON
@@ -52,7 +52,7 @@ const Page = () => {
       }
     }else{
       try{
-        const response = await fetch("/api/timer",{
+        const response = await fetch("/superusers-admin/api/timer",{
           method: "POST",
           headers:{
             "Content-Type":"application/json",

@@ -23,7 +23,7 @@ const Page = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await fetch(`/api/user/get-user?id=${id}`);
+        const response = await fetch(`/superusers-admin/api/user/get-user?id=${id}`);
         if (!response.ok) {
           const data = await response.json();
           throw new Error(data);
@@ -57,7 +57,7 @@ const Page = () => {
   const handleSubmit = async () => {
     console.log(editableData);
     try {
-      const response = await fetch('/api/user/get-user', {
+      const response = await fetch('/superusers-admin/api/user/get-user', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -12,7 +12,7 @@ export default function DashboardLayout({
     const endpoint = usePathname();
 
   const handleLogout = async () => {
-    const response = await fetch('/api/auth/signout', {
+    const response = await fetch('/superusers-admin/api/auth/signout', {
       method: 'POST',
     });
   

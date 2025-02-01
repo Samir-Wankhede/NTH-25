@@ -29,7 +29,7 @@ const AddQuestionPage = () => {
   useEffect(() => {
     async function getData() {
       try {
-        const response = await fetch(`/api/questions?id=${id}`, {
+        const response = await fetch(`/superusers-admin/api/questions?id=${id}`, {
           method: "GET",
         });
         const resp = await response.json();
@@ -72,7 +72,7 @@ const AddQuestionPage = () => {
         paid_hint: formData.paid_hint.split(",").map((item) => item.trim()),
       };
 
-      const response = await fetch(`/api/questions`, {
+      const response = await fetch(`/superusers-admin/api/questions`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

@@ -22,7 +22,7 @@ const Page = () => {
     async function getData() {
       // Fetch data from your API here.
       try {
-        const response = await fetch("/api/questions?id=all", {
+        const response = await fetch("/superusers-admin/api/questions?id=all", {
           method: "GET",
         });
         const resp = await response.json();
@@ -37,7 +37,7 @@ const Page = () => {
 
   const handleDelete = async(level) => {
     try{
-      const response = await fetch(`/api/questions?level=${level}`,{
+      const response = await fetch(`/superusers-admin/api/questions?level=${level}`,{
         method:"DELETE",
       });
       if(!response.ok){
