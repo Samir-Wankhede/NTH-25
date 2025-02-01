@@ -41,5 +41,5 @@ export async function middleware(request) {
 }
 
 export const config = {
-  matcher: ['/superusers-admin/dashboard/:path*', '/'], // Apply to these routes
+  matcher: ['/dashboard/:path*', '/'], // Apply to these routes
 };
