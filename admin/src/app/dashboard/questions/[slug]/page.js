@@ -42,7 +42,7 @@ const AddQuestionPage = () => {
         }
 
         const data = resp.data;
-        console.log(data)
+        // console.log(data)
         setFormData({
           ...data,
           close_answers: JSON.parse(data.close_answers).join(", "),
@@ -50,7 +50,7 @@ const AddQuestionPage = () => {
           paid_hint: JSON.parse(data.paid_hint).join(", "),
         });
       } catch (err) {
-        console.log(err);
+        // console.log(err);
       }
     }
 

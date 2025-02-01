@@ -68,7 +68,7 @@ export async function POST(request) {
     }
 
     const res = await runQuery("SELECT * FROM questions WHERE level = ?",[level]);
-    console.log(res);
+    // console.log(res);
     if (res.length>0){
         return NextResponse.json({ error: "Level already present." }, { status: 400 });
     }

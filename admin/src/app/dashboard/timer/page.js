@@ -34,9 +34,9 @@ const Page = () => {
   
   const handleSubmit = async(e) => {
     e.preventDefault();
-    console.log(startTime);
+    // console.log(startTime);
     const date = new Date(startTime);
-    console.log(date.toISOString());
+    // console.log(date.toISOString());
     if (status === 'active'){
       try{
         const response = await fetch("/superusers-admin/api/timer",{

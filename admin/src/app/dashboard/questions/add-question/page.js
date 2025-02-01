@@ -33,7 +33,7 @@ const AddQuestionPage = () => {
     e.preventDefault();
     try {
       const questionData = { ...formData, close_answers: formData.close_answers.split(","), hint: formData.hint.split(","), paid_hint: formData.paid_hint.split(",")};
-      console.log(questionData);
+      // console.log(questionData);
       const response = await fetch('/superusers-admin/api/questions',{
         method:"POST",
         headers:{
@@ -51,7 +51,7 @@ const AddQuestionPage = () => {
       alert("Question added successfully!");
       router.push('/dashboard/questions');
     } catch (error) {
-      console.log("error during adding question: ",error);
+      // console.log("error during adding question: ",error);
     }
   };
 

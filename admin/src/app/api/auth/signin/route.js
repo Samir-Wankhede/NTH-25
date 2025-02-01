@@ -6,7 +6,7 @@ const SECRET_KEY = process.env.JWT_SECRET_KEY || 'your-secret-key';
 
 export async function POST(req) {
   const { password } = await req.json();
-  console.log(password)
+  // console.log(password)
   // Dummy user data (replace with DB call)
   const user = { type: 'admin', passwordHash: bcrypt.hashSync(process.env.SECURE_PASSWORD, 10) };
 

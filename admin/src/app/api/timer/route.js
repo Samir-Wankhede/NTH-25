@@ -43,7 +43,7 @@ export async function POST(request) {
         { status: 400 }
       );
     }
-    console.log(start_time);
+    // console.log(start_time);
     const status = "inactive";
     const end_time = new Date(
       new Date(start_time).getTime() + 24 * 60 * 60 * 1000

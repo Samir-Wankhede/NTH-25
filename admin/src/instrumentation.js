@@ -21,7 +21,7 @@ export async function register() {
       if (startTime) {
         await startTimer(startTime);
       } else {
-        console.log("No Start Time available in the database.");
+        // console.log("No Start Time available in the database.");
       }
     } catch (error) {
       console.error("Error during instrumentation register:", error);

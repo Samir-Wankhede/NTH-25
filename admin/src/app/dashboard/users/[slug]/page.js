@@ -30,7 +30,7 @@ const Page = () => {
         }
         const temp = await response.json();
         const data = temp.data[0]
-        console.log(data);
+        // console.log(data);
         setUserData(data);
         setEditableData({
           id: id,
@@ -49,13 +49,13 @@ const Page = () => {
 
   // Handle input changes for editable fields
   const handleChange = (field, value) => {
-    console.log(value);
+    // console.log(value);
     setEditableData((prev) => ({ ...prev, [field]: value }));
   };
 
   // Submit edited data
   const handleSubmit = async () => {
-    console.log(editableData);
+    // console.log(editableData);
     try {
       const response = await fetch('/superusers-admin/api/user/get-user', {
         method: 'POST',
