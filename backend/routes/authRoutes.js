@@ -1,6 +1,6 @@
 import express from 'express'
-import { register, login, logout, updateUser } from '../controllers/authController.js'
-import authenticate from '../middlewares/authMiddleware.js'
+import { register, login, logout } from '../controllers/authController.js'
+// import authenticate from '../middlewares/authMiddleware.js'
 import {rateLimit} from 'express-rate-limit'
 const router = express.Router()
 
@@ -16,6 +16,6 @@ router.post('/register', registerLimiter, register)
 router.post('/login', login)
 router.post('/logout', logout)
 //ONLY DEVELOPMENT ONLY TO BE REMOVED IN PROD
-router.post('/update', authenticate(), updateUser)
+// router.post('/update', authenticate(), updateUser)
 export default router;
 
