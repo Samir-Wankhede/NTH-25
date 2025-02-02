@@ -24,7 +24,7 @@ services:
       - certbot_challenges:/var/www/certbot
     entrypoint: >
       sh -c "certbot certonly --webroot --webroot-path=/var/www/certbot 
-      --email wankhedesamirforwork@gmail.com --agree-tos --no-eff-email 
+      --email some@gmail.com --agree-tos --no-eff-email 
       --keep-until-expiring -d nthhost.credenz.co.in && echo '✅ Certbot finished successfully!'"
     depends_on:
       nginx-certbot:
@@ -83,6 +83,24 @@ services:
       shutdown-nginx-certbot:
         condition: service_completed_successfully
     restart: always
+
+  tailscale:
+    container_name: tailscale
+    hostname: tailscale-nas
+    image: tailscale/tailscale:stable
+    volumes:
+      - ./tailscale:/var/lib # State data will be stored in this directory
+      - /dev/net/tun:/dev/net/tun # Required for Tailscale to work
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    command: tailscaled
+    privileged: true
+    restart: unless-stopped
+    environment:
+      - TS_AUTHKEY=<your-auth-key>  # Add your Tailscale auth key
+      - TS_STATE_DIR=/var/lib       # Ensure state persistence
+    network_mode: "host"  # Allows the container to share the host’s networking (required for exit node, routing, etc.)
 
 volumes:
   data_volume:
