@@ -84,24 +84,6 @@ services:
         condition: service_completed_successfully
     restart: always
 
-  tailscale:
-    container_name: tailscale
-    hostname: tailscale-nas
-    image: tailscale/tailscale:stable
-    volumes:
-      - ./tailscale:/var/lib # State data will be stored in this directory
-      - /dev/net/tun:/dev/net/tun # Required for Tailscale to work
-    cap_add:
-      - NET_ADMIN
-      - SYS_MODULE
-    command: tailscaled
-    privileged: true
-    restart: unless-stopped
-    environment:
-      - TS_AUTHKEY=<your-auth-key>  # Add your Tailscale auth key
-      - TS_STATE_DIR=/var/lib       # Ensure state persistence
-    network_mode: "host"  # Allows the container to share the host’s networking (required for exit node, routing, etc.)
-
 volumes:
   data_volume:
   letsencrypt:
