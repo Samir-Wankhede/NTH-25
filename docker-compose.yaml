@@ -50,6 +50,10 @@ services:
       - letsencrypt:/etc/letsencrypt
       - certbot_challenges:/var/www/certbot
     depends_on:
+      backend:
+        condition: service_healthy
+      admin:
+        condition: service_healthy
       nginx-certbot:
         condition: service_completed_successfully
     restart: always
