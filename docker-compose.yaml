@@ -7,15 +7,15 @@ services:
       - certbot_challenges:/var/www/certbot
 
   nginx-certbot:
-    image: nginx:alpine
+    build: ./nginx-certbot
     volumes:
       - certbot_challenges:/var/www/certbot
     ports:
       - "80:80"
-    command: ["sh", "-c", "nginx -g 'daemon off;'"]
     depends_on:
       data-init:
         condition: service_completed_successfully
+    restart: always
 
   certbot:
     image: certbot/certbot
