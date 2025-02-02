@@ -51,7 +51,7 @@ services:
       - letsencrypt:/etc/letsencrypt
       - certbot_challenges:/var/www/certbot
     depends_on:
-      certbot-renew:
+      certbot:
         condition: service_completed_successfully
     restart: always
 
