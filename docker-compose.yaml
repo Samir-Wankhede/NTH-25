@@ -41,6 +41,42 @@ services:
       kill -TERM 1"
     pid: "service:nginx-certbot"
 
+  backend:
+    build: ./backend
+    ports: 
+      - "5789:3000"
+    volumes:
+      - data_volume:/data
+    env_file:
+      - .env
+    depends_on:
+      data-init:
+        condition: service_completed_successfully
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  admin:
+    build: ./admin
+    ports: 
+      - "4788:4000"
+    volumes:
+      - data_volume:/data
+    env_file:
+      - .env
+    depends_on:
+      data-init:
+        condition: service_completed_successfully
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
   nginx:
     build: ./nginx
     ports:
@@ -54,35 +90,9 @@ services:
         condition: service_healthy
       admin:
         condition: service_healthy
-      nginx-certbot:
+      shutdown-nginx-certbot:
         condition: service_completed_successfully
     restart: always
-
-  backend:
-    build: ./backend
-    ports: 
-      - "5789:3000"
-    volumes:
-      - data_volume:/data
-    env_file:
-      - .env
-    depends_on:
-      nginx-certbot:
-        condition: service_completed_successfully
-    restart: unless-stopped
-
-  admin:
-    build: ./admin
-    ports: 
-      - "4788:4000"
-    volumes:
-      - data_volume:/data
-    env_file:
-      - .env
-    depends_on:
-      nginx-certbot:
-        condition: service_completed_successfully
-    restart: unless-stopped
 
 volumes:
   data_volume:
