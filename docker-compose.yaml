@@ -1,57 +1,10 @@
-# services:
-#   nginx:
-#     build: ./nginx
-#     ports:
-#       - "80:80"
-#     depends_on:
-#       - backend
-#       - admin
-#   data-init:
-#     build: ./data-init
-#     volumes: 
-#       - data_volume:/data
-  
-#   backend:
-#     build: ./backend
-#     ports: 
-#       - "5789:3000"
-#     volumes:
-#       - data_volume:/data
-#     env_file:
-#       - .env
-#     depends_on:
-#       data-init:
-#         condition: service_completed_successfully
-  
-#   admin:
-#     build: ./admin
-#     ports: 
-#       - "4788:4000"
-#     volumes:
-#       - data_volume:/data
-#     env_file:
-#       - .env
-#     depends_on:
-#       data-init:
-#         condition: service_completed_successfully
-
-# volumes:
-#   data_volume:
-
-# first run docker-compose run --rm certbot
 services:
-  nginx:
-    build: ./nginx
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
+  data-init:
+    build: ./data-init
+    volumes: 
+      - data_volume:/data
       - letsencrypt:/etc/letsencrypt
       - certbot_challenges:/var/www/certbot
-    depends_on:
-      - backend
-      - admin
-    restart: always
 
   certbot:
     image: certbot/certbot
@@ -61,8 +14,10 @@ services:
     entrypoint: >
       sh -c "certbot certonly --webroot --webroot-path=/var/www/certbot 
       --email your-email@example.com --agree-tos --no-eff-email 
-      --staging -d nthhost.credenz.co.in && 
-      crond -f"
+      --staging -d nthhost.credenz.co.in && echo '✅ Certbot finished successfully!'"
+    depends_on:
+      data-init:
+        condition: service_completed_successfully
 
   certbot-renew:
     image: certbot/certbot
@@ -70,23 +25,9 @@ services:
       - letsencrypt:/etc/letsencrypt
       - certbot_challenges:/var/www/certbot
     entrypoint: >
-      sh -c "certbot renew --webroot --webroot-path=/var/www/certbot && nginx -s reload && sleep 12h && certbot renew"
-
-  data-init:
-    build: ./data-init
-    volumes: 
-      - data_volume:/data
-
-  backend:
-    build: ./backend
-    ports: 
-      - "5789:3000"
-    volumes:
-      - data_volume:/data
-    env_file:
-      - .env
+      sh -c "while :; do certbot renew --webroot --webroot-path=/var/www/certbot && nginx -s reload; sleep 12h; done"
     depends_on:
-      data-init:
+      certbot:
         condition: service_completed_successfully
     restart: unless-stopped
 
@@ -99,9 +40,35 @@ services:
     env_file:
       - .env
     depends_on:
-      data-init:
-        condition: service_completed_successfully
+      certbot-renew:
+        condition: service_started
     restart: unless-stopped
+
+  backend:
+    build: ./backend
+    ports: 
+      - "5789:3000"
+    volumes:
+      - data_volume:/data
+    env_file:
+      - .env
+    depends_on:
+      certbot-renew:
+        condition: service_started
+    restart: unless-stopped
+
+  nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - letsencrypt:/etc/letsencrypt
+      - certbot_challenges:/var/www/certbot
+    depends_on:
+      - backend
+      - admin
+    restart: always
 
 volumes:
   data_volume:
