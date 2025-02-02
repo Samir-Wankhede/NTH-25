@@ -19,6 +19,12 @@ services:
       data-init:
         condition: service_completed_successfully
     restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
 
   certbot:
     image: certbot/certbot
@@ -27,7 +33,7 @@ services:
       - certbot_challenges:/var/www/certbot
     entrypoint: >
       sh -c "sleep 5 && certbot certonly --webroot --webroot-path=/var/www/certbot 
-      --email your-email@example.com --agree-tos --no-eff-email 
+      --email wankhedesamirforwork@gmail.com --agree-tos --no-eff-email 
       -d nthhost.credenz.co.in && echo '✅ Certbot finished successfully!'"
     depends_on:
       nginx:
