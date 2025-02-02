@@ -5,6 +5,20 @@ services:
       - data_volume:/data
       - letsencrypt:/etc/letsencrypt
       - certbot_challenges:/var/www/certbot
+    entrypoint: ["/entrypoint.sh"]
+
+  nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - letsencrypt:/etc/letsencrypt
+      - certbot_challenges:/var/www/certbot
+    depends_on:
+      data-init:
+        condition: service_completed_successfully
+    restart: always
 
   certbot:
     image: certbot/certbot
@@ -12,12 +26,12 @@ services:
       - letsencrypt:/etc/letsencrypt
       - certbot_challenges:/var/www/certbot
     entrypoint: >
-      sh -c "certbot certonly --webroot --webroot-path=/var/www/certbot 
+      sh -c "sleep 5 && certbot certonly --webroot --webroot-path=/var/www/certbot 
       --email your-email@example.com --agree-tos --no-eff-email 
-      --staging -d nthhost.credenz.co.in && echo '✅ Certbot finished successfully!'"
+      -d nthhost.credenz.co.in && echo '✅ Certbot finished successfully!'"
     depends_on:
-      data-init:
-        condition: service_completed_successfully
+      nginx:
+        condition: service_healthy
 
   certbot-renew:
     image: certbot/certbot
@@ -25,9 +39,22 @@ services:
       - letsencrypt:/etc/letsencrypt
       - certbot_challenges:/var/www/certbot
     entrypoint: >
-      sh -c "while :; do certbot renew --webroot --webroot-path=/var/www/certbot && nginx -s reload; sleep 12h; done"
+      sh -c "certbot renew --webroot --webroot-path=/var/www/certbot && nginx -s reload"
     depends_on:
       certbot:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
+  backend:
+    build: ./backend
+    ports: 
+      - "5789:3000"
+    volumes:
+      - data_volume:/data
+    env_file:
+      - .env
+    depends_on:
+      certbot-renew:
         condition: service_completed_successfully
     restart: unless-stopped
 
@@ -41,34 +68,8 @@ services:
       - .env
     depends_on:
       certbot-renew:
-        condition: service_started
+        condition: service_completed_successfully
     restart: unless-stopped
-
-  backend:
-    build: ./backend
-    ports: 
-      - "5789:3000"
-    volumes:
-      - data_volume:/data
-    env_file:
-      - .env
-    depends_on:
-      certbot-renew:
-        condition: service_started
-    restart: unless-stopped
-
-  nginx:
-    build: ./nginx
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - letsencrypt:/etc/letsencrypt
-      - certbot_challenges:/var/www/certbot
-    depends_on:
-      - backend
-      - admin
-    restart: always
 
 volumes:
   data_volume:
