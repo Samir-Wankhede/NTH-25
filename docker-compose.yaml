@@ -29,6 +29,17 @@ services:
     depends_on:
       nginx-certbot:
         condition: service_started
+  
+  shutdown-nginx-certbot:
+    image: alpine
+    depends_on:
+      certbot:
+        condition: service_completed_successfully
+    command: >
+      sh -c "echo 'Certbot finished, triggering nginx-certbot shutdown...' && 
+      sleep 2 && 
+      kill -TERM 1"
+    pid: "service:nginx-certbot"
 
   nginx:
     build: ./nginx

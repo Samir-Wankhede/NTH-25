@@ -2,13 +2,6 @@ FROM nginx:latest
 
 COPY nginx-certbot.conf /etc/nginx/conf.d/default.conf
 
-# Copy the wait script
-COPY wait-for-certbot.sh /wait-for-certbot.sh
-
-# Make the script executable
-RUN chmod +x /wait-for-certbot.sh
-
 EXPOSE 80
 
-# Use the wait script as the entrypoint
-ENTRYPOINT ["/bin/sh", "/wait-for-certbot.sh"]
+CMD ["nginx", "-g", "daemon off;"]
