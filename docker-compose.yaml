@@ -12,7 +12,10 @@ services:
       - certbot_challenges:/var/www/certbot
     ports:
       - "80:80"
-    restart: always
+    command: ["sh", "-c", "nginx -g 'daemon off;'"]
+    depends_on:
+      data-init:
+        condition: service_completed_successfully
 
   certbot:
     image: certbot/certbot
@@ -20,12 +23,19 @@ services:
       - letsencrypt:/etc/letsencrypt
       - certbot_challenges:/var/www/certbot
     entrypoint: >
-      sh -c "sleep 5 && certbot certonly --webroot --webroot-path=/var/www/certbot 
+      sh -c "certbot certonly --webroot --webroot-path=/var/www/certbot 
       --email wankhedesamirforwork@gmail.com --agree-tos --no-eff-email 
       -d nthhost.credenz.co.in && echo '✅ Certbot finished successfully!'"
     depends_on:
       nginx-certbot:
         condition: service_started
+
+  shutdown-certbot:
+    image: alpine
+    entrypoint: sh -c "sleep 5 && docker stop $(docker ps -q --filter name=nginx-certbot)"
+    depends_on:
+      certbot:
+        condition: service_completed_successfully
 
   certbot-renew:
     image: certbot/certbot
@@ -33,7 +43,7 @@ services:
       - letsencrypt:/etc/letsencrypt
       - certbot_challenges:/var/www/certbot
     entrypoint: >
-      sh -c "certbot renew --webroot --webroot-path=/var/www/certbot && nginx -s reload"
+      sh -c "while :; do certbot renew --webroot --webroot-path=/var/www/certbot && nginx -s reload; sleep 12h; done"
     depends_on:
       certbot:
         condition: service_completed_successfully
@@ -48,10 +58,16 @@ services:
       - letsencrypt:/etc/letsencrypt
       - certbot_challenges:/var/www/certbot
     depends_on:
-      - admin
-      - backend
+      certbot-renew:
+        condition: service_completed_successfully
     restart: always
-    
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
+
   backend:
     build: ./backend
     ports: 
