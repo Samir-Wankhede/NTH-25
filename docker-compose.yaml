@@ -15,7 +15,7 @@ services:
     depends_on:
       data-init:
         condition: service_completed_successfully
-    restart: always
+    restart: "no"
 
   certbot:
     image: certbot/certbot
@@ -25,7 +25,7 @@ services:
     entrypoint: >
       sh -c "certbot certonly --webroot --webroot-path=/var/www/certbot 
       --email wankhedesamirforwork@gmail.com --agree-tos --no-eff-email 
-      -d nthhost.credenz.co.in && echo '✅ Certbot finished successfully!' && sudo docker compose stop nginx-certbot"
+      --keep-until-expiring -d nthhost.credenz.co.in && echo '✅ Certbot finished successfully!' && docker compose stop nginx-certbot"
     depends_on:
       nginx-certbot:
         condition: service_started
