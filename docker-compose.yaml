@@ -6,24 +6,13 @@ services:
       - letsencrypt:/etc/letsencrypt
       - certbot_challenges:/var/www/certbot
 
-  nginx:
-    build: ./nginx
+  nginx-certbot:
+    image: nginx:alpine
+    volumes:
+      - certbot_challenges:/var/www/certbot
     ports:
       - "80:80"
-      - "443:443"
-    volumes:
-      - letsencrypt:/etc/letsencrypt
-      - certbot_challenges:/var/www/certbot
-    depends_on:
-      data-init:
-        condition: service_completed_successfully
     restart: always
-    healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-      start_period: 10s
 
   certbot:
     image: certbot/certbot
@@ -35,8 +24,8 @@ services:
       --email wankhedesamirforwork@gmail.com --agree-tos --no-eff-email 
       -d nthhost.credenz.co.in && echo '✅ Certbot finished successfully!'"
     depends_on:
-      nginx:
-        condition: service_healthy
+      nginx-certbot:
+        condition: service_started
 
   certbot-renew:
     image: certbot/certbot
@@ -50,6 +39,19 @@ services:
         condition: service_completed_successfully
     restart: unless-stopped
 
+  nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - letsencrypt:/etc/letsencrypt
+      - certbot_challenges:/var/www/certbot
+    depends_on:
+      - admin
+      - backend
+    restart: always
+    
   backend:
     build: ./backend
     ports: 
@@ -59,8 +61,8 @@ services:
     env_file:
       - .env
     depends_on:
-      certbot-renew:
-        condition: service_completed_successfully
+      nginx:
+        condition: service_healthy
     restart: unless-stopped
 
   admin:
@@ -72,8 +74,8 @@ services:
     env_file:
       - .env
     depends_on:
-      certbot-renew:
-        condition: service_completed_successfully
+      nginx:
+        condition: service_healthy
     restart: unless-stopped
 
 volumes:
