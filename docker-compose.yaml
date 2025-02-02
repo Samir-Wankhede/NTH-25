@@ -15,7 +15,7 @@ services:
     depends_on:
       data-init:
         condition: service_completed_successfully
-        
+
 # remove volumes and --keep-until-expiring from certbot command when want to create a new certificate and add it once certificate created (add --force-renewal instead if it presents an interactive screen)
   certbot:
     image: certbot/certbot
@@ -39,7 +39,7 @@ services:
       - letsencrypt:/etc/letsencrypt
       - certbot_challenges:/var/www/certbot
     depends_on:
-      certbot:
+      nginx-certbot:
         condition: service_completed_successfully
     restart: always
 

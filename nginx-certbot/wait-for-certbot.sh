@@ -13,4 +13,4 @@ echo "Certbot finished, shutting down nginx-certbot..."
 nginx -s quit
 
 # Wait a bit to ensure nginx has time to shutdown gracefully
-sleep 5
+exit 0
