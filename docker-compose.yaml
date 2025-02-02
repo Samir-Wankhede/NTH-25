@@ -5,7 +5,6 @@ services:
       - data_volume:/data
       - letsencrypt:/etc/letsencrypt
       - certbot_challenges:/var/www/certbot
-    entrypoint: ["/entrypoint.sh"]
 
   nginx:
     build: ./nginx
