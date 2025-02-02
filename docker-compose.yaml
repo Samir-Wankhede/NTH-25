@@ -30,17 +30,17 @@ services:
       nginx-certbot:
         condition: service_started
 
-  certbot-renew:
-    image: certbot/certbot
-    volumes:
-      - letsencrypt:/etc/letsencrypt
-      - certbot_challenges:/var/www/certbot
-    entrypoint: >
-      sh -c "while :; do certbot renew --webroot --webroot-path=/var/www/certbot && nginx -s reload; sleep 12h; done"
-    depends_on:
-      certbot:
-        condition: service_completed_successfully
-    restart: unless-stopped
+  # certbot-renew:
+  #   image: certbot/certbot
+  #   volumes:
+  #     - letsencrypt:/etc/letsencrypt
+  #     - certbot_challenges:/var/www/certbot
+  #   entrypoint: >
+  #     sh -c "while :; do certbot renew --webroot --webroot-path=/var/www/certbot && nginx -s reload; sleep 12h; done"
+  #   depends_on:
+  #     certbot:
+  #       condition: service_completed_successfully
+  #   restart: unless-stopped
 
   nginx:
     build: ./nginx
