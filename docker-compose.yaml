@@ -67,8 +67,8 @@ services:
     env_file:
       - .env
     depends_on:
-      nginx:
-        condition: service_healthy
+      nginx-certbot:
+        condition: service_completed_successfully
     restart: unless-stopped
 
   admin:
@@ -80,8 +80,8 @@ services:
     env_file:
       - .env
     depends_on:
-      nginx:
-        condition: service_healthy
+      nginx-certbot:
+        condition: service_completed_successfully
     restart: unless-stopped
 
 volumes:
