@@ -66,11 +66,11 @@ services:
 
   certbot-renew:
     image: certbot/certbot
-  volumes:
-    - letsencrypt:/etc/letsencrypt
-    - certbot_challenges:/var/www/certbot
-  entrypoint: >
-    sh -c "certbot renew --webroot --webroot-path=/var/www/certbot && nginx -s reload && sleep 12h && certbot renew"
+    volumes:
+      - letsencrypt:/etc/letsencrypt
+      - certbot_challenges:/var/www/certbot
+    entrypoint: >
+      sh -c "certbot renew --webroot --webroot-path=/var/www/certbot && nginx -s reload && sleep 12h && certbot renew"
 
   data-init:
     build: ./data-init
