@@ -25,17 +25,10 @@ services:
     entrypoint: >
       sh -c "certbot certonly --webroot --webroot-path=/var/www/certbot 
       --email wankhedesamirforwork@gmail.com --agree-tos --no-eff-email 
-      -d nthhost.credenz.co.in && echo '✅ Certbot finished successfully!'"
+      -d nthhost.credenz.co.in && echo '✅ Certbot finished successfully!' && sudo docker compose stop nginx-certbot"
     depends_on:
       nginx-certbot:
         condition: service_started
-
-  shutdown-certbot:
-    image: alpine
-    entrypoint: sh -c "sleep 5 && docker stop $(docker ps -q --filter name=nginx-certbot)"
-    depends_on:
-      certbot:
-        condition: service_completed_successfully
 
   certbot-renew:
     image: certbot/certbot
