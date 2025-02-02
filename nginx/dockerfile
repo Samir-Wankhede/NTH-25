@@ -3,6 +3,9 @@ FROM nginx:latest
 COPY html /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/nginx.conf
 
+# Create the 404 response file
+RUN echo "905" > /usr/share/nginx/html/html2
+
 EXPOSE 80 443
 
 CMD ["nginx", "-g", "daemon off;"]
