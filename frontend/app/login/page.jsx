@@ -2,10 +2,26 @@
 import { useAuth } from "@/context/AuthProvider";
 import API from "@/utils/api"
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react"
+import { Suspense, useEffect, useRef, useState } from "react"
 import { useSearchParams } from "next/navigation";
 import { Button, Card } from "pixel-retroui";
 import { toast } from "react-toastify";
+
+function ToastFunction(){
+  const toastShown = useRef(false);
+    const {logout} = useAuth();
+    const searchParams = useSearchParams();
+    useEffect(() => {
+      if(JSON.parse(searchParams.get("unauthenticated"))&& !toastShown.current){
+        toast.info("Please login first.");
+        toastShown.current = true;
+        logout();
+      }
+    },[searchParams]);
+  return (
+    <></>
+  )
+};
 
 export default function LoginPage(){
     const [username, setUsername] = useState('');
@@ -13,17 +29,6 @@ export default function LoginPage(){
     const [loading, setLoading] = useState(false);
     const {login} = useAuth();
     const router = useRouter();
-    const toastShown = useRef(false);
-    const searchParams = useSearchParams();
-    const unauthenticated = JSON.parse(searchParams.get("unauthenticated"));
-    const {logout} = useAuth();
-    useEffect(() => {
-      if (unauthenticated && !toastShown.current) {
-        toast.info("Please login first.");
-        toastShown.current = true;
-        logout();
-      }
-    }, [unauthenticated]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -46,6 +51,9 @@ export default function LoginPage(){
 
     return (
       <div className="h-[100%] flex items-center justify-center p-4 relative">
+        <Suspense fallback={null}>
+          <ToastFunction />
+        </Suspense>
         <img
           src={`night-pokemon-bg.webp`}
           alt="Background"
