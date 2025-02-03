@@ -44,7 +44,7 @@ services:
     build: ./frontend
     ports: 
       - "3000:3000"
-    env:
+    environment:
       - NEXT_PUBLIC_BACKEND_URL='https://nthhost.credenz.co.in/backend/server/api'
     depends_on:
       data-init:
