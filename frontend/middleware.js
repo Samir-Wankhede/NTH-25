@@ -1,18 +1,18 @@
 import { NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
 
-export function middleware(req) {
-  const { pathname } = req.nextUrl;
-  const tokenCookie = req.cookies.get('token');
-  const isAuthenticated = tokenCookie !== undefined;
-
-  if (!isAuthenticated && !pathname.startsWith('/login')) {
-    const url = new URL('/login', req.url);
+export async function middleware(request) {
+  const cookieStore = await cookies();
+  const tokenCookie = cookieStore.get('token')?.value;
+  console.log("token: ",tokenCookie);
+  if (!tokenCookie) {
+    const url = new URL('/login', request.url);
     url.searchParams.set('unauthenticated', 'true');
-    return NextResponse.redirect(new URL( url));
+    return NextResponse.redirect(url);
   }
   return NextResponse.next();
 }
 
 export const config = {
-    matcher: ['/question/:path*'],
+  matcher: ['/question/:path*'],
 };
