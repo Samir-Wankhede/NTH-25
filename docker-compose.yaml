@@ -43,6 +43,7 @@ services:
   frontend:
     build: 
       context: ./frontend
+      dockerfile: ./frontend/dockerfile
       args:
         - NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL}
     ports:
