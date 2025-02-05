@@ -6,8 +6,8 @@ const authenticate = () => (req, res, next) => {
     if (!token) {
         res.clearCookie('token', {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'Strict',
+            secure: true,
+            sameSite: 'None',
         });
         return res.status(401).json({ error: 'Unauthorized: No token provided' });
     }
@@ -16,8 +16,8 @@ const authenticate = () => (req, res, next) => {
         if (err) {
             res.clearCookie('token', {
                 httpOnly: true,
-                secure: process.env.NODE_ENV === 'production',
-                sameSite: 'Strict',
+                secure: true,
+                sameSite: 'None',
             });
             if (err.name === 'TokenExpiredError') {
                 return res.status(401).json({ error: 'Unauthorized: Token has expired' });

@@ -62,8 +62,8 @@ export const register = (req, res)=>{
                     }
                     res.cookie('token', token, {
                         httpOnly: true,
-                        secure: process.env.NODE_ENV === 'production',
-                        sameSite: 'Strict',
+                        secure: true,
+                        sameSite: 'None',
                         maxAge: 27 * 60 * 60 * 1000, 
                     });
 
@@ -111,8 +111,8 @@ export const login = (req, res) => {
             
             res.cookie('token', token, {
                 httpOnly: true,
-                secure: process.env.NODE_ENV === 'production', 
-                sameSite: 'Strict', 
+                secure: true, 
+                sameSite: 'None', 
                 maxAge: 27 * 60 * 60 * 60 * 1000, 
             });
 
@@ -124,8 +124,8 @@ export const login = (req, res) => {
 export const logout = (req, res) => {
     res.clearCookie('token', {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'Strict',
+        secure: true,
+        sameSite: 'None',
     });
     res.status(200).json({ message: 'Logout successful' });
 };
