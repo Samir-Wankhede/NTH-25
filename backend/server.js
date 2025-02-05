@@ -15,7 +15,7 @@ const app = express();
 const PORT = process.env.PORT
 
 
-app.use(cors({origin:["https://nth.credenz.co.in", "https://nthtest.netlify.app"],credentials: true}));
+app.use(cors({origin:["https://nth.credenz.co.in", "https://nthtest.credenz.co.in"],credentials: true}));
 app.use(express.json());
 app.use(cookieParser());
 app.use((req,res,next)=>{
