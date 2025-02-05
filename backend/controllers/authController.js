@@ -63,6 +63,7 @@ export const register = (req, res)=>{
                     res.cookie('token', token, {
                         httpOnly: true,
                         secure: true,
+                        domain: ".credenz.co.in",
                         sameSite: 'None',
                         maxAge: 27 * 60 * 60 * 1000, 
                     });
@@ -112,6 +113,7 @@ export const login = (req, res) => {
             res.cookie('token', token, {
                 httpOnly: true,
                 secure: true, 
+                domain: ".credenz.co.in",
                 sameSite: 'None', 
                 maxAge: 27 * 60 * 60 * 60 * 1000, 
             });
@@ -125,6 +127,7 @@ export const logout = (req, res) => {
     res.clearCookie('token', {
         httpOnly: true,
         secure: true,
+        domain: ".credenz.co.in",
         sameSite: 'None',
     });
     res.status(200).json({ message: 'Logout successful' });

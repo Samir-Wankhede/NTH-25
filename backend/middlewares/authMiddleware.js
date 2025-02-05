@@ -7,6 +7,7 @@ const authenticate = () => (req, res, next) => {
         res.clearCookie('token', {
             httpOnly: true,
             secure: true,
+            domain: ".credenz.co.in",
             sameSite: 'None',
         });
         return res.status(401).json({ error: 'Unauthorized: No token provided' });
@@ -17,6 +18,7 @@ const authenticate = () => (req, res, next) => {
             res.clearCookie('token', {
                 httpOnly: true,
                 secure: true,
+                domain: ".credenz.co.in",
                 sameSite: 'None',
             });
             if (err.name === 'TokenExpiredError') {
