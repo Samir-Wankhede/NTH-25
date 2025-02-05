@@ -43,7 +43,7 @@ const Timer = () => {
         toast.error("Failed to fetch event start time.");
     }finally{
         await new Promise(resolve => {
-            setTimeout(() => { resolve('') }, 1000);
+            setTimeout(() => { resolve('') }, 500);
         })
         setLoading(false);
     }
