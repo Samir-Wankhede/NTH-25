@@ -3,7 +3,8 @@ const nextConfig = {
     devIndicators: {
     appIsrStatus: false,
   },
-  output: 'standalone'
+  output: 'standalone',
+  reactStrictMode: true,
 };
 
 export default nextConfig;
