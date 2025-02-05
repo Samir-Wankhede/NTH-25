@@ -29,7 +29,7 @@ const Timer = () => {
 
   const fetchEventStartTime = async () => {
     try {
-      const response = await API.get("/timer/time");
+      const response = await API.get("/timer");
       if (response.status === 200) {
         const { start_time, end_time } = response.data; 
         setEventStartTime(new Date(start_time));
@@ -40,6 +40,7 @@ const Timer = () => {
       }
     } catch (error) {
       // console.error("Error fetching event start time:", error);
+        toast.error("Failed to fetch event start time.");
     }finally{
         await new Promise(resolve => {
             setTimeout(() => { resolve('') }, 1000);
