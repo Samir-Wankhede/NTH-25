@@ -25,7 +25,7 @@ services:
     entrypoint: >
       sh -c "certbot certonly --webroot --webroot-path=/var/www/certbot 
       --email some@gmail.com --agree-tos --no-eff-email 
-      --keep-until-expiring -d nthhost.credenz.co.in && echo '✅ Certbot finished successfully!'"
+      --keep-until-expiring -d nthbackend.api.credenz.co.in && echo '✅ Certbot finished successfully!'"
     depends_on:
       nginx-certbot:
         condition: service_started
