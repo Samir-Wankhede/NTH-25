@@ -36,8 +36,6 @@ import pool from "../models/db.js";
 //     });
 // };
 
-import pool from "../models/db.js";
-
 const checkEventStatus = async (req, res, next) => {
     try {
         console.log("Checking timer");
