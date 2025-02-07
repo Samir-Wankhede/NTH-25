@@ -1,10 +1,4 @@
 services:
-  data-init:
-    build: ./data-init
-    volumes: 
-      - data_volume:/data
-      - letsencrypt:/etc/letsencrypt
-      - certbot_challenges:/var/www/certbot
 
   nginx-certbot:
     build: ./nginx-certbot
@@ -12,9 +6,6 @@ services:
       - certbot_challenges:/var/www/certbot
     ports:
       - "80:80"
-    depends_on:
-      data-init:
-        condition: service_completed_successfully
 
 # remove volumes and --keep-until-expiring from certbot command when want to create a new certificate and add it once certificate created (add --force-renewal instead if it presents an interactive screen)
   certbot:
@@ -49,9 +40,6 @@ services:
       - data_volume:/data
     env_file:
       - .env
-    depends_on:
-      data-init:
-        condition: service_completed_successfully
     restart: unless-stopped
 
   admin:
@@ -62,9 +50,6 @@ services:
       - data_volume:/data
     env_file:
       - .env
-    depends_on:
-      data-init:
-        condition: service_completed_successfully
     restart: unless-stopped
 
   nginx:
