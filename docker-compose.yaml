@@ -32,24 +32,42 @@ services:
       kill -TERM 1"
     pid: "service:nginx-certbot"
 
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydatabase
+    ports:
+      - "6969:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./postgres-init/pg_hba.conf:/etc/postgresql/pg_hba.conf:ro
+
   backend:
     build: ./backend
     ports: 
       - "5789:3000"
-    volumes:
-      - data_volume:/data
     env_file:
       - .env
+    depends_on:
+      postgres:
+        condition: service_healthy
     restart: unless-stopped
 
   admin:
     build: ./admin
     ports: 
       - "4788:4000"
-    volumes:
-      - data_volume:/data
     env_file:
       - .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+      backend:
+        condition: service_started
     restart: unless-stopped
 
   nginx:
@@ -70,6 +88,6 @@ services:
     restart: always
 
 volumes:
-  data_volume:
+  postgres_data:
   letsencrypt:
   certbot_challenges:

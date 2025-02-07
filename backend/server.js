@@ -7,12 +7,13 @@ import cookieParser from 'cookie-parser';
 import answerRoutes from './routes/answerRoutes.js'
 import leaderboardRoutes from './routes/leaderboardRoutes.js'
 import timerRoutes from './routes/timerRoutes.js'
+import { createTables } from './models/db.js'
 
 
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 3000
 
 
 app.use(cors({origin:["https://nth.credenz.co.in"],credentials: true}));
@@ -30,6 +31,11 @@ app.use('/api/answer', answerRoutes)
 app.use('/api/leaderboard', leaderboardRoutes)
 app.use('/api/timer', timerRoutes)
 
-app.listen(PORT, ()=>{
-    console.log("server running...")
+createTables().then(()=>{
+    app.listen(PORT, ()=>{
+        console.log(`server running on port ${PORT}...`)
+    })
+}).catch(()=>{
+    console.error("❌ Failed to initialize database:", err);
+    process.exit(1);
 })

@@ -1,5 +1,23 @@
-import schedule from 'node-schedule'
-import db from '../models/db.js';
+import pool from '../models/db.js';
+
+export const getTimer = async (req, res) => {
+    try {
+        const query = `SELECT start_time, end_time FROM event_status WHERE id = 1`;
+        const { rows } = await pool.query(query);
+        
+        if (rows.length === 0) {
+            return res.status(500).json({ error: "No timer found" });
+        }
+
+        console.log(rows[0].start_time);
+        return res.status(200).json({ start_time: rows[0].start_time, end_time: rows[0].end_time });
+
+    } catch (err) {
+        console.error(err.message);
+        return res.status(500).json({ error: "Internal error occurred" });
+    }
+};
+
 
 // export const addOrUpdateEventStatus = async (req, res) => {
 //     const {start_time } = req.body;
@@ -35,22 +53,23 @@ import db from '../models/db.js';
 //     }
 //   };
 
-export const getTimer=(req,res)=>{
-    const query = `select start_time, end_time from event_status where id=1`;
-    db.get(query,[],(err, timer)=>{
-        if (err){
-            console.log(err.message)
-            return res.status(500).json({error: "Internal error occurred"})
+// // the only required timer function SQLITE
+// export const getTimer=(req,res)=>{
+//     const query = `select start_time, end_time from event_status where id=1`;
+//     db.get(query,[],(err, timer)=>{
+//         if (err){
+//             console.log(err.message)
+//             return res.status(500).json({error: "Internal error occurred"})
         
-        }else if(!timer){
-            return res.status(500).json({error : "No timer found"})
-        }
-        else{
-            console.log(timer.start_time)
-            return res.status(200).json({start_time : timer.start_time, end_time: timer.end_time})
-        }
-    })
-}
+//         }else if(!timer){
+//             return res.status(500).json({error : "No timer found"})
+//         }
+//         else{
+//             console.log(timer.start_time)
+//             return res.status(200).json({start_time : timer.start_time, end_time: timer.end_time})
+//         }
+//     })
+// }
   
 
 // const updateEventStatus = (status, start, end) => {
