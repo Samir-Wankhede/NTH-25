@@ -44,13 +44,7 @@ services:
       - "6969:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    #   - ./postgres-init/pg_hba.conf:/etc/postgresql/pg_hba.conf:ro
-    # command:
-    #   - "postgres"
-    #   - "-c"
-    #   - "listen_addresses=*"
-    #   - "-c"
-    #   - "port=5432"
+      - ./postgres-init/pg_hba.conf:/etc/postgresql/pg_hba.conf:ro
 
 
   backend:
