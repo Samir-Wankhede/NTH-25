@@ -45,6 +45,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./postgres-init/pg_hba.conf:/etc/postgresql/pg_hba.conf:ro
+    command: ["postgres", "-c", "listen_addresses=*"]
 
 
   backend:
