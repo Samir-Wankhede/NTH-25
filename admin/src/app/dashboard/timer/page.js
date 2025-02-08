@@ -19,8 +19,19 @@ const Page = () => {
             setWarning(true);
           } 
         }
+        console.log("Raw start_time:", data.start_time);
+
         const date = new Date(data.start_time);
-        const date_time = date.toLocaleString().split(' ');
+        console.log("Parsed Date:", date);
+
+        const localDateString = date.toLocaleString();
+        console.log("Localized Date String:", localDateString);
+
+        const date_time = localDateString.split(" ");
+        console.log("Split Date-Time:", date_time);
+        console.log(date.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })); // ✅ Always converts to IST
+
+
         const datePart = date_time[0].replaceAll(',','').split('/').reverse().join('-');
         const startDate = datePart+'T'+date_time[1];
         setStartTime(startDate || ""); // Fallback to empty string
@@ -34,9 +45,9 @@ const Page = () => {
   
   const handleSubmit = async(e) => {
     e.preventDefault();
-    // console.log(startTime);
+    console.log(startTime);
     const date = new Date(startTime);
-    // console.log(date.toISOString());
+    console.log(date);
     if (status === 'active'){
       try{
         const response = await fetch("/superusers-admin/api/timer",{
@@ -86,6 +97,7 @@ const Page = () => {
             value={startTime}
             onChange={(e)=>{
               setStartTime(e.target.value);
+              console.log(e.target.value);
             }}
           />
         </div>

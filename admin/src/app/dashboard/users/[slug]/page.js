@@ -14,9 +14,9 @@ const Page = () => {
   const [editableData, setEditableData] = useState({
     id: 1,
     curr_level: 1,
-    hint_taken: 0,
+    hint_taken: false,
     curr_keys: 3,
-    hidden: 0,
+    hidden: false,
   });
 
   // Fetch user data on component mount
@@ -137,8 +137,8 @@ const Page = () => {
             </Label>
             <Checkbox
               id="hidden"
-              checked={editableData.hidden === 1} // Compare against a defined value
-              onCheckedChange={() => handleChange('hidden', editableData.hidden === 1 ? 0 : 1)}
+              checked={editableData.hidden} // Compare against a defined value
+              onCheckedChange={() => handleChange('hidden', editableData.hidden ? false : true)}
             />
           </div>
           <div className="w-full flex flex-col gap-2 px-4">
@@ -147,8 +147,8 @@ const Page = () => {
             </Label>
             <Checkbox
               id="hint_taken"
-              checked={editableData.hint_taken === 1} // Compare against a defined value
-              onCheckedChange={() => handleChange('hint_taken', editableData.hint_taken === 1 ? 0 : 1)}
+              checked={editableData.hint_taken} // Compare against a defined value
+              onCheckedChange={() => handleChange('hint_taken', editableData.hint_taken ? false : true)}
             />
           </div>
           <div className="w-full flex flex-col gap-2 px-4">

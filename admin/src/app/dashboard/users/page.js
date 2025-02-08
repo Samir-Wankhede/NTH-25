@@ -215,7 +215,7 @@ const AllUsers = () => {
               <TableCell>{user.email}</TableCell>
               <TableCell>{user.curr_level}</TableCell>
               <TableCell>
-                {user.hidden === 0 ? <X color="#880808" /> : <Check color="#AFE1AF" />}
+                {!user.hidden ? <X color="#880808" /> : <Check color="#AFE1AF" />}
               </TableCell>
               <TableCell>{user.created_at}</TableCell>
             </TableRow>
