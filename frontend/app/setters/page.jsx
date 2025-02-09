@@ -96,12 +96,13 @@ const QuestionSetters = () => {
       />
       <div className='h-full w-full overflow-y-scroll pb-10 [&::-webkit-scrollbar]:w-0 '>
       <h1 className="md:text-7xl text-4xl font-bold text-center my-8 text-shadow">Question Setting Team</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 h-full md:h-fit pt-10 pb-20 md:pb-0 [&::-webkit-scrollbar]:w-0">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8 h-full md:h-fit pt-10 pb-20 md:pb-0 [&::-webkit-scrollbar]:w-0">
         {trainers.map((trainer, index) => (
           <TrainerCard key={index} trainer={trainer}/>
           
         ))}
         <div className='flex-grow h-8'></div>
+
       </div>
       </div>
     </div>
