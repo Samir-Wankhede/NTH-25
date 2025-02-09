@@ -23,7 +23,7 @@ const Navbar = () => {
     <Link href="/leaderboard">
       <p className={`max-w-32 mx-auto nav-link nav-link-ltr ${pathname === "/leaderboard" ? "border-b-2" : ""}`}>Leader Board</p>
     </Link>
-    <div onClick={() => window.location.href = "/question/put_your_answer_here"}>
+    <div onClick={() => window.location.href = "/question/put_your_answer_here"} className="cursor-pointer">
       <p className={`max-w-32 mx-auto nav-link nav-link-ltr ${pathname === "/question/put_your_answer_here" ? "border-b-2" : ""}`}>Hunt</p>
     </div>
     <Link href="/about">
