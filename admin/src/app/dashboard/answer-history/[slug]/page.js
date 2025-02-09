@@ -91,7 +91,7 @@ const Page = () => {
           <Label htmlFor="timestamp">Timestamp</Label>
           <Input
             id="timestamp"
-            value={new Date(log.timestamp + 'Z').toLocaleString()}
+            value={new Date(log.timestamp).toLocaleString()}
             disabled={true}
             className="cursor-not-allowed"
             placeholder="Timestamp"

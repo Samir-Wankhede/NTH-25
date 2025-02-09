@@ -43,8 +43,9 @@ const AllUsers = () => {
         });
         const resp = await response.json();
         const userData = resp.data;
+        console.log(userData);
         setData(userData.reduce((acc, user) => {
-          const localTime = new Date(user.created_at + 'Z').toLocaleString();
+          const localTime = new Date(user.created_at).toLocaleString();
           acc.push({ ...user, created_at: localTime });
           return acc;
         }, []));

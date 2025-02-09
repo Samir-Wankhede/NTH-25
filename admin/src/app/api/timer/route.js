@@ -129,6 +129,7 @@ export async function GET(request) {
 export async function POST(request) {
   try {
     const { start_time } = await request.json(); // Parse JSON body
+    console.log("start_time: ",start_time);
 
     if (!start_time) {
       return NextResponse.json(

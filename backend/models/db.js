@@ -25,8 +25,8 @@ export const createTables = async () => {
                 hint_taken BOOLEAN DEFAULT FALSE,
                 curr_keys INT DEFAULT 3,
                 hidden BOOLEAN DEFAULT FALSE,
-                ans_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                ans_time TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+                created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
             );
         `);
 
@@ -36,7 +36,7 @@ export const createTables = async () => {
                 username TEXT UNIQUE NOT NULL,
                 email TEXT UNIQUE NOT NULL,
                 password TEXT NOT NULL,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
             );
         `);
 
@@ -64,7 +64,7 @@ export const createTables = async () => {
                 username TEXT,
                 level INTEGER,
                 answers TEXT,
-                timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                timestamp TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (username) REFERENCES users(username),
                 FOREIGN KEY (level) REFERENCES questions(level),
                 UNIQUE (username, level)
@@ -76,8 +76,8 @@ export const createTables = async () => {
                 id SERIAL PRIMARY KEY,
                 status TEXT NOT NULL DEFAULT 'inactive',
                 intervals TEXT,
-                start_time TIMESTAMP,
-                end_time TIMESTAMP
+                start_time TIMESTAMP WITH TIME ZONE,
+                end_time TIMESTAMP WITH TIME ZONE
             );
         `);
 

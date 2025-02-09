@@ -231,15 +231,20 @@ export async function startTimer(start_time) {
         const keyIncrementTimes = Array.from({ length: total_intervals }, (_, index) =>
             new Date(startTime.getTime() + (index + 1) * 2 * 60 * 60 * 1000)
         );
-
         console.log(keyIncrementTimes);
         await updateEventStatus("inactive", start_time, endtime.toISOString());
 
-        schedule.scheduleJob(startTime, async () => {
+        if(new Date() > startTime) {
             await updateEventStatus("active", start_time, endtime.toISOString());
             await storeKeyIncrementTimes(keyIncrementTimes);
             await scheduleKeyIncrements(keyIncrementTimes, endtime, start_time);
-        });
+        } else {
+            schedule.scheduleJob(startTime, async () => {
+                await updateEventStatus("active", start_time, endtime.toISOString());
+                await storeKeyIncrementTimes(keyIncrementTimes);
+                await scheduleKeyIncrements(keyIncrementTimes, endtime, start_time);
+            });
+        }
     } catch (error) {
         console.error(error);
     }

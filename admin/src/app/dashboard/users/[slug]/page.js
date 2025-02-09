@@ -29,8 +29,8 @@ const Page = () => {
           throw new Error(data);
         }
         const temp = await response.json();
-        const data = temp.data[0]
-        // console.log(data);
+        const data = temp.data;
+        console.log(data);
         setUserData(data);
         setEditableData({
           id: id,
@@ -158,7 +158,7 @@ const Page = () => {
             <Input
               id="createdAt"
               type="text"
-              value={new Date(userData.created_at + 'Z').toLocaleString()}
+              value={new Date(userData.created_at).toLocaleString()}
               disabled={true}
             />
           </div>
