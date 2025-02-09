@@ -30,7 +30,6 @@ const QuestionPage = ({params})=>{
         const res = await API.get("/timer/time");
         if (res.status === 200) {
           const { start_time } = res.data; 
-          console.log(start_time)
           return start_time
         } else {
           toast.error("Failed to fetch event start time.");
@@ -125,15 +124,15 @@ const QuestionPage = ({params})=>{
       } catch (err) {
         if (err.response.status==400) {
           toast.error(err.response?.data?.message);
-          console.log('replacing')
+
           window.history.replaceState(null, '', '/question/put_your_answer_here');
       
         } else if(err.response.status==429) {
-          console.log(err)
+     
           toast.error(err.response.data);
         }
         else{
-          console.log(err)
+    
           toast.error("Unexpected error occurred");
         }
       }
@@ -148,7 +147,7 @@ const QuestionPage = ({params})=>{
           }
         } catch (err) {
           if (err.response) {
-            console.log(err)
+         
             toast.error(err.response?.data?.error || "Error purchasing hint");
           } else {
             toast.error("An unexpected error occurred");
@@ -159,7 +158,6 @@ const QuestionPage = ({params})=>{
       const fetchQuestion = async () => {
         if (question) return; 
         try {
-          console.log("Fetching question");
           const response = await API.get('/question/curr');
           if (response.status === 200) {
             if(response.data.question.paid_hint){
@@ -167,7 +165,7 @@ const QuestionPage = ({params})=>{
             }
             else{
               setQuestion({...response.data.question, hint:JSON.parse(response.data.question.hint).join(",")});}
-            console.log(response.data.question)
+
             setKeys(response.data.keys);
           } else {
             toast.error(response.data);
@@ -183,7 +181,6 @@ const QuestionPage = ({params})=>{
           } else if (err.request) {
             toast.error("Network error. Please try again");
           } else{
-            console.log(err)
             toast.error("An unexpected error occurred");
           }
         }

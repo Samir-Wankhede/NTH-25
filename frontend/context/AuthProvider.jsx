@@ -15,7 +15,6 @@ export const AuthProvider = ({children})=>{
     const router = useRouter()
 
     const login = (userData) => {
-        console.log(userData)
         setUser(userData)
         localStorage.setItem("user", JSON.stringify(userData));
         router.push('/')};

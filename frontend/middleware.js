@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 
 export async function middleware(request) {;
   const tokenCookie = request.cookies.get('token')?.value;
-  console.log("token: ",tokenCookie);
+  // console.log("token: ",tokenCookie);
   if (!tokenCookie) {
     const url = new URL('/login', request.url);
     url.searchParams.set('unauthenticated', 'true');
