@@ -15,11 +15,11 @@ const Webteam = () => {
               "/badges/5.png",
 
             ],
-            avatar: "https://i.postimg.cc/mrynJPNw/IMG-20240621-WA0013-2.jpg",
-            linkedin: 'https://www.linkedin.com/in/b-shrinidhi/',
-            instagram: 'https://www.instagram.com/_nidhi1214/',
-            github: 'https://github.com/shrinidhib',
-            phone: 7506211747,
+            avatar: "/admin/samir.jpg",
+            linkedin: 'https://www.linkedin.com/in/samir-wankhede/',
+            instagram: 'https://www.instagram.com/_samirwankhede_/',
+            github: 'https://github.com/Samir-Wankhede',
+            phone: 7770011526,
           },
           {
             name: "B Shrinidhi",
@@ -32,7 +32,7 @@ const Webteam = () => {
               "/badges/8.png",
               "/badges/11.png"
             ],
-            avatar: "https://i.postimg.cc/mrynJPNw/IMG-20240621-WA0013-2.jpg",
+            avatar: "/admin/shrinidhi.jpg",
             linkedin: 'https://www.linkedin.com/in/b-shrinidhi/',
             instagram: 'https://www.instagram.com/_nidhi1214/',
             github: 'https://github.com/shrinidhib',
