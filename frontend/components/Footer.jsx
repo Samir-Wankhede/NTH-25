@@ -29,7 +29,7 @@ const Footer = () => {
         <div className="text-center md:mt-0">
         <div className="flex justify-center space-x-4">
           <a
-            href={"https://www.instagram.com/pictieee/"}
+            href={"https://www.instagram.com/nth__live/"}
             target="_blank"
             rel="noopener noreferrer"
           >
