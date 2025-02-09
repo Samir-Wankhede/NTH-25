@@ -28,7 +28,6 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: "avenixel", sans-serif;
-  scrollbar-width: none;
 }
 
 .pixel-corners, .pixel-corners-blue ,
