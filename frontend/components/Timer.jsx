@@ -93,8 +93,8 @@ const Timer = () => {
         </div>
         ) : (
         <div className="text-center text-shadow">
-            <h2 className="md:text-4xl text-2xl font-semibold">Time Remaining:</h2>
-            <div className="flex justify-center space-x-6 mt-4 md:text-4xl text-2xl">
+            <h2 className="text-4xl font-semibold">Time Remaining:</h2>
+            <div className="flex justify-center space-x-6 mt-4 text-4xl ">
                 <div>
                     <span>{timeRemaining?.days}</span>
                 <div className="text-lg uppercase">Days</div>
