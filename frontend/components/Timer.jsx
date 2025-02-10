@@ -83,7 +83,7 @@ const Timer = () => {
           className="w-[35vh] h-[35vh] mx-auto"
         />
         <h1 className="md:text-6xl text-4xl font-bold mt-4 text-shadow">Network Treasure Hunt</h1>
-        <h1 className="md:text-3xl text-xl font-bold md:mt-2 text-shadow">Decrypt The Encrypted</h1>
+        <h1 className="md:text-4xl text-2xl font-bold md:mt-2 text-shadow">Decrypt The Encrypted</h1>
       </div>
 
       { loading ? (<Loader/>) :
@@ -93,8 +93,8 @@ const Timer = () => {
         </div>
         ) : (
         <div className="text-center text-shadow">
-            <h2 className="text-4xl font-semibold">Time Remaining:</h2>
-            <div className="flex justify-center space-x-6 mt-4 text-4xl ">
+            <h2 className="md:text-4xl text-2xl font-semibold">Time Remaining:</h2>
+            <div className="flex justify-center space-x-6 mt-4 md:text-4xl text-2xl">
                 <div>
                     <span>{timeRemaining?.days}</span>
                 <div className="text-lg uppercase">Days</div>
