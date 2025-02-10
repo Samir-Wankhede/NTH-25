@@ -15,7 +15,7 @@ import pool from "../models/db.js"
 
 export const getLeaderBoard = async (req, res) => {
     try {
-        const query = `SELECT id, username, curr_level FROM users WHERE hidden = FALSE ORDER BY curr_level DESC, ans_time ASC LIMIT 100`;
+        const query = `SELECT id, username, curr_level FROM users WHERE hidden = FALSE ORDER BY curr_level DESC, ans_time ASC LIMIT 50`;
         const { rows } = await pool.query(query);
 
         console.log(rows);
