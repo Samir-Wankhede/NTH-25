@@ -85,8 +85,8 @@ export const register = async (req, res) => {
         const { username, password, email, phone } = req.body;
 
         // **Validations**
-        if (!username || username.length > 10 || /[^a-zA-Z0-9]/.test(username)) {
-            return res.status(400).json({ error: "Username must be alphanumeric and at most 10 characters long." });
+        if (!username || username.length > 21 || /[^a-zA-Z0-9]/.test(username)) {
+            return res.status(400).json({ error: "Username must be alphanumeric and at most 20 characters long." });
         }
 
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
