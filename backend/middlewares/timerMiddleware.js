@@ -38,7 +38,7 @@ import pool from "../models/db.js";
 
 const checkEventStatus = async (req, res, next) => {
     try {
-        console.log("Checking timer");
+        // console.log("Checking timer");
 
         const query = `SELECT status, start_time, end_time FROM event_status LIMIT 1`;
         const result = await pool.query(query);

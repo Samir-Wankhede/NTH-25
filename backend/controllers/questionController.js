@@ -51,7 +51,7 @@ import pool from "../models/db.js";
 export const getCurrentQuestion = async (req, res) => {
     try {
         const { id } = req.user;
-        console.log(req.user);
+        // console.log(req.user);
 
         // Fetch user details
         const userQuery = 'SELECT curr_level, hint_taken, curr_keys FROM users WHERE id = $1';
@@ -62,8 +62,8 @@ export const getCurrentQuestion = async (req, res) => {
         }
 
         const { curr_level, hint_taken, curr_keys } = userResult.rows[0];
-        console.log(hint_taken);
-        console.log(curr_level);
+        // console.log(hint_taken);
+        // console.log(curr_level);
 
         // Determine the appropriate question query
         let questionQuery;
@@ -138,7 +138,7 @@ export const takeHint = async (req, res) => {
         const { level } = req.body;
         const needed_keys = parseInt(level) + 1;
 
-        console.log(id, level);
+        // console.log(id, level);
 
         // Fetch current keys of the user
         const userQuery = `SELECT curr_keys FROM users WHERE id = $1`;

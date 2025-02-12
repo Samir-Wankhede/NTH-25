@@ -18,7 +18,7 @@ export const getLeaderBoard = async (req, res) => {
         const query = `SELECT id, username, curr_level FROM users WHERE hidden = FALSE ORDER BY curr_level DESC, ans_time ASC LIMIT 50`;
         const { rows } = await pool.query(query);
 
-        console.log(rows);
+        // console.log(rows);
         return res.status(200).json(rows);
     } catch (err) {
         console.error(err.message);

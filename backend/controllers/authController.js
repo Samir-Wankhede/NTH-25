@@ -224,7 +224,7 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
     try {
         const { username, password } = req.body;
-        console.log(username, password);
+        // console.log(username, password);
 
         // Fetch user from the database
         const query = 'SELECT id, username, email, phone_number, password, role FROM users WHERE username = $1';
@@ -235,7 +235,7 @@ export const login = async (req, res) => {
         }
 
         const user = result.rows[0];
-        console.log(user.password);
+        // console.log(user.password);
 
         // Compare passwords
         const isMatch = await bcrypt.compare(password, user.password);

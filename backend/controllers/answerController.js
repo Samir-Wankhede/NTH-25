@@ -96,7 +96,7 @@ export const submit = async (req, res) => {
     try {
         const { answer } = req.body;
         const { id } = req.user;
-        console.log(answer, id);
+        // console.log(answer, id);
 
         // Fetch user data
         const userQuery = `SELECT curr_level, username FROM users WHERE id = $1`;
@@ -149,7 +149,7 @@ export const submit = async (req, res) => {
         }
 
         closeAnswers.push(correctAnswer);
-        console.log(closeAnswers);
+        // console.log(closeAnswers);
 
         // Check if the answer is correct
         if (answer === correctAnswer) {
