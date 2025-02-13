@@ -22,9 +22,9 @@ export default function RegisterPage(){
             return false;
         }
 
-        const usernameRegex = /^[a-zA-Z0-9]{1,10}$/;
+        const usernameRegex = /^[a-zA-Z0-9]{1,16}$/;
         if (!usernameRegex.test(username)) {
-          toast.error('Username should be alphanumeric and up to 10 characters long.');
+          toast.error('Username should be alphanumeric and up to 15 characters long.');
             return false;
         }
 
