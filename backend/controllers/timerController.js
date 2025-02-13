@@ -9,7 +9,7 @@ export const getTimer = async (req, res) => {
             return res.status(500).json({ error: "No timer found" });
         }
 
-        console.log(rows[0].start_time);
+        // console.log(rows[0].start_time);
         return res.status(200).json({ start_time: rows[0].start_time, end_time: rows[0].end_time });
 
     } catch (err) {
