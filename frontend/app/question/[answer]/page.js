@@ -113,7 +113,8 @@ const QuestionPage = ({params})=>{
           toast.success("Correct answer!");
           
           router.push('/question/put_your_answer_here')
-        } else if (response.status==205){
+        } else if (response.status==202){
+          console.log(response)
           toast.dark(response.data.message || "You are close.");
           window.history.pushState(null, '', '/question/put_your_answer_here');
         }else {
