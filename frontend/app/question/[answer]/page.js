@@ -314,7 +314,7 @@ const QuestionPage = ({params})=>{
       <CustomModal isOpen={isHintModalOpen} onClose={closeHintModal}>
         <h2 className="text-2xl font-semibold mb-4 text-black self-center">HINTS</h2>
         {question.hint.split(',').map((h,i)=>(
-          <p key={i} className=" text-lg mb-4">{i+1}. {h}</p>
+          <p key={i} className=" text-lg mb-4 break-words">{i+1}. {h}</p>
         ))}
         
         {question.paid_hint ? (
