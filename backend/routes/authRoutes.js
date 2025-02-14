@@ -13,8 +13,8 @@ const registerLimiter = rateLimit({
 })
 
 router.post('/register', registerLimiter, register)
-router.post('/login', login)
-router.post('/logout', logout)
+router.post('/login', registerLimiter, login)
+router.post('/logout', registerLimiter, logout)
 //ONLY DEVELOPMENT ONLY TO BE REMOVED IN PROD
 // router.post('/update', authenticate(), updateUser)
 export default router;
