@@ -113,7 +113,7 @@ export const submit = async (req, res) => {
         const historyResult = await pool.query(historyQuery, [username, curr_level]);
 
         let updatedAnswers;
-        const currentTimestamp = new Date().toLocaleString();
+        const currentTimestamp = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
 
         if (historyResult.rows.length > 0) {
             updatedAnswers = `${historyResult.rows[0].answers} | ${currentTimestamp}: ${answer}`;
@@ -180,7 +180,7 @@ export const submit = async (req, res) => {
             const randomMessage = closeMessages[Math.floor(Math.random() * closeMessages.length)];
 
             if (result.length > 0 && result[0].score <= 0.4) {
-                return res.status(205).json({ message: randomMessage });
+                return res.status(202).json({ message: randomMessage });
             } else {
                 return res.status(400).json({ message: "Wrong Answer" });
             }
