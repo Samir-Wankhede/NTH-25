@@ -165,7 +165,7 @@ export const submit = async (req, res) => {
             // Check for close answers
             const fuseOptions = {
                 includeScore: true,
-                threshold: 0.2,
+                threshold: 0.4,
                 keys: ["answer"]
             };
 
@@ -179,7 +179,7 @@ export const submit = async (req, res) => {
             ];
             const randomMessage = closeMessages[Math.floor(Math.random() * closeMessages.length)];
 
-            if (result.length > 0 && result[0].score <= 0.2) {
+            if (result.length > 0 && result[0].score <= 0.4) {
                 return res.status(205).json({ message: randomMessage });
             } else {
                 return res.status(400).json({ message: "Wrong Answer" });
