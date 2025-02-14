@@ -143,6 +143,7 @@ const QuestionPage = ({params})=>{
           const response = await API.post("question/hint", { level: question.level });
           if (response.status === 200) {
             setQuestion({...question, paid_hint : JSON.parse(response.data.paid_hint).join(',')})
+            setKeys(keys-question.hint_cost);
             toast.success("Hint purchased successfully!");
           }
         } catch (err) {
