@@ -1,12 +1,7 @@
 import "./globals.css";
-import { AuthProvider } from "@/context/AuthProvider";
 import 'react-toastify/dist/ReactToastify.css';  
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { ToastUtils } from "@/utils/toastifyContainer";
-
-
-
 
 export const metadata = {
   title: "Network Treasure Hunt",
@@ -30,16 +25,12 @@ export default function RootLayout({ children }) {
     <meta name="description" content="Network Treasure Hunt - Decrypt the Encrypted" />
   </head>
   <body className="h-screen flex flex-col flex-auto bg-black">
-    <ToastUtils />
-    <AuthProvider>
       <Navbar />
       <div className="h-full relative overflow-y-scroll">
         {children}
       </div>
       <Footer />
-    </AuthProvider>
   </body>
 </html>
-
   );
 }
