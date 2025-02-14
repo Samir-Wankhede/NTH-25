@@ -5,9 +5,9 @@ import {rateLimit} from 'express-rate-limit'
 const router = express.Router()
 
 const registerLimiter = rateLimit({
-    windowMs: 30*60*1000,
+    windowMs: 15*60*1000,
     limit: 5,
-    message: "Too many registration attempts. Please try again after a while.",
+    message: "Too many attempts. Please try again after a while.",
     standardHeaders: true,
     legacyHeaders: true
 })
