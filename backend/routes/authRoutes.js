@@ -11,10 +11,17 @@ const registerLimiter = rateLimit({
     standardHeaders: true,
     legacyHeaders: true
 })
+const loginLimiter = rateLimit({
+    windowMs: 5*60*1000,
+    limit: 10,
+    message: "Too many attempts. Please try again after a while.",
+    standardHeaders: true,
+    legacyHeaders: true
+})
 
 router.post('/register', registerLimiter, register)
-router.post('/login', registerLimiter, login)
-router.post('/logout', registerLimiter, logout)
+router.post('/login', loginLimiter, login)
+router.post('/logout', loginLimiter, logout)
 //ONLY DEVELOPMENT ONLY TO BE REMOVED IN PROD
 // router.post('/update', authenticate(), updateUser)
 export default router;
