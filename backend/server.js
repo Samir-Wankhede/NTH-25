@@ -13,7 +13,7 @@ import { createTables } from './models/db.js'
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT || 3000
 
 app.set('trust proxy', true);
 app.use(cors({origin:["https://nth.credenz.co.in"],credentials: true}));
