@@ -133,6 +133,8 @@ export async function POST(request) {
             );
         }
 
+        const now = new Date();
+
         // Update user in PostgreSQL
         await pool.query(
             `
@@ -141,10 +143,11 @@ export async function POST(request) {
                 curr_level = $1, 
                 hint_taken = $2, 
                 curr_keys = $3, 
-                hidden = $4
-            WHERE id = $5
+                hidden = $4,
+                ans_time = $5
+            WHERE id = $6
             `,
-            [curr_level, hint_taken, curr_keys, hidden, id]
+            [curr_level, hint_taken, curr_keys, hidden, now, id]
         );
 
         // Fetch the updated user
