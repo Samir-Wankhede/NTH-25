@@ -7,7 +7,7 @@ import {rateLimit} from 'express-rate-limit'
 
 const questionLimit = rateLimit({
     windowMs: 1*60*1000,
-    limit: 10,
+    limit: 15,
     message: "Too many requests.",
     standardHeaders: true,
     legacyHeaders: true
