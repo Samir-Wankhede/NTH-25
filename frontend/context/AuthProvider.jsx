@@ -22,7 +22,7 @@ export const AuthProvider = ({children})=>{
     const logout = ()=> {
         setUser(null)
         localStorage.removeItem("user");
-        API.post('/auth/logout')
+        // API.post('/auth/logout')
     };
 
     useEffect(() => {
