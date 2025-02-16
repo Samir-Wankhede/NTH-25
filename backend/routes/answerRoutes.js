@@ -14,7 +14,7 @@ const answerLimit = rateLimit({
 
 const router = express.Router()
 //add check event status
-router.post('/',answerLimit,authenticate(), submit)
-// router.post('/',answerLimit,authenticate(), checkEventStatus, submit)
+// router.post('/',answerLimit,authenticate(), submit)
+router.post('/',answerLimit,authenticate(), checkEventStatus, submit)
 
 export default router;
