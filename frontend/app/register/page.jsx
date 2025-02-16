@@ -48,25 +48,25 @@ export default function RegisterPage(){
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (!validateForm()) return; // Stop submission if validation fails
+        // e.preventDefault();
+        // if (!validateForm()) return; // Stop submission if validation fails
 
-        setLoading(true);
-        try {
-            const res = await API.post('/auth/register', { username, password, phone, email });
-            login(res.data.user);
-        } catch (err) {
+        // setLoading(true);
+        // try {
+        //     const res = await API.post('/auth/register', { username, password, phone, email });
+        //     login(res.data.user);
+        // } catch (err) {
 
-            if (err.response.status==429){
-              toast.error(err.response.data)
-              setLoading(false)
-            }
-            else{
-              toast.error(err.response?.data?.error || 'Register failed');
-              setLoading(false)
-            }
+        //     if (err.response.status==429){
+        //       toast.error(err.response.data)
+        //       setLoading(false)
+        //     }
+        //     else{
+        //       toast.error(err.response?.data?.error || 'Register failed');
+        //       setLoading(false)
+        //     }
             
-        }
+        // }
     };
 
     return (

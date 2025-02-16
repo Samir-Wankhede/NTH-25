@@ -6,7 +6,258 @@ import { GrCaretNext, GrCaretPrevious } from "react-icons/gr";
 import Loader from "./Loader";
 
 export default function Pokedex() {
-    const [leaderboardData, setLeaderboardData] = useState([]);
+    const [leaderboardData, setLeaderboardData] = useState([
+      {
+          "id": 150,
+          "username": "deathAndTaxes",
+          "curr_level": 16
+      },
+      {
+          "id": 58,
+          "username": "BenDovah",
+          "curr_level": 16
+      },
+      {
+          "id": 197,
+          "username": "MoeLester",
+          "curr_level": 16
+      },
+      {
+          "id": 330,
+          "username": "Csan",
+          "curr_level": 11
+      },
+      {
+          "id": 231,
+          "username": "farthestmage",
+          "curr_level": 11
+      },
+      {
+          "id": 959,
+          "username": "sandeep",
+          "curr_level": 11
+      },
+      {
+          "id": 267,
+          "username": "Bhupesh",
+          "curr_level": 10
+      },
+      {
+          "id": 68,
+          "username": "amadeus",
+          "curr_level": 10
+      },
+      {
+          "id": 105,
+          "username": "norab43",
+          "curr_level": 10
+      },
+      {
+          "id": 71,
+          "username": "asp21k",
+          "curr_level": 10
+      },
+      {
+          "id": 77,
+          "username": "cress",
+          "curr_level": 10
+      },
+      {
+          "id": 1019,
+          "username": "pixieeenew",
+          "curr_level": 10
+      },
+      {
+          "id": 127,
+          "username": "Hadrian",
+          "curr_level": 10
+      },
+      {
+          "id": 290,
+          "username": "bhavesh",
+          "curr_level": 10
+      },
+      {
+          "id": 260,
+          "username": "Ashbeast",
+          "curr_level": 10
+      },
+      {
+          "id": 250,
+          "username": "INDUMATI69",
+          "curr_level": 10
+      },
+      {
+          "id": 214,
+          "username": "SahilPatil10",
+          "curr_level": 10
+      },
+      {
+          "id": 323,
+          "username": "13teen",
+          "curr_level": 10
+      },
+      {
+          "id": 192,
+          "username": "AishikaB",
+          "curr_level": 10
+      },
+      {
+          "id": 1011,
+          "username": "arpan",
+          "curr_level": 9
+      },
+      {
+          "id": 268,
+          "username": "amwat",
+          "curr_level": 8
+      },
+      {
+          "id": 329,
+          "username": "sleeping",
+          "curr_level": 8
+      },
+      {
+          "id": 979,
+          "username": "IconicDemon",
+          "curr_level": 8
+      },
+      {
+          "id": 199,
+          "username": "Prathamn00b",
+          "curr_level": 8
+      },
+      {
+          "id": 978,
+          "username": "NTHsucks",
+          "curr_level": 8
+      },
+      {
+          "id": 3,
+          "username": "Vic710",
+          "curr_level": 8
+      },
+      {
+          "id": 33,
+          "username": "Johaan",
+          "curr_level": 8
+      },
+      {
+          "id": 17,
+          "username": "Tanishka",
+          "curr_level": 8
+      },
+      {
+          "id": 70,
+          "username": "Aayusha",
+          "curr_level": 8
+      },
+      {
+          "id": 4,
+          "username": "Karan100",
+          "curr_level": 8
+      },
+      {
+          "id": 212,
+          "username": "RRN",
+          "curr_level": 8
+      },
+      {
+          "id": 213,
+          "username": "Tripti",
+          "curr_level": 8
+      },
+      {
+          "id": 14,
+          "username": "ParthKer09",
+          "curr_level": 8
+      },
+      {
+          "id": 1005,
+          "username": "TOPg",
+          "curr_level": 8
+      },
+      {
+          "id": 545,
+          "username": "sanketOP",
+          "curr_level": 8
+      },
+      {
+          "id": 141,
+          "username": "Coolspy",
+          "curr_level": 8
+      },
+      {
+          "id": 256,
+          "username": "SAI1910",
+          "curr_level": 8
+      },
+      {
+          "id": 1004,
+          "username": "chhote8",
+          "curr_level": 8
+      },
+      {
+          "id": 1003,
+          "username": "molestrr",
+          "curr_level": 8
+      },
+      {
+          "id": 241,
+          "username": "Ospravin2006",
+          "curr_level": 8
+      },
+      {
+          "id": 92,
+          "username": "pikapika",
+          "curr_level": 8
+      },
+      {
+          "id": 1006,
+          "username": "Tejas",
+          "curr_level": 8
+      },
+      {
+          "id": 270,
+          "username": "spidey",
+          "curr_level": 8
+      },
+      {
+          "id": 183,
+          "username": "Crimson",
+          "curr_level": 8
+      },
+      {
+          "id": 25,
+          "username": "YouKnowWho",
+          "curr_level": 8
+      },
+      {
+          "id": 953,
+          "username": "Kanan",
+          "curr_level": 8
+      },
+      {
+          "id": 40,
+          "username": "trishit",
+          "curr_level": 8
+      },
+      {
+          "id": 280,
+          "username": "TheREAPER",
+          "curr_level": 8
+      },
+      {
+          "id": 1012,
+          "username": "AaryaKan6",
+          "curr_level": 8
+      },
+      {
+          "id": 1009,
+          "username": "luckyag28",
+          "curr_level": 8
+      }
+  ]);
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1); 
     const [usersPerPage] = useState(10); 
@@ -19,15 +270,15 @@ export default function Pokedex() {
         }
         isFirstRender.current = false;
         try {
-          const res = await API.get(`/leaderboard`); 
-          if (res.status === 200) {
-            setLeaderboardData(res.data);
-          } else {
-            toast.error("Failed to fetch leaderboard data.");
-          }
+          // const res = await API.get(`/leaderboard`); 
+          // if (res.status === 200) {
+          //   setLeaderboardData(res.data);
+          // } else {
+          //   toast.error("Failed to fetch leaderboard data.");
+          // }
         } catch (error) {
-          console.error("Error fetching leaderboard:", error);
-          toast.error("An error occurred while fetching leaderboard data.");
+          // console.error("Error fetching leaderboard:", error);
+          // toast.error("An error occurred while fetching leaderboard data.");
         } finally {
           await new Promise(resolve => {
               setTimeout(() => { resolve('') }, 1000);

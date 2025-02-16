@@ -29,15 +29,15 @@ const Timer = () => {
 
   const fetchEventStartTime = async () => {
     try {
-      const response = await API.get("/timer/time");
-      if (response.status === 200) {
-        const { start_time, end_time } = response.data; 
-        setEventStartTime(new Date(start_time));
-        setEventEndTime(new Date(end_time));
-      } else {
-        // console.error("Failed to fetch event start time.");
-        toast.error("Failed to fetch event start time.");
-      }
+      // const response = await API.get("/timer/time");
+      // if (response.status === 200) {
+      //   const { start_time, end_time } = response.data; 
+      //   setEventStartTime(new Date(start_time));
+      //   setEventEndTime(new Date(end_time));
+      // } else {
+      //   // console.error("Failed to fetch event start time.");
+      //   toast.error("Failed to fetch event start time.");
+      // }
     } catch (error) {
       // console.error("Error fetching event start time:", error);
     }finally{
@@ -48,27 +48,27 @@ const Timer = () => {
     }
   };
 
-  useEffect(() => {
-    if (eventStartTime || eventEndTime) {
-    //   setTimeRemaining(calculateTimeRemaining(eventStartTime));
+  // useEffect(() => {
+  //   if (eventStartTime || eventEndTime) {
+  //   //   setTimeRemaining(calculateTimeRemaining(eventStartTime));
 
-      const timer = setInterval(() => {
-        const remaining = calculateTimeRemaining(eventStartTime);
+  //     const timer = setInterval(() => {
+  //       const remaining = calculateTimeRemaining(eventStartTime);
 
-        if (remaining.days === 0 && remaining.hours === 0 && remaining.minutes === 0 && remaining.seconds === 0) {
-          setHasEventStarted(true);
-          clearInterval(timer); 
-        } else if(remaining.days === -1 && remaining.hours === -1 && remaining.minutes === -1 && remaining.seconds === -1){
-            setHasEventEnded(true);
-            clearInterval(timer); 
-        } else {
-          setTimeRemaining(remaining);
-        }
-      }, 1000);
+  //       if (remaining.days === 0 && remaining.hours === 0 && remaining.minutes === 0 && remaining.seconds === 0) {
+  //         setHasEventStarted(true);
+  //         clearInterval(timer); 
+  //       } else if(remaining.days === -1 && remaining.hours === -1 && remaining.minutes === -1 && remaining.seconds === -1){
+  //           setHasEventEnded(true);
+  //           clearInterval(timer); 
+  //       } else {
+  //         setTimeRemaining(remaining);
+  //       }
+  //     }, 1000);
 
-      return () => clearInterval(timer); 
-    }
-  }, [eventStartTime]);
+  //     return () => clearInterval(timer); 
+  //   }
+  // }, [eventStartTime]);
 
   useEffect(() => {
     fetchEventStartTime();
@@ -87,11 +87,15 @@ const Timer = () => {
       </div>
 
       { loading ? (<Loader/>) :
-        (hasEventStarted || hasEventEnded || !timeRemaining ? (
+        <div className="text-center">
+          <h2 className="md:text-4xl text-2xl font-bold text-shadow"> The Hunt Has Ended!</h2>
+        </div>
+      }{
+        /* (hasEventStarted || hasEventEnded || !timeRemaining ? (
         <div className="text-center">
             <h2 className="md:text-4xl text-2xl font-bold text-shadow">{hasEventStarted ? "The Hunt Has Begun!" : (hasEventEnded ? "The Hunt Has Ended!" : "")}</h2>
         </div>
-        ) : (
+         ) : (
         <div className="text-center text-shadow">
             <h2 className="text-4xl font-semibold">Time Remaining:</h2>
             <div className="flex justify-center space-x-6 mt-4 text-4xl ">
@@ -113,7 +117,7 @@ const Timer = () => {
                 </div>
             </div>
         </div>
-        ))
+        )) */
       }
       <Link href={'/instructions'}>
         <Button 

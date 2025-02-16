@@ -31,22 +31,22 @@ export default function LoginPage(){
     const router = useRouter();
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        setLoading(true)
-        if(!username || !password){
-          setLoading(false);
-          toast.error("Please fill all the fields");
-          return;
-        }
-        try {
-            const res = await API.post('/auth/login', { username, password });
-            login(res.data.user);
-            router.push('/')
-        } catch (err) {
-            toast.error(err.response?.data?.error || 'Login failed');
-        }finally{
-            setLoading(false)
-        }
+        // e.preventDefault();
+        // setLoading(true)
+        // if(!username || !password){
+        //   setLoading(false);
+        //   toast.error("Please fill all the fields");
+        //   return;
+        // }
+        // try {
+        //     const res = await API.post('/auth/login', { username, password });
+        //     login(res.data.user);
+        //     router.push('/')
+        // } catch (err) {
+        //     toast.error(err.response?.data?.error || 'Login failed');
+        // }finally{
+        //     setLoading(false)
+        // }
     };
 
     return (

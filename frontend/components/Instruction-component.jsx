@@ -149,7 +149,7 @@ const Instruction = () => {
                     with one account only.
                 </li>
             </ol>
-            <Link href={'/question/put_your_answer_here'}>
+            <Link href={'/'}>
               <div className="my-4 w-full flex justify-center">
                 <Button 
                   bg="white"
