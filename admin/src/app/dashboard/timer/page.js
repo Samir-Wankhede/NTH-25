@@ -13,31 +13,33 @@ const Page = () => {
     const getData = async () => {
       try {
         const response = await fetch("/superusers-admin/api/timer");
-        const data = await response.json(); // Await the parsing of JSON
+        const data = await response.json();
         if (!response.ok) {
           if (response.status === 404) {
             setWarning(true);
           } 
         }
+        
         console.log("Raw start_time:", data.start_time);
 
+        // Create date object from the UTC timestamp
         const date = new Date(data.start_time);
         console.log("Parsed Date:", date);
 
-        const localDateString = date.toLocaleString();
-        console.log("Localized Date String:", localDateString);
+        // Format for datetime-local input (YYYY-MM-DDTHH:mm)
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        
+        const formattedDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+        console.log("Formatted DateTime:", formattedDateTime);
 
-        const date_time = localDateString.split(" ");
-        console.log("Split Date-Time:", date_time);
-        console.log(date.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })); // ✅ Always converts to IST
-
-
-        const datePart = date_time[0].replaceAll(',','').split('/').reverse().join('-');
-        const startDate = datePart+'T'+date_time[1];
-        setStartTime(startDate || ""); // Fallback to empty string
-        setStatus(data.status || "inactive"); // Fallback to "inactive"
+        setStartTime(formattedDateTime || "");
+        setStatus(data.status || "inactive");
       } catch (error) {
-        console.error("Error fetching data:", error); // Log detailed error info
+        console.error("Error fetching data:", error);
       }
     };
     getData();
