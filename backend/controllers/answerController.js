@@ -1,5 +1,5 @@
 import pool from "../models/db.js"
-import Fuse from "fuse.js"
+import stringSimilarity from "string-similarity"
 // //SQLITE
 // export const submit=(req,res)=>{
 //     const {answer} = req.body
@@ -162,15 +162,12 @@ export const submit = async (req, res) => {
             await pool.query(updateUserQuery, [curr_level, now, id]);
             return res.status(200).json({ message: "Correct Answer" });
         } else {
-            // Check for close answers
-            const fuseOptions = {
-                includeScore: true,
-                threshold: 0.4,
-                keys: ["answer"]
-            };
+            // Check for close answers using string-similarity
+            const normalizedAnswer = answer.trim().toLowerCase();
+            const normalizedCloseAnswers = closeAnswers.map(a => String(a).trim().toLowerCase());
 
-            const fuse = new Fuse(closeAnswers, fuseOptions);
-            const result = fuse.search(answer);
+            const bestMatch = stringSimilarity.findBestMatch(normalizedAnswer, normalizedCloseAnswers);
+            const similarity = bestMatch.bestMatch.rating;
 
             const closeMessages = [
                 "You are close!", "Try again!", "Almost there!", "Give it another shot!",
@@ -179,7 +176,9 @@ export const submit = async (req, res) => {
             ];
             const randomMessage = closeMessages[Math.floor(Math.random() * closeMessages.length)];
 
-            if (result.length > 0 && result[0].score <= 0.4) {
+            // --- Tuning ---
+            if (similarity >= 0.88) {
+                // Very similar, likely a typo
                 return res.status(202).json({ message: randomMessage });
             } else {
                 return res.status(400).json({ message: "Wrong Answer" });
